@@ -1,0 +1,26 @@
+<br />
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Tela de acesso</mat-card-title>
+    <mat-card-subtitle>
+      <div class="example-container">
+        <mat-form-field>
+          <mat-label>Enter your email</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            [formControl]="email"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          @if (email.invalid) {
+          <mat-error>{{ errorMessage }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-actions align="start">
+    <button mat-raised-button color="primary">LIKE</button>
+  </mat-card-actions>
+</mat-card>

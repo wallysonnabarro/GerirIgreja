@@ -1,0 +1,102 @@
+<mat-toolbar class="navbar">
+  <div><img [src]="ImagemPathLogo" style="width: 90px" /></div>
+  <div>
+    <span>
+      <a
+        href=""
+        Match="NavLinkMatch.All"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+        >Home
+      </a>
+    </span>
+    <span>
+      <a [matMenuTriggerFor]="menu" class="a-link">Ficha de Inscrição</a>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item routerLink="/conectado">Conectado</a>
+        <a mat-menu-item routerLink="/lider">Líder</a>
+      </mat-menu>
+    </span>
+    <span>
+      <a
+        routerLink="/sobre"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+        >Sobre
+      </a>
+    </span>
+    <span>
+      <a
+        routerLink="/sobre"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+        >Membros
+      </a>
+    </span>
+    <span>
+      <a
+        routerLink="/sobre"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+        >Tribos / Equipes
+      </a>
+    </span>
+    <span>
+      <a [matMenuTriggerFor]="cadastro" class="a-link">Cadastros Sião</a>
+      <mat-menu #cadastro="matMenu">
+        <a mat-menu-item routerLink="/siao">Sião</a>
+        <a mat-menu-item routerLink="/areas-servico">Áreas</a>
+        <a mat-menu-item routerLink="/inscricoes-conectados"
+          >Inscrições conectados</a
+        >
+        <a mat-menu-item routerLink="/inscricoes-lideres">Inscrições Líderes</a>
+      </mat-menu>
+    </span>
+    <span>
+      <a [matMenuTriggerFor]="administrativo" class="a-link">Administrativo</a>
+      <mat-menu #administrativo="matMenu">
+        <a mat-menu-item routerLink="/novo-usuario">Novo usuário</a>
+        <a mat-menu-item routerLink="/redefinir-senha">Redefinir senha</a>
+        <a mat-menu-item routerLink="/redefinir-acesso">Redefinir acesso</a>
+        <a mat-menu-item routerLink="/inscricoes-lideres">Inscrições Líderes</a>
+        <button mat-menu-item [matMenuTriggerFor]="fechamentoPagamento">Fechamento/Pagamentos</button>
+        <button mat-menu-item [matMenuTriggerFor]="Financeiro">Fechamento/Pagamentos</button>
+      </mat-menu>
+      <mat-menu #fechamentoPagamento="matMenu">
+        <a mat-menu-item routerLink="/fechamentos">Fechamento - Sião</a>
+        <a mat-menu-item routerLink="/saidas">Saídas - Pagamentos</a>
+        <a mat-menu-item routerLink="/descontos">Descontos - Pagamentos</a>
+        <a mat-menu-item routerLink="/fornecedores">fornecedores - Pagamentos</a>
+        <a mat-menu-item routerLink="/pendencias">Pendências - Pagamentos</a>
+        <a mat-menu-item routerLink="/oferta-Siao">Ofertas Sião - Pagamentos</a>
+        <a mat-menu-item routerLink="/lanchonete">Lançamentos lanchonete</a>
+      </mat-menu>
+      <mat-menu #Financeiro="matMenu">        
+        <a mat-menu-item routerLink="/registrar-financeiro">Registrar Financeiro</a>
+        <a mat-menu-item routerLink="/despesas-obrigacoes">Despesas e Obrigações</a>
+        <a mat-menu-item routerLink="/dados-financeiro">Visualizar Financeiro</a>
+        <a mat-menu-item routerLink="/TiposSaida">Tipos de Saída</a>
+      </mat-menu>
+    </span>
+    <span>
+      <a
+        href=""
+        routerLink="/login"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+      >
+        Login
+      </a>
+    </span>
+    <span>
+      <a
+        href=""
+        routerLink="/login"
+        class="a-link text-decoration-none ms-3"
+        style="font-size: 0.8em"
+      >
+        Logout
+      </a>
+    </span>
+  </div>
+</mat-toolbar>

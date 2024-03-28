@@ -1,0 +1,12 @@
+.dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: .125em;
+}
+
+.navbar {
+    justify-content: space-between;
+}
+
+span {
+    padding-right: 1rem;
+}
