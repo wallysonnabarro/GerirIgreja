@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { MatMenu } from '@angular/material/menu';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -12,5 +11,4 @@ export class NavbarComponent {
   constructor(){
     this.ImagemPathLogo = 'assets/img/logo_verde.png';
   }
-
 }
