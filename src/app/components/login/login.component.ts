@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Login } from './login';
 import { TokenResult } from '../../jwt/jwtService/token-result';
 import { JwtServiceService } from '../../jwt/jwt-service.service';
+import { PerfisService } from '../../perfil/perfis.service';
+import { ProvedormenuService } from '../../provedorMenu/provedormenu.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,8 @@ export class LoginComponent {
   errorMessage = '';
   private jwt!: TokenResult;
 
-  constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService) {
+  constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService,
+    private perfis: PerfisService, private menus: ProvedormenuService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
@@ -47,20 +50,34 @@ export class LoginComponent {
         .pipe(
           first(),
           tap(result => {
-            if(result){              
+            if (result) {
               if (result.resultado.succeeded
                 && result.resultado.requeredEmailConfirm == false && result.resultado.isLockedOut == false
                 && result.resultado.isNotAllowed == false && result.resultado.requiresTwoFactor == false) {
-                  this.jwt = this.jwtService.decodeJwt(result);
+                this.jwt = this.jwtService.decodeJwt(result);
 
-                  this.loginServices.setUserAuthenticado(true);
+                this.loginServices.setUserAuthenticado(true);
 
-                  //Próximos passos
-                  //1º: Enviar para o end-point a permissão e buscar as transações.
-
-
-                  //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
+                //Próximos passos
+                //1º: Enviar para o end-point a permissão e buscar as transações.
+                this.perfis.getPerfis(result.toke, this.jwt.role)
+                  .pipe(
+                    first(),
+                    tap(resultRole => {
+                      //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
+                      if (resultRole.transacoes !== null) {
+                        this.menus.forEachTransacao(resultRole.transacoes);
+                      } else {
+                        //adicionar um modal aqui
+                      }
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                      return of(null);
+                    })
+                  ).subscribe();
               }
+            } else {
+              //adicionar um modal aqui
             }
           }),
           catchError((error: HttpErrorResponse) => {
@@ -68,7 +85,7 @@ export class LoginComponent {
           })
         ).subscribe();
     } else {
-
+      //adicionar um modal aqui
     }
   }
 }
