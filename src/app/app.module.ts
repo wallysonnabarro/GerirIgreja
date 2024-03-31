@@ -17,6 +17,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatIconModule } from '@angular/material/icon';
+import { HttpClientXsrfModule, HttpClientModule } from '@angular/common/http';
+import { LoginServicesService } from './components/login/login-services.service';
 
 @NgModule({
   declarations: [
@@ -36,9 +39,16 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatCardModule,
     MatToolbarModule,
     MatMenuModule,
-    LayoutModule
+    LayoutModule,
+    MatIconModule,
+    HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN', 
+      headerName: 'X-XSRF-TOKEN', 
+    }),
   ],
   providers: [
+    LoginServicesService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
