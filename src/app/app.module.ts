@@ -20,6 +20,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientXsrfModule, HttpClientModule } from '@angular/common/http';
 import { LoginServicesService } from './components/login/login-services.service';
+import { ProvedormenuService } from './provedorMenu/provedormenu.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { LoginServicesService } from './components/login/login-services.service'
   ],
   providers: [
     LoginServicesService,
+    ProvedormenuService,
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

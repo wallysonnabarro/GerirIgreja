@@ -4,6 +4,8 @@ import { catchError, first, of, tap } from 'rxjs';
 import { LoginServicesService } from './login-services.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Login } from './login';
+import { TokenResult } from '../../jwt/jwtService/token-result';
+import { JwtServiceService } from '../../jwt/jwt-service.service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +16,9 @@ export class LoginComponent {
   loginForm: FormGroup;
   hide = true;
   errorMessage = '';
+  private jwt!: TokenResult;
 
-  constructor(private loginServices: LoginServicesService, private fb: FormBuilder) {
+  constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
@@ -48,7 +51,15 @@ export class LoginComponent {
               if (result.resultado.succeeded
                 && result.resultado.requeredEmailConfirm == false && result.resultado.isLockedOut == false
                 && result.resultado.isNotAllowed == false && result.resultado.requiresTwoFactor == false) {
-                
+                  this.jwt = this.jwtService.decodeJwt(result);
+
+                  this.loginServices.setUserAuthenticado(true);
+
+                  //Próximos passos
+                  //1º: Enviar para o end-point a permissão e buscar as transações.
+
+
+                  //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
               }
             }
           }),

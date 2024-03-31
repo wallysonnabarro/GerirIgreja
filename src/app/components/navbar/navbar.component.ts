@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProvedormenuService } from '../../provedorMenu/provedormenu.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
 export class NavbarComponent {
   ImagemPathLogo: string;
   
-  constructor(){
+  constructor(private menus: ProvedormenuService){
     this.ImagemPathLogo = 'assets/img/logo_verde.png';
   }
 }
