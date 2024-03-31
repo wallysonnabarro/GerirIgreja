@@ -12,4 +12,8 @@ export class NavbarComponent {
   constructor(private menus: ProvedormenuService){
     this.ImagemPathLogo = 'assets/img/logo_verde.png';
   }
+
+  isMenuItemVisible(itemName: string): boolean {
+    return this.menus.menus.some(menu => menu.nome === itemName && menu.status);
+  }
 }

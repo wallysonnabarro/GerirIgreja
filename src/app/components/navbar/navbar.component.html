@@ -42,90 +42,87 @@
             </a>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Membros')">
           <span>
             <a routerLink="/sobre" class="a-link text-decoration-none"
               >Membros
             </a>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Tribos/Equipes')">
           <span>
             <a routerLink="/sobre" class="a-link text-decoration-none"
               >Tribos / Equipes
             </a>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Cadastro Sião')">
           <span>
             <a [matMenuTriggerFor]="cadastro" class="a-link">Cadastros Sião</a>
             <mat-menu #cadastro="matMenu">
-              <a mat-menu-item routerLink="/siao">Sião</a>
-              <a mat-menu-item routerLink="/areas-servico">Áreas</a>
-              <a mat-menu-item routerLink="/inscricoes-conectados"
+              <a mat-menu-item routerLink="/siao" *ngIf="isMenuItemVisible('Sião')">Sião</a>
+              <a mat-menu-item routerLink="/areas-servico" *ngIf="isMenuItemVisible('Área')">Áreas</a>
+              <a mat-menu-item routerLink="/inscricoes-conectados" *ngIf="isMenuItemVisible('Inscricões')"
                 >Inscrições conectados</a
               >
-              <a mat-menu-item routerLink="/inscricoes-lideres"
+              <a mat-menu-item routerLink="/inscricoes-lideres" *ngIf="isMenuItemVisible('Inscrições Líderes')"
                 >Inscrições Líderes</a
               >
             </mat-menu>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Administrativo')">
           <span>
             <a [matMenuTriggerFor]="administrativo" class="a-link"
               >Administrativo</a
             >
             <mat-menu #administrativo="matMenu">
-              <a mat-menu-item routerLink="/novo-usuario">Novo usuário</a>
-              <a mat-menu-item routerLink="/redefinir-senha">Redefinir senha</a>
-              <a mat-menu-item routerLink="/redefinir-acesso"
+              <a mat-menu-item routerLink="/novo-usuario" *ngIf="isMenuItemVisible('Novo Usuário')">Novo usuário</a>
+              <a mat-menu-item routerLink="/redefinir-senha" *ngIf="isMenuItemVisible('Redefinir Senha')">Redefinir senha</a>
+              <a mat-menu-item routerLink="/redefinir-acesso" *ngIf="isMenuItemVisible('Redefinir Acesso')"
                 >Redefinir acesso</a
               >
-              <a mat-menu-item routerLink="/inscricoes-lideres"
-                >Inscrições Líderes</a
-              >
-              <button mat-menu-item [matMenuTriggerFor]="fechamentoPagamento">
+              <button mat-menu-item [matMenuTriggerFor]="fechamentoPagamento" *ngIf="isMenuItemVisible('Fechamento/Pagamentos')">
                 Fechamento/Pagamentos
               </button>
-              <button mat-menu-item [matMenuTriggerFor]="Financeiro">
-                Fechamento/Pagamentos
+              <button mat-menu-item [matMenuTriggerFor]="Financeiro" *ngIf="isMenuItemVisible('Financeiro')">
+                Financeiro
               </button>
             </mat-menu>
             <mat-menu #fechamentoPagamento="matMenu">
-              <a mat-menu-item routerLink="/fechamentos">Fechamento - Sião</a>
-              <a mat-menu-item routerLink="/saidas">Saídas - Pagamentos</a>
-              <a mat-menu-item routerLink="/descontos"
+              <a mat-menu-item routerLink="/fechamentos" *ngIf="isMenuItemVisible('Fechamento - Sião')">Fechamento - Sião</a>
+              <a mat-menu-item routerLink="/saidas" *ngIf="isMenuItemVisible('Saída - Pagamentos')">Saídas - Pagamentos</a>
+              <a mat-menu-item routerLink="/descontos" *ngIf="isMenuItemVisible('Descontos - Pagamentos')"
                 >Descontos - Pagamentos</a
               >
-              <a mat-menu-item routerLink="/fornecedores"
+              <a mat-menu-item routerLink="/fornecedores" *ngIf="isMenuItemVisible('Fornecedor - Pagamentos')"
                 >fornecedores - Pagamentos</a
               >
-              <a mat-menu-item routerLink="/pendencias"
+              <a mat-menu-item routerLink="/pendencias" *ngIf="isMenuItemVisible('Pendências - Pagamentos')"
                 >Pendências - Pagamentos</a
               >
-              <a mat-menu-item routerLink="/oferta-Siao"
+              <a mat-menu-item routerLink="/oferta-Siao" *ngIf="isMenuItemVisible('Ofertas - Sião')"
                 >Ofertas Sião - Pagamentos</a
               >
-              <a mat-menu-item routerLink="/lanchonete"
+              <a mat-menu-item routerLink="/lanchonete" *ngIf="isMenuItemVisible('Lançamentos Lanchonete')"
                 >Lançamentos lanchonete</a
               >
             </mat-menu>
             <mat-menu #Financeiro="matMenu">
-              <a mat-menu-item routerLink="/registrar-financeiro"
+              <a mat-menu-item routerLink="/registrar-financeiro" *ngIf="isMenuItemVisible('Registrar Financeiro')"
                 >Registrar Financeiro</a
               >
-              <a mat-menu-item routerLink="/despesas-obrigacoes"
+              <a mat-menu-item routerLink="/despesas-obrigacoes" *ngIf="isMenuItemVisible('Despesas e Obrigações')"
                 >Despesas e Obrigações</a
               >
-              <a mat-menu-item routerLink="/dados-financeiro"
+              <a mat-menu-item routerLink="/dados-financeiro" *ngIf="isMenuItemVisible('Visualizar Financeiro')"
                 >Visualizar Financeiro</a
               >
-              <a mat-menu-item routerLink="/TiposSaida">Tipos de Saída</a>
+              <a mat-menu-item routerLink="/TiposSaida" *ngIf="isMenuItemVisible('Tipos de Saída')">Tipos de Saída</a>
             </mat-menu>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Login')">
           <span>
             <a
               href=""
@@ -136,7 +133,7 @@
             </a>
           </span>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isMenuItemVisible('Logout')">
           <span>
             <a
               href=""
