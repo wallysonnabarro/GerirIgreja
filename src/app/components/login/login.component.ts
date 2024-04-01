@@ -8,6 +8,7 @@ import { TokenResult } from '../../jwt/jwtService/token-result';
 import { JwtServiceService } from '../../jwt/jwt-service.service';
 import { PerfisService } from '../../perfil/perfis.service';
 import { ProvedormenuService } from '../../provedorMenu/provedormenu.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent {
   private jwt!: TokenResult;
 
   constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService,
-    private perfis: PerfisService, private menus: ProvedormenuService) {
+    private perfis: PerfisService, private menus: ProvedormenuService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
@@ -67,6 +68,8 @@ export class LoginComponent {
                       //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
                       if (resultRole.transacoes !== null) {
                         this.menus.forEachTransacao(resultRole.transacoes);
+
+                        this.router.navigate(['/home']);
                       } else {
                         //adicionar um modal aqui
                       }

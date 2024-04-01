@@ -21,13 +21,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientXsrfModule, HttpClientModule } from '@angular/common/http';
 import { LoginServicesService } from './components/login/login-services.service';
 import { ProvedormenuService } from './provedorMenu/provedormenu.service';
+import { TribosComponent } from './components/tribos/tribos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    TribosComponent
   ],
   imports: [
     BrowserModule,
