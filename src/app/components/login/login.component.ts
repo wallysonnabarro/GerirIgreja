@@ -9,6 +9,8 @@ import { JwtServiceService } from '../../jwt/jwt-service.service';
 import { PerfisService } from '../../perfil/perfis.service';
 import { ProvedormenuService } from '../../provedorMenu/provedormenu.service';
 import { Router } from '@angular/router';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -20,9 +22,10 @@ export class LoginComponent {
   hide = true;
   errorMessage = '';
   private jwt!: TokenResult;
+  isLoading = false;
 
   constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService,
-    private perfis: PerfisService, private menus: ProvedormenuService, private router: Router) {
+    private perfis: PerfisService, private menus: ProvedormenuService, private router: Router, private dialog: MatDialog) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
@@ -44,51 +47,92 @@ export class LoginComponent {
   fazerLogin() {
 
     if (this.loginForm.valid) {
+
       const { email, senha } = this.loginForm.value;
+
       const login: Login = { Email: email, Senha: senha };
 
-      this.loginServices.Logar(login)
-        .pipe(
-          first(),
-          tap(result => {
-            if (result) {
-              if (result.resultado.succeeded
-                && result.resultado.requeredEmailConfirm == false && result.resultado.isLockedOut == false
-                && result.resultado.isNotAllowed == false && result.resultado.requiresTwoFactor == false) {
-                this.jwt = this.jwtService.decodeJwt(result);
+      this.isLoading = true;
 
-                this.loginServices.setUserAuthenticado(true);
+      try {
+        this.loginServices.Logar(login)
+          .pipe(
+            first(),
+            tap(result => {
+              if (result) {
+                if (result.resultado.succeeded
+                  && result.resultado.requeredEmailConfirm == false && result.resultado.isLockedOut == false
+                  && result.resultado.isNotAllowed == false && result.resultado.requiresTwoFactor == false) {
+                  this.jwt = this.jwtService.decodeJwt(result);
 
-                //Próximos passos
-                //1º: Enviar para o end-point a permissão e buscar as transações.
-                this.perfis.getPerfis(result.toke, this.jwt.role)
-                  .pipe(
-                    first(),
-                    tap(resultRole => {
-                      //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
-                      if (resultRole.transacoes !== null) {
-                        this.menus.forEachTransacao(resultRole.transacoes);
+                  this.loginServices.setUserAuthenticado(true);
 
-                        this.router.navigate(['/home']);
-                      } else {
-                        //adicionar um modal aqui
-                      }
-                    }),
-                    catchError((error: HttpErrorResponse) => {
-                      return of(null);
-                    })
-                  ).subscribe();
+                  //Próximos passos
+                  //1º: Enviar para o end-point a permissão e buscar as transações.
+                  this.perfis.getPerfis(result.toke, this.jwt.role)
+                    .pipe(
+                      first(),
+                      tap(resultRole => {
+                        //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
+                        if (resultRole.transacoes !== null) {
+                          this.menus.forEachTransacao(resultRole.transacoes);
+
+                          this.router.navigate(['/home']);
+                        } else {
+                          this.openDialog("O perfil não contém permissão válida");
+                        }
+                        this.isLoading = false;
+                      }),
+                      catchError((error: HttpErrorResponse) => {
+                        this.isLoading = false;
+                        return of(null);
+                      })
+                    ).subscribe();
+                } else {
+                  this.openDialog("Usuário ou senha inválido.");
+                  this.isLoading = false;
+                }
+              } else {
+                this.openDialog("Sem resultado.");
               }
-            } else {
-              //adicionar um modal aqui
-            }
-          }),
-          catchError((error: HttpErrorResponse) => {
-            return of(null);
-          })
-        ).subscribe();
+            }),
+            catchError((error: HttpErrorResponse) => {
+              let errorMessage = "";
+
+              if (error.status === 403) {
+                errorMessage = 'Acesso negado.';
+              } else if (error.status === 401) {
+                errorMessage = 'Não autorizado.';
+              } else if (error.status === 500) {
+                errorMessage = 'Erro interno do servidor.';
+              } else if (error.status === 0) {
+                errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
+              } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
+                errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
+              }
+
+              this.openDialog(errorMessage);
+              this.isLoading = false;
+              return of(null);
+            })
+          ).subscribe();
+      } catch (error) {
+        this.openDialog("Error: " + error);
+        this.isLoading = false;
+      }
     } else {
-      //adicionar um modal aqui
+      this.openDialog("Preencha os campos corretamente.");
     }
   }
+
+  openDialog(p: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { titulo: 'Login', paragrafo: p },
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
 }

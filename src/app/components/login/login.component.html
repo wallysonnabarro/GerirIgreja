@@ -1,6 +1,6 @@
 <br />
 <div class="container-fluid">
-  <div class="d-flex justify-content-center mt-5" style="padding: 100px;">
+  <div class="d-flex justify-content-center mt-5" style="padding: 100px">
     <mat-card class="p-5">
       <mat-card-header class="pt-5 ps-5 pe-5">
         <mat-card-title class="mb-4 fs-3">Entre com seu acesso</mat-card-title>
@@ -15,10 +15,18 @@
                   formControlName="email"
                   required
                 />
-                <div *ngIf="loginForm.controls['email'].invalid && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                  <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+                <div
+                  *ngIf="
+                    loginForm.controls['email'].invalid &&
+                    (loginForm.controls['email'].dirty ||
+                      loginForm.controls['email'].touched)
+                  "
+                >
+                  <mat-error
+                    *ngIf="loginForm.controls['email'].hasError('required')"
+                  >
                     {{ errorMessage }}
-                  </mat-error>              
+                  </mat-error>
                 </div>
               </mat-form-field>
             </div>
@@ -42,10 +50,18 @@
                     hide ? "visibility_off" : "visibility"
                   }}</mat-icon>
                 </button>
-                <div *ngIf="loginForm.controls['senha'].invalid && (loginForm.controls['senha'].dirty || loginForm.controls['senha'].touched)">
-                  <mat-error *ngIf="loginForm.controls['senha'].hasError('required')">
+                <div
+                  *ngIf="
+                    loginForm.controls['senha'].invalid &&
+                    (loginForm.controls['senha'].dirty ||
+                      loginForm.controls['senha'].touched)
+                  "
+                >
+                  <mat-error
+                    *ngIf="loginForm.controls['senha'].hasError('required')"
+                  >
                     {{ errorMessage }}
-                  </mat-error>              
+                  </mat-error>
                 </div>
               </mat-form-field>
             </div>
@@ -53,9 +69,17 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-card-actions class="pb-5 ps-5 pe-5" align="end">
-        <button mat-stroked-button color="primary" (click)="fazerLogin()">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="fazerLogin()"
+          *ngIf="!isLoading; else loading"
+        >
           Acessar
         </button>
+        <ng-template #loading>
+          <span class="me-3">Acessando</span>   <mat-spinner [diameter]="30"></mat-spinner>
+        </ng-template>
       </mat-card-actions>
     </mat-card>
   </div>

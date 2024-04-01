@@ -487,3 +487,7 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.spinner-menor circle {
+    stroke-width: 2px;
+  }

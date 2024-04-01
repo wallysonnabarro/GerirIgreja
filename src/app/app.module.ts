@@ -23,6 +23,9 @@ import { LoginServicesService } from './components/login/login-services.service'
 import { ProvedormenuService } from './provedorMenu/provedormenu.service';
 import { TribosComponent } from './components/tribos/tribos.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { LogoutComponent } from './components/logout/logout.component';
     LoginComponent,
     HomeComponent,
     TribosComponent,
-    LogoutComponent
+    LogoutComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -47,9 +51,11 @@ import { LogoutComponent } from './components/logout/logout.component';
     LayoutModule,
     MatIconModule,
     HttpClientModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
     HttpClientXsrfModule.withOptions({
-      cookieName: 'XSRF-TOKEN', 
-      headerName: 'X-XSRF-TOKEN', 
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
     }),
   ],
   providers: [
