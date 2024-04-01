@@ -49,6 +49,15 @@ export class ProvedormenuService {
     });
 
     this.menus.find(menu => menu.nome === 'Login')!.status = false;
-    this.menus.find(menu => menu.nome === 'Logout')!.status = true; 
+    this.menus.find(menu => menu.nome === 'Logout')!.status = true;
+  }
+
+  LogoutTransacoes() {
+    this.menus.forEach(menu => {
+      menu.status = false;
+      if (menu.nome === 'Login') {
+        menu.status = true;
+      }
+    })
   }
 }

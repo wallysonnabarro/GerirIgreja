@@ -22,6 +22,7 @@ import { HttpClientXsrfModule, HttpClientModule } from '@angular/common/http';
 import { LoginServicesService } from './components/login/login-services.service';
 import { ProvedormenuService } from './provedorMenu/provedormenu.service';
 import { TribosComponent } from './components/tribos/tribos.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TribosComponent } from './components/tribos/tribos.component';
     NavbarComponent,
     LoginComponent,
     HomeComponent,
-    TribosComponent
+    TribosComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
