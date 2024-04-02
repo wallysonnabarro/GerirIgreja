@@ -40,7 +40,7 @@ export class LoginComponent {
     if (email?.invalid && (email.dirty)) {
       this.errorMessage = email.hasError('required') ? 'Você deve inserir um email' : 'Email inválido';
     } else if (senha?.invalid && (senha.dirty)) {
-      this.errorMessage = 'Você deve inserir uma senha';
+      this.errorMessage = 'Você deve inserir uma senha!';
     }
   }
 

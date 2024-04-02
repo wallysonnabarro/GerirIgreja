@@ -8,7 +8,7 @@ import { TokenInterface } from './TokenInterface';
   providedIn: 'root'
 })
 export class LoginServicesService {
-
+ 
   private usuarioAutenticado: boolean = false;
   private readonly uri: string = `${environment.apiUrl}Usuario/`;
 
@@ -30,6 +30,5 @@ export class LoginServicesService {
     });
 
     return this.http.post<TokenInterface>(`${this.uri}login`, login,  { headers: _headers });
-  }
- 
+  } 
 }

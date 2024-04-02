@@ -107,7 +107,7 @@ h1:focus {
 
 .a-link {
     text-decoration: none;
-    color: var(--white);
+    color: var(--text-color-black);
     font-size: 1.2em;
     transition: 0.3s ease-in-out;
     padding: 0%;
