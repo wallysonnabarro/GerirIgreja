@@ -6,6 +6,7 @@ import { TribosComponent } from './components/tribos/tribos.component';
 import { CanActivate } from './guard/auth.guard';
 import { LogoutComponent } from './components/logout/logout.component';
 import { SiaoComponent } from './components/siao/siao.component';
+import { AreasComponent } from './components/areas/areas.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'tribo-equipes', component: TribosComponent, canActivate: [CanActivate] },
   { path: 'logout', component: LogoutComponent, canActivate: [CanActivate] },
   { path: 'siao', component: SiaoComponent, canActivate: [CanActivate] },
+  { path: 'areas-servico', component: AreasComponent, canActivate: [CanActivate] },
 ];
 
 @NgModule({

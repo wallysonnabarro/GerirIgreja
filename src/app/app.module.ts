@@ -32,8 +32,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { SiaoComponent } from './components/siao/siao.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, provideNativeDateAdapter } from '@angular/material/core';
+import { AreasComponent } from './components/areas/areas.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
     TribosComponent,
     LogoutComponent,
     DialogComponent,
-    SiaoComponent
+    SiaoComponent,
+    AreasComponent
   ],
   imports: [
     BrowserModule,
