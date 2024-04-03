@@ -50,27 +50,26 @@
               <h5 class="m-1 fw-bold">Tabela das tribos e equipes</h5>
             </div>
             <div class="card-body">
-              
-            <div class="row">
-              <div class="row mb-3">
-                <div class="col-lg-6">
-                  <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm"
-                      >Buscar</span
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      aria-label="Sizing example input"
-                      aria-describedby="inputGroup-sizing-sm"
-                      style="text-transform: uppercase"
-                      placeholder="Buscar evento..."
-                      [(ngModel)]="searchText"
-                    />
+              <div class="row">
+                <div class="row mb-3">
+                  <div class="col-lg-6">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm"
+                        >Buscar</span
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm"
+                        style="text-transform: uppercase"
+                        placeholder="Buscar evento..."
+                        [(ngModel)]="searchText"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
               <table class="table table-striped">
                 <thead>
@@ -98,6 +97,7 @@
                     <td>
                       <button
                         mat-raised-button
+                        color="accent"
                         (click)="Editar(item.id)"
                         aria-label="Visualizar docs"
                       >
@@ -107,6 +107,7 @@
                     <td>
                       <button
                         mat-raised-button
+                        color="primary"
                         (click)="Detalhar(item.id)"
                         aria-label="Visualizar docs"
                       >
@@ -161,13 +162,17 @@
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="status">
                   @for (food of isStatus; track food) {
-                    <mat-option [value]="food.id">{{food.st}}</mat-option>
+                  <mat-option [value]="food.id">{{ food.st }}</mat-option>
                   }
                 </mat-select>
               </mat-form-field>
-              
-                
-              <button mat-flat-button color="accent" class="ms-3" (click)="Atualizar()">
+
+              <button
+                mat-flat-button
+                color="accent"
+                class="ms-3"
+                (click)="Atualizar()"
+              >
                 Atualizar
               </button>
             </mat-list-item>
@@ -179,7 +184,7 @@
         style="background-color: #d6d6d6"
         *ngIf="isDetalhar"
       >
-        <h2 class="text-center fw-bold">Detalhe</h2>
+        <h2 class="text-center fw-bold">Detalhes da Tribo ou Equipe</h2>
         <mat-list>
           <mat-list-item>Tribo/Equipe: </mat-list-item>
           <mat-divider></mat-divider>

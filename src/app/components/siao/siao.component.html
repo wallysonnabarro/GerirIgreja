@@ -184,6 +184,7 @@
                   <td>
                     <button
                       mat-raised-button
+                      color="accent"
                       (click)="Editar(item.id)"
                       aria-label="Visualizar docs"
                     >
@@ -193,6 +194,7 @@
                   <td>
                     <button
                       mat-raised-button
+                      color="primary"
                       (click)="Detalhar(item.id)"
                       aria-label="Visualizar docs"
                     >
@@ -240,6 +242,66 @@
             </mat-list-item>
             <mat-divider class="m-3"></mat-divider>
             <mat-list-item>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Coordenadores:</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                  style="text-transform: uppercase"
+                  formControlName="coordenadores"
+                  required
+                />
+              </div>
+            </mat-list-item>
+            <mat-divider class="m-3"></mat-divider>
+            <div class="input-group input-group-sm ms-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm"
+                >Descrição</span
+              >
+              <input
+                type="text"
+                class="form-control me-4"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+                style="text-transform: uppercase"
+                formControlName="descricao"
+                required
+              />
+            </div>
+            <mat-divider class="m-3"></mat-divider>
+            <mat-form-field class="ms-3 me-3">
+              <mat-label>Data de início</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="inicio"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-divider class="m-3"></mat-divider>
+            <mat-form-field class="ms-3 me-3">
+              <mat-label>Data de término</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker2"
+                formControlName="termino"
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <mat-divider class="m-3"></mat-divider>
+            <mat-list-item>
               <mat-form-field>
                 <mat-label>Status</mat-label>
                 <mat-select formControlName="status">
@@ -267,25 +329,36 @@
         *ngIf="isDetalhar"
       >
         <form [formGroup]="formEditar" novalidate>
-          <h2 class="text-center fw-bold">Detalhe</h2>
+          <h2 class="text-center fw-bold">Detalhes do Evento</h2>
           <mat-list>
-            <mat-list-item style="text-transform: uppercase">Evento: {{ Evento }}</mat-list-item>
+            <mat-list-item style="text-transform: uppercase"
+              >Evento: {{ Evento }}</mat-list-item
+            >
             <mat-divider></mat-divider>
             <mat-list-item style="text-transform: uppercase"
               >Coordenadores:
             </mat-list-item>
-            <mat-list-item style="text-transform: uppercase">{{ Coordenadores }}</mat-list-item>
+            <mat-list-item style="text-transform: uppercase">{{
+              Coordenadores
+            }}</mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item style="text-transform: uppercase">Data de início e termino: </mat-list-item>
+            <mat-list-item style="text-transform: uppercase"
+              >Data de início e termino:
+            </mat-list-item>
             <mat-list-item style="text-transform: uppercase"
               >{{ Inicio }} - {{ Termino }}</mat-list-item
             >
             <mat-divider></mat-divider>
-            <mat-list-item style="text-transform: uppercase">Status: {{ Status }} </mat-list-item>
+            <mat-list-item style="text-transform: uppercase"
+              >Status: {{ Status }}
+            </mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item style="text-transform: uppercase">Descrição:</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item style="text-transform: uppercase">{{ Descricao }} </mat-list-item>
+            <mat-list-item style="text-transform: uppercase"
+              >Descrição:</mat-list-item
+            >
+            <mat-list-item style="text-transform: uppercase"
+              >{{ Descricao }}
+            </mat-list-item>
           </mat-list>
         </form>
       </div>
