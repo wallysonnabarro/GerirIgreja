@@ -7,7 +7,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +30,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { SiaoComponent } from './components/siao/siao.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,8 @@ import { MatSelectModule } from '@angular/material/select';
     HomeComponent,
     TribosComponent,
     LogoutComponent,
-    DialogComponent
+    DialogComponent,
+    SiaoComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +66,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatDividerModule,
     MatListModule,
     MatSelectModule,
+    MatDatepickerModule,
+    FormsModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',
@@ -69,7 +76,22 @@ import { MatSelectModule } from '@angular/material/select';
   providers: [
     LoginServicesService,
     ProvedormenuService,
-    provideAnimationsAsync()
+    provideNativeDateAdapter(),
+    provideAnimationsAsync(),
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: ['l', 'LL'],
+        },
+        display: {
+          dateInput: 'L',
+          monthYearLabel: 'MMM YYYY',
+          dateA11yLabel: 'LL',
+          monthYearA11yLabel: 'MMMM YYYY',
+        },
+      },
+    }
   ],
   bootstrap: [AppComponent]
 })

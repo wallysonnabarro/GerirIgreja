@@ -8,7 +8,7 @@
           class="card-header p-1"
           style="background-color: #363636; color: azure"
         >
-          <h5 class="m-1 fw-bold">NOVO</h5>
+          <h5 class="m-1 fw-bold">Tribo e Equipes</h5>
         </div>
 
         <div class="card-body">
@@ -50,6 +50,28 @@
               <h5 class="m-1 fw-bold">Tabela das tribos e equipes</h5>
             </div>
             <div class="card-body">
+              
+            <div class="row">
+              <div class="row mb-3">
+                <div class="col-lg-6">
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"
+                      >Buscar</span
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      style="text-transform: uppercase"
+                      placeholder="Buscar evento..."
+                      [(ngModel)]="searchText"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
               <table class="table table-striped">
                 <thead>
                   <tr>
@@ -62,7 +84,7 @@
                 <tbody>
                   <tr
                     *ngFor="
-                      let item of triboArray
+                      let item of filteredTriboArray
                         | paginate
                           : {
                               itemsPerPage: 10,

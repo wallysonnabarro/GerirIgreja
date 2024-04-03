@@ -33,6 +33,7 @@ export class TribosComponent {
   triboDetalhe = "";
   triboStatus = "";
   idEditar = 0;
+  searchText: string = '';
 
   constructor(private triboServices: TribosService, private localStoreServices: LocalStorageServiceService, private dialog: MatDialog
     , private fb: FormBuilder, private router: Router) {
@@ -60,21 +61,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            let errorMessage = "";
-
-            if (error.status === 403) {
-              errorMessage = 'Acesso negado.';
-            } else if (error.status === 401) {
-              errorMessage = 'Não autorizado.';
-            } else if (error.status === 500) {
-              errorMessage = 'Erro interno do servidor.';
-            } else if (error.status === 0) {
-              errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-            } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-              errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-            }
-
-            this.openDialog(errorMessage);
+            this.Errors(error.status);
             this.isLoading = false;
             return of(null);
           })
@@ -98,21 +85,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            let errorMessage = "";
-
-            if (error.status === 403) {
-              errorMessage = 'Acesso negado.';
-            } else if (error.status === 401) {
-              errorMessage = 'Não autorizado.';
-            } else if (error.status === 500) {
-              errorMessage = 'Erro interno do servidor.';
-            } else if (error.status === 0) {
-              errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-            } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-              errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-            }
-
-            this.openDialog(errorMessage);
+            this.Errors(error.status);
             this.isLoading = false;
             return of(null);
           })
@@ -147,21 +120,7 @@ export class TribosComponent {
               }
             }),
             catchError((error: HttpErrorResponse) => {
-              let errorMessage = "";
-
-              if (error.status === 403) {
-                errorMessage = 'Acesso negado.';
-              } else if (error.status === 401) {
-                errorMessage = 'Não autorizado.';
-              } else if (error.status === 500) {
-                errorMessage = 'Erro interno do servidor.';
-              } else if (error.status === 0) {
-                errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-              } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-                errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-              }
-
-              this.openDialog(errorMessage);
+              this.Errors(error.status);
               this.isLoading = false;
               this.form.reset();
               return of(null);
@@ -200,21 +159,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            let errorMessage = "";
-
-            if (error.status === 403) {
-              errorMessage = 'Acesso negado.';
-            } else if (error.status === 401) {
-              errorMessage = 'Não autorizado.';
-            } else if (error.status === 500) {
-              errorMessage = 'Erro interno do servidor.';
-            } else if (error.status === 0) {
-              errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-            } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-              errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-            }
-
-            this.openDialog(errorMessage);
+            this.Errors(error.status);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -252,21 +197,7 @@ export class TribosComponent {
                     }
                   }),
                   catchError((error: HttpErrorResponse) => {
-                    let errorMessage = "";
-
-                    if (error.status === 403) {
-                      errorMessage = 'Acesso negado.';
-                    } else if (error.status === 401) {
-                      errorMessage = 'Não autorizado.';
-                    } else if (error.status === 500) {
-                      errorMessage = 'Erro interno do servidor.';
-                    } else if (error.status === 0) {
-                      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-                    } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-                      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-                    }
-
-                    this.openDialog(errorMessage);
+                    this.Errors(error.status);
                     this.isLoading = false;
                     return of(null);
                   })
@@ -281,21 +212,7 @@ export class TribosComponent {
             this.isDetalhar = false;
           }),
           catchError((error: HttpErrorResponse) => {
-            let errorMessage = "";
-
-            if (error.status === 403) {
-              errorMessage = 'Acesso negado.';
-            } else if (error.status === 401) {
-              errorMessage = 'Não autorizado.';
-            } else if (error.status === 500) {
-              errorMessage = 'Erro interno do servidor.';
-            } else if (error.status === 0) {
-              errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-            } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-              errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-            }
-
-            this.openDialog(errorMessage);
+            this.Errors(error.status);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -327,21 +244,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            let errorMessage = "";
-
-            if (error.status === 403) {
-              errorMessage = 'Acesso negado.';
-            } else if (error.status === 401) {
-              errorMessage = 'Não autorizado.';
-            } else if (error.status === 500) {
-              errorMessage = 'Erro interno do servidor.';
-            } else if (error.status === 0) {
-              errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-            } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-              errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-            }
-
-            this.openDialog(errorMessage);
+            this.Errors(error.status);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -362,4 +265,34 @@ export class TribosComponent {
     dialogRef.afterClosed().subscribe(result => {
     });
   }
+  
+  get filteredTriboArray() {
+    if (!this.searchText.trim()) {
+      return this.triboArray;
+    }
+
+    return this.triboArray.filter(item =>
+      item.nome.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
+
+  
+  private Errors(status: number) {
+    let errorMessage = "";
+
+    if (status === 403) {
+      errorMessage = 'Acesso negado.';
+    } else if (status === 401) {
+      errorMessage = 'Não autorizado.';
+    } else if (status === 500) {
+      errorMessage = 'Erro interno do servidor.';
+    } else if (status === 0) {
+      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
+    } else {
+      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
+    }
+
+    this.openDialog(errorMessage);
+  }
+
 }
