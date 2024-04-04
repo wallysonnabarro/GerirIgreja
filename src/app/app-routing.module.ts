@@ -9,6 +9,7 @@ import { SiaoComponent } from './components/siao/siao.component';
 import { AreasComponent } from './components/areas/areas.component';
 import { FichaConectadoComponent } from './components/ficha-conectado/ficha-conectado.component';
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
+import { SobreComponent } from './components/sobre/sobre.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'areas-servico', component: AreasComponent, canActivate: [CanActivate] },
   { path: 'conectado', component: FichaConectadoComponent },
   { path: 'lider', component: FichaVoluntarioComponent },
+  { path: 'sobre', component: SobreComponent },
 ];
 
 @NgModule({

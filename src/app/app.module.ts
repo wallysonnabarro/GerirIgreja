@@ -40,6 +40,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.component';
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
+import { SobreComponent } from './components/sobre/sobre.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-vo
     AreasComponent,
     FichaConectadoComponent,
     DialogEventoComponent,
-    FichaVoluntarioComponent
+    FichaVoluntarioComponent,
+    SobreComponent
   ],
   imports: [
     BrowserModule,
