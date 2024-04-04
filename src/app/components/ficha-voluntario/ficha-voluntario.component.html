@@ -1,0 +1,92 @@
+<br />
+<div class="container">
+  <div class="card">
+    <div
+      class="card-header p-1"
+      style="background-color: #000000; color: azure"
+    >
+      <h4 class="m-1 fw-bold text-center">
+        Ficha de inscrição: Evento {{ evento.nome }}
+      </h4>
+    </div>
+    <div class="card-body p-2">
+      <div>
+        <p>
+          Caso não tenha selecionado um evento, por gentileza, clique
+          <a style="color: red" (click)="aqui()">aqui</a>.
+        </p>
+      </div>
+
+      <form [formGroup]="form" novalidate>
+        <div class="card border-dark">
+          <div class="card-header p-1" style="background-color: #dcdcdc">
+            <h5 class="m-1 fw-bold">Dados pessoais</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6 ms-2">
+                <div class="input-group input-group-sm mb-3">
+                  <span class="input-group-text" id="inputGroup-sizing-sm"
+                    >Nome completo<span style="color: red"> *</span></span
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm"
+                    formControlName="nome"
+                    style="text-transform: uppercase"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row pe-2 ps-2">
+              <div class="col-lg-3 mt-3">
+                <mat-form-field>
+                  <mat-label
+                    >Tribo/Equipe<span style="color: red">*</span></mat-label
+                  >
+                  <mat-select formControlName="tribo">
+                    @for (triboSelect of istriboSelect; track triboSelect) {
+                    <mat-option [value]="triboSelect.id">{{
+                      triboSelect.nome
+                    }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3 mt-3">
+                <mat-form-field>
+                  <mat-label
+                    >Área de atuação<span style="color: red">*</span></mat-label
+                  >
+                  <mat-select formControlName="area">
+                    @for (areas of isAreasSelect; track areas) {
+                    <mat-option [value]="areas.id">{{ areas.nome }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3 mt-3">
+                <mat-form-field>
+                  <mat-label>Sexo<span style="color: red">*</span></mat-label>
+                  <mat-select formControlName="sexo">
+                    @for (Sexo of isSexoSelect; track Sexo) {
+                    <mat-option [value]="Sexo.id">{{ Sexo.nome }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="card-footer d-flex flex-row-reverse">
+        <button mat-stroked-button color="primary" (click)="novo()">
+          Registrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

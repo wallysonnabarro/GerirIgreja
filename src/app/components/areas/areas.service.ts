@@ -17,8 +17,8 @@ export class AreasService {
 
   constructor(private http: HttpClient) { }
 
-  
-  PostAreas(postAreas: PostAreas, token: string): Observable<Result<boolean>>{
+
+  PostAreas(postAreas: PostAreas, token: string): Observable<Result<boolean>> {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
@@ -27,7 +27,7 @@ export class AreasService {
 
     return this.http.post<Result<boolean>>(`${this.uri}novo`, postAreas, { headers: _headers });
   }
-  
+
   Lista(page: number, token: string): Observable<Result<Pages<Areas[]>>> {
     const wrapper = {
       Skip: page,
@@ -43,13 +43,22 @@ export class AreasService {
   }
 
   Detalhar(id: number, token: string): Observable<Result<Areas>> {
-    
+
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
       'Authorization': `Bearer ${token}`
     });
 
     return this.http.post<Result<Areas>>(`${this.uri}detalhar/${id}`, null, { headers: _headers });
+  }
+
+  getAreas(): Observable<Result<Areas[]>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+    });
+
+    return this.http.get<Result<Areas[]>>(`${this.uri}getAreas`, { headers: _headers });
   }
 
   Editar(areas: Areas, token: string): Observable<Result<boolean>> {

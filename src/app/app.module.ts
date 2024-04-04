@@ -39,6 +39,7 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.component';
+import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.
     SiaoComponent,
     AreasComponent,
     FichaConectadoComponent,
-    DialogEventoComponent
+    DialogEventoComponent,
+    FichaVoluntarioComponent
   ],
   imports: [
     BrowserModule,

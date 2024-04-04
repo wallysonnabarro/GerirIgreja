@@ -3,4 +3,5 @@ export interface FichaLider {
     nome: string;
     sexo: number;
     siao: number;
+    area: number;
 }

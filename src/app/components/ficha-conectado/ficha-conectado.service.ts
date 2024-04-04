@@ -24,11 +24,10 @@ export class FichaConectadoService {
     return this.http.post<Result<boolean>>(`${this.uri}novo-conectado`, ficha, { headers: _headers });
   }
 
-  postFichaLider(ficha: FichaLider, token: string): Observable<Result<boolean>> {
+  postFichaLider(ficha: FichaLider): Observable<Result<boolean>> {
 
     let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'accept': 'application/json'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}novo-lider`, ficha, { headers: _headers });
