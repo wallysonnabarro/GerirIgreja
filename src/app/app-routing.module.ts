@@ -10,6 +10,7 @@ import { AreasComponent } from './components/areas/areas.component';
 import { FichaConectadoComponent } from './components/ficha-conectado/ficha-conectado.component';
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
 import { SobreComponent } from './components/sobre/sobre.component';
+import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent, canActivate: [CanActivate] },
   { path: 'siao', component: SiaoComponent, canActivate: [CanActivate] },
   { path: 'areas-servico', component: AreasComponent, canActivate: [CanActivate] },
+  { path: 'pagamento-inscricoes', component: PagamentosComponent, canActivate: [CanActivate] },
   { path: 'conectado', component: FichaConectadoComponent },
   { path: 'lider', component: FichaVoluntarioComponent },
   { path: 'sobre', component: SobreComponent },

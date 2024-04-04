@@ -5,6 +5,8 @@ import { FichaConectado } from '../../interfaces/FichaConectados';
 import { Observable } from 'rxjs';
 import { Result } from '../../interfaces/Result';
 import { FichaLider } from '../../interfaces/FichaLider';
+import { FichaParametros } from '../../interfaces/FichaParametros';
+import { FichaPagamento } from '../pagamentos/FichaPagamento';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +33,15 @@ export class FichaConectadoService {
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}novo-lider`, ficha, { headers: _headers });
+  }
+  
+  lista(ficha: FichaParametros, token: string): Observable<Result<FichaPagamento>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes`, ficha, { headers: _headers });
   }
 }

@@ -41,6 +41,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.component';
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
 import { SobreComponent } from './components/sobre/sobre.component';
+import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { SobreComponent } from './components/sobre/sobre.component';
     FichaConectadoComponent,
     DialogEventoComponent,
     FichaVoluntarioComponent,
-    SobreComponent
+    SobreComponent,
+    PagamentosComponent
   ],
   imports: [
     BrowserModule,

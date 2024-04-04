@@ -1,0 +1,27 @@
+
+:root {
+    --black: #2f2f2f;
+    --text-color-black: #3f3f3f;
+    --white: #fff;
+    --red: #f83038;
+    --blue: #2a36fe;
+    --verde: #21d41e;
+}
+
+.example-card {
+    max-width: 380px;
+    margin-bottom: 8px;
+    padding: 5px 5px;
+}
+
+.mat-card-contet {
+    padding: 5px 5px;
+}
+
+.mat-card-contet .row-mat-card-conte {
+    padding: 5px;
+}
+
+.titulo {    
+    color: var(--text-color-black);
+}
