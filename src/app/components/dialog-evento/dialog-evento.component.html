@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">{{ data.titulo }}</div>
+  </div>
+  <div class="card-body p-5">
+    <p>{{ data.paragrafo }}</p>
+    <form [formGroup]="form" novalidate>
+      <mat-form-field>
+        <mat-label
+          >Selecione o evento<span style="color: red">*</span></mat-label
+        >
+        <mat-select formControlName="id">
+          @for (eventos of data.evento; track eventos) {
+          <mat-option [value]="eventos.id">{{ eventos.nome }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="card-footer">
+    <button mat-stroked-button color="primary" class="me-3" (click)="OK()">
+      OK
+    </button>
+    <button mat-button (click)="Fechar()" class="btn btn-outline-danger">
+      Fechar
+    </button>
+  </div>
+</div>

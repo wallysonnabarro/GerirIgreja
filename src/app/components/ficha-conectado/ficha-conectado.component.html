@@ -1,0 +1,339 @@
+<br />
+<div class="container">
+  <div class="card">
+    <div
+      class="card-header p-1"
+      style="background-color: #000000; color: azure"
+    >
+      <h4 class="m-1 fw-bold text-center">
+        Ficha de inscrição: Evento {{ evento.nome }}
+      </h4>
+    </div>
+    <div class="card-body p-2">
+      <div>
+        <p>Caso não tenha selecionado um evento, por gentileza, clique <a style="color: red" (click)="aqui()">aqui</a>.</p>
+      </div>
+
+      <form [formGroup]="form" novalidate>
+        <div class="card border-dark">
+          <div class="card-header p-1" style="background-color: #dcdcdc">
+            <h5 class="m-1 fw-bold">Dados pessoais</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <mat-card class="mt-2">
+                  <div
+                    class="card-header p-1"
+                    style="background-color: #dcdcdc"
+                  >
+                    <h5 class="m-1 fw-bold text-center">
+                      Dados tribo ou equipe
+                    </h5>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <div class="row pe-2 ps-2">
+                      <div class="col-lg-6 mt-3">
+                        <mat-form-field>
+                          <mat-label
+                            >Tribo/Equipe<span style="color: red"
+                              >*</span
+                            ></mat-label
+                          >
+                          <mat-select formControlName="tribo">
+                            @for (triboSelect of istriboSelect; track
+                            triboSelect) {
+                            <mat-option [value]="triboSelect.id">{{
+                              triboSelect.nome
+                            }}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6 mt-3">
+                        <mat-form-field>
+                          <mat-label
+                            >Líder<span style="color: red">*</span></mat-label
+                          >
+                          <input matInput formControlName="lider" style="text-transform: uppercase"/>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="col-lg-6">
+                <mat-card class="mt-2">
+                  <div class="row p-2">
+                    <div class="col-lg-6">
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          inputmode="numeric"
+                          mask="00.000/000"
+                          class="form-control"
+                          aria-label="Recipient's username"
+                          aria-describedby="button-addon2"
+                          formControlName="cep"
+                        />
+                        <button
+                          class="btn btn-outline-secondary"
+                          type="button"
+                          id="button-addon2"
+                          (click)="buscarCep()"
+                        >
+                          CEP<span style="color: red">*</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-lg-12">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"
+                          >Endereço<span style="color: red"> *</span></span
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          formControlName="endereco"
+                          style="text-transform: uppercase"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-lg-6">
+                <mat-card class="mt-2">
+                  <div class="row ms-2 me-2 mt-2">
+                    <div class="col-lg-12">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"
+                          >Nome completo<span style="color: red"> *</span></span
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          formControlName="nome"
+                          style="text-transform: uppercase"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-center">
+                    <div class="row pe-2 ps-2">
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <mat-label
+                            >Sexo<span style="color: red">*</span></mat-label
+                          >
+                          <mat-select formControlName="sexo">
+                            @for (Sexo of isSexoSelect; track Sexo) {
+                            <mat-option [value]="Sexo.id">{{
+                              Sexo.nome
+                            }}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <mat-label
+                            >Estado Civil<span style="color: red"
+                              >*</span
+                            ></mat-label
+                          >
+                          <mat-select formControlName="estadoCivil">
+                            @for (estado of isEstadoCivilSelect; track estado) {
+                            <mat-option [value]="estado.id">{{
+                              estado.nome
+                            }}</mat-option>
+                            }
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+              <div class="col-lg-6">
+                <mat-card class="mt-2">
+                  <div class="row pe-2 ps-2 pt-2">
+                    <div class="col-lg-12">
+                      <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"
+                          >E-mail<span style="color: red"> *</span></span
+                        >
+                        <input
+                          type="email"
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          formControlName="email"
+                          style="text-transform: uppercase"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-center">
+                    <div class="row pe-2 ps-2">
+                      <div class="col-lg-6">
+                        <mat-form-field>
+                          <mat-label
+                            >Data de nascimento<span style="color: red"
+                              >*</span
+                            ></mat-label
+                          >
+                          <input
+                            matInput
+                            [matDatepicker]="picker1"
+                            formControlName="nascimento"
+                          />
+                          <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker1"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-lg-6">
+                        <mat-form-field class="example-full-width">
+                          <mat-label
+                            >Telefone<span style="color: red"
+                              >*</span
+                            ></mat-label
+                          >
+                          <input
+                            matInput
+                            type="text"
+                            inputmode="numeric"
+                            mask="(00)00000-0000"
+                            formControlName="telefone"
+                          />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-lg-12">
+                <mat-card class="mt-2">
+                  <div
+                    class="card-header p-1"
+                    style="background-color: #dcdcdc"
+                  >
+                    <h5 class="m-1 fw-bold text-center">Dados adicionais</h5>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="ms-4 me-4 mt-4">
+                        <label
+                          for="exampleFormControlTextarea1"
+                          class="form-label"
+                          >Contato do responsável ou contato emergêncial (nome e
+                          telefone)</label
+                        >
+                        <textarea
+                          class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          formControlName="contatoEmergencial"
+                          style="text-transform: uppercase"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <mat-card-content>
+                        <section class="example-section">
+                          <mat-checkbox
+                            class="example-margin"
+                            formControlName="crianca"
+                            (click)="checkCrianca()"
+                            >Vai levar criança?</mat-checkbox
+                          >
+                        </section>
+                      </mat-card-content>
+                    </div>
+                    <div class="col-lg-3 pt-3 ps-3 pe-3">
+                      <div *ngIf="Disabled">
+                        <div class="input-group input-group-sm mb-3">
+                          <span
+                            class="input-group-text"
+                            id="inputGroup-sizing-sm"
+                            >Idade da crianca?</span
+                          >
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            class="form-control"
+                            aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-sm"
+                            formControlName="idade"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-lg-3">
+                      <mat-card-content>
+                        <section class="example-section">
+                          <mat-checkbox
+                            class="example-margin"
+                            formControlName="cuidados"
+                            (click)="checkCuidados()"
+                            >Necessita de cuidados médicos?</mat-checkbox
+                          >
+                        </section>
+                      </mat-card-content>
+                    </div>
+                    <div class="col-lg-8" *ngIf="DisabledCuidados">
+                      <div class="m-4">
+                        <label
+                          for="exampleFormControlTextarea1"
+                          class="form-label"
+                          >Quais cuidados médicos necessita?</label
+                        >
+                        <textarea
+                          class="form-control"
+                          id="exampleFormControlTextarea1"
+                          rows="3"
+                          formControlName="contatoEmergencial"
+                          style="text-transform: uppercase"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card>
+              </div>
+            </div>
+            <div class="card-footer d-flex flex-row-reverse">
+              <button mat-stroked-button color="primary" (click)="novo()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<br />

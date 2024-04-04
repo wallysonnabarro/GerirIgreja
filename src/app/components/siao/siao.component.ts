@@ -19,7 +19,7 @@ import { Siaos } from '../../interfaces/Siaos';
   styleUrl: './siao.component.css'
 })
 export class SiaoComponent {
-  form: FormGroup;
+  form: FormGroup; 
   formEditar: FormGroup;
   token = "";
   siaoArray: Siaos[] = [];

@@ -34,6 +34,11 @@ import { SiaoComponent } from './components/siao/siao.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS, provideNativeDateAdapter } from '@angular/material/core';
 import { AreasComponent } from './components/areas/areas.component';
+import { FichaConectadoComponent } from './components/ficha-conectado/ficha-conectado.component';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +50,9 @@ import { AreasComponent } from './components/areas/areas.component';
     LogoutComponent,
     DialogComponent,
     SiaoComponent,
-    AreasComponent
+    AreasComponent,
+    FichaConectadoComponent,
+    DialogEventoComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +76,9 @@ import { AreasComponent } from './components/areas/areas.component';
     MatSelectModule,
     MatDatepickerModule,
     FormsModule,
+    NgxMaskDirective,
+    MatCheckboxModule,
+    MatRadioModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',
@@ -79,6 +89,7 @@ import { AreasComponent } from './components/areas/areas.component';
     ProvedormenuService,
     provideNativeDateAdapter(),
     provideAnimationsAsync(),
+    provideNgxMask(),
     {
       provide: MAT_DATE_FORMATS,
       useValue: {

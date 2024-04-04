@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Result } from '../../interfaces/Result';
 import { Siaos } from '../../interfaces/Siaos';
 import { Pages } from '../../interfaces/pages';
+import { Eventos } from '../../interfaces/Eventos';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,14 @@ export class SiaoService {
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}editar`, siaos, { headers: _headers });
+  }
+
+  getSiaoIniciado(): Observable<Result<Eventos[]>>{
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+    });
+
+    return this.http.get<Result<Eventos[]>>(`${this.uri}evento-andamento`, { headers: _headers });
   }
 }
