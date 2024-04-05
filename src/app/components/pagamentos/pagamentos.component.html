@@ -160,6 +160,8 @@
           <th>Confirmado?</th>
           <th>Pago</th>
           <th>Receber</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -180,24 +182,34 @@
           <td>{{ item.confirmacao === 0 ? "Não" : "Sim" }}</td>
           <td>{{ item.pago }}</td>
           <td>{{ item.receber }}</td>
-          <td>
+          <td *ngIf="item.confirmacao === 0">
             <button
               mat-raised-button
               color="accent"
-              (click)="Editar(item.id)"
+              (click)="Confirmar(item.id)"
               aria-label="Visualizar docs"
             >
-              Editar
+              Confirmar
             </button>
           </td>
-          <td>
+          <td *ngIf="item.confirmacao === 1">
             <button
               mat-raised-button
               color="primary"
-              (click)="Detalhar(item.id)"
+              (click)="Cancelar(item.id)"
               aria-label="Visualizar docs"
             >
-              Detalhar
+              Cancelar
+            </button>
+          </td>
+          <td *ngIf="item.confirmacao === 1">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="Transferir(item.id)"
+              aria-label="Visualizar docs"
+            >
+              Transferir
             </button>
           </td>
         </tr>

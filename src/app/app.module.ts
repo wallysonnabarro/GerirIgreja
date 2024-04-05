@@ -42,6 +42,8 @@ import { DialogEventoComponent } from './components/dialog-evento/dialog-evento.
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
 import { SobreComponent } from './components/sobre/sobre.component';
 import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
+import { ConfirmarDialogComponent } from './components/confirmar-dialog/confirmar-dialog.component';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { PagamentosComponent } from './components/pagamentos/pagamentos.componen
     DialogEventoComponent,
     FichaVoluntarioComponent,
     SobreComponent,
-    PagamentosComponent
+    PagamentosComponent,
+    ConfirmarDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { PagamentosComponent } from './components/pagamentos/pagamentos.componen
     NgxMaskDirective,
     MatCheckboxModule,
     MatRadioModule,
+    CurrencyMaskModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',

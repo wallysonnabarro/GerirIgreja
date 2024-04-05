@@ -12,6 +12,7 @@ import { FichaParametros } from '../../interfaces/FichaParametros';
 import { LocalStorageServiceService } from '../../storage/local-storage-service.service';
 import { Router } from '@angular/router';
 import { ListaInscricoes } from './ListaInscricoes';
+import { ConfirmarDialogComponent } from '../confirmar-dialog/confirmar-dialog.component';
 
 @Component({
   selector: 'app-pagamentos',
@@ -80,13 +81,33 @@ export class PagamentosComponent {
 
   openDialog(p: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { titulo: 'Login', paragrafo: p },
+      data: { titulo: 'Pagamentos', paragrafo: p },
       width: '350px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
     });
   }
+
+  openDialogConfirmacao(p: string, id: number): void {
+    const dadosEvento = this.fichas.find(x => x.id == id);
+
+    if (dadosEvento !== null) {
+      let nome = dadosEvento?.nome;
+
+      const dialogRef = this.dialog.open(ConfirmarDialogComponent, {
+        data: {
+          titulo: 'Confirmar', paragrafo: `Realize o pagamento do consumidor: ${nome}`
+          , id: id, siao: this.EventoSelecionado, tipo: this.TipoSelecionado
+        },
+        width: '580px',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+      });
+    }
+  }
+
 
   private Errors(status: number) {
     let errorMessage = "";
@@ -199,11 +220,15 @@ export class PagamentosComponent {
     );
   }
 
-  Editar(id: number) {
+  Confirmar(id: number) {
+    this.openDialogConfirmacao("", id);
+  }
+
+  Cancelar(id: number) {
 
   }
-  
-  Detalhar(id: number) {
+
+  Transferir(id: number) {
 
   }
 
