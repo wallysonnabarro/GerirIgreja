@@ -13,6 +13,9 @@ import { LocalStorageServiceService } from '../../storage/local-storage-service.
 import { Router } from '@angular/router';
 import { ListaInscricoes } from './ListaInscricoes';
 import { ConfirmarDialogComponent } from '../confirmar-dialog/confirmar-dialog.component';
+import { DialogInteracaoComponent } from '../dialog-interacao/dialog-interacao.component';
+import { PagamentosService } from './pagamentos.service';
+import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
 
 @Component({
   selector: 'app-pagamentos',
@@ -43,7 +46,7 @@ export class PagamentosComponent {
   count: number = 0;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private siaoService: SiaoService, private fichaInscricoes: FichaConectadoService,
-    private localStoreServices: LocalStorageServiceService, private router: Router) {
+    private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService) {
     this.form = this.fb.group({
       evento: [0, [Validators.required]],
       tipo: [0, [Validators.required]],
@@ -104,6 +107,7 @@ export class PagamentosComponent {
       });
 
       dialogRef.afterClosed().subscribe(result => {
+
         const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
 
         this.fichaInscricoes.lista(lista, this.token)
@@ -116,11 +120,11 @@ export class PagamentosComponent {
                   this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
                   this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
                   this.totalF = result.dados.feminino.totalGeral;
-    
+
                   this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
                   this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
                   this.totalM = result.dados.masculino.totalGeral;
-    
+
                   this.count = result.dados.count;
                   this.pageNumber = result.dados.pageIndex;
                 } else {
@@ -139,7 +143,6 @@ export class PagamentosComponent {
       });
     }
   }
-
 
   private Errors(status: number) {
     let errorMessage = "";
@@ -257,7 +260,78 @@ export class PagamentosComponent {
   }
 
   Cancelar(id: number) {
+    const dadosEvento = this.fichas.find(x => x.id == id);
 
+    if (dadosEvento !== null) {
+      let nome = dadosEvento?.nome;
+
+      const dialogRef = this.dialog.open(DialogInteracaoComponent, {
+        data: {
+          titulo: 'Cancelar', paragrafo: `Deseja realmente cancelar o pagamento do: ${nome}`
+          , id: id, siao: this.EventoSelecionado, tipo: this.TipoSelecionado
+        },
+        width: '580px',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result.atualizar === true) {
+          const cancelar: PagamentoCancelar = {
+            id: id,
+            siao: this.EventoSelecionado,
+            tipo: this.TipoSelecionado
+          }
+
+          this.pagamentoServices.cancelar(this.token, cancelar)
+            .pipe(
+              first(),
+              tap(result => {
+                if (result.succeeded) {
+                  this.openDialog("Cancelado com sucesso.");
+
+                  const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
+
+                  this.fichaInscricoes.lista(lista, this.token)
+                    .pipe(
+                      first(),
+                      tap(result => {
+                        if (result.succeeded) {
+                          if (result.succeeded) {
+                            this.fichas = result.dados.dados;
+                            this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+                            this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+                            this.totalF = result.dados.feminino.totalGeral;
+
+                            this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+                            this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+                            this.totalM = result.dados.masculino.totalGeral;
+
+                            this.count = result.dados.count;
+                            this.pageNumber = result.dados.pageIndex;
+                          } else {
+                            this.openDialog(result.errors[0].mensagem);
+                          }
+                        } else {
+                          this.openDialog(result.errors[0].mensagem);
+                        }
+                      }),
+                      catchError((error: HttpErrorResponse) => {
+                        this.Errors(error.status);
+                        return of(null);
+                      })
+                    )
+                    .subscribe();
+                } else {
+                  this.openDialog(result.errors[0].mensagem);
+                }
+              }),
+              catchError((error: HttpErrorResponse) => {
+                this.Errors(error.status);
+                return of(null);
+              }))
+            .subscribe();
+        }
+      });
+    }
   }
 
   Transferir(id: number) {
@@ -271,5 +345,37 @@ export class PagamentosComponent {
 
   onPageChange(id: number) {
 
+    const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: id, pageSize: 10 };
+
+    this.fichaInscricoes.lista(lista, this.token)
+      .pipe(
+        first(),
+        tap(result => {
+          if (result.succeeded) {
+            if (result.succeeded) {
+              this.fichas = result.dados.dados;
+              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+              this.totalF = result.dados.feminino.totalGeral;
+
+              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+              this.totalM = result.dados.masculino.totalGeral;
+
+              this.count = result.dados.count;
+              this.pageNumber = result.dados.pageIndex;
+            } else {
+              this.openDialog(result.errors[0].mensagem);
+            }
+          } else {
+            this.openDialog(result.errors[0].mensagem);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.Errors(error.status);
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 }

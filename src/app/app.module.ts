@@ -45,6 +45,7 @@ import { PagamentosComponent } from './components/pagamentos/pagamentos.componen
 import { ConfirmarDialogComponent } from './components/confirmar-dialog/confirmar-dialog.component';
 import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from "ng2-currency-mask";
 import { CustomCurrencyMaskConfig } from './pipes/CustomCurrencyMaskConfig';
+import { DialogInteracaoComponent } from './components/dialog-interacao/dialog-interacao.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { CustomCurrencyMaskConfig } from './pipes/CustomCurrencyMaskConfig';
     SobreComponent,
     PagamentosComponent,
     ConfirmarDialogComponent,
+    DialogInteracaoComponent,
   ],
   imports: [
     BrowserModule,
