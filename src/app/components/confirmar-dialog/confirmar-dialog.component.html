@@ -15,7 +15,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="dinheiro"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -28,7 +34,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="debito"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -45,7 +57,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="credito"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -58,7 +76,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="pix"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -75,7 +99,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="creditoParcelado"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -83,7 +113,13 @@
           <div class="col-lg-6">
             <mat-form-field floatLabel="always">
               <mat-label>Quantidade parcelas</mat-label>
-              <input matInput type="number" min="1" max="12" />
+              <input
+                matInput
+                type="number"
+                min="1"
+                max="12"
+                formControlName="parcelas"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -99,7 +135,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="receber"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -112,7 +154,13 @@
                 currencyMask
                 class="example-right-align"
                 placeholder="0"
-                [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                formControlName="decontar"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
               />
               <span matTextPrefix>R$&nbsp;</span>
             </mat-form-field>
@@ -128,14 +176,15 @@
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="3"
+            formControlName="observacao"
           ></textarea>
         </div>
       </div>
     </form>
   </div>
   <div class="card-footer">
-    <button mat-stroked-button color="primary" class="me-3" (click)="OK()">
-      OK
+    <button mat-flat-button color="primary" class="me-3" (click)="OK()">
+      Registrar
     </button>
     <button mat-button (click)="Fechar()" class="btn btn-outline-danger">
       Fechar

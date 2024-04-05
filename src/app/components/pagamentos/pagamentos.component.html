@@ -155,11 +155,12 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th *ngIf="TipoSelecionado === 2">Idade</th>
-          <th>Sexo</th>
-          <th>Confirmado?</th>
-          <th>Pago</th>
-          <th>Receber</th>
+          <th *ngIf="TipoSelecionado === 2" class="text-center">Idade</th>
+          <th class="text-center">Sexo</th>
+          <th class="text-center">Confirmado?</th>
+          <th class="text-center">Pago</th>
+          <th class="text-center">Receber</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -177,15 +178,14 @@
           "
         >
           <td style="text-transform: uppercase">{{ item.nome }}</td>
-          <td *ngIf="TipoSelecionado === 2">{{ item.idade }}</td>
-          <td>{{ item.sexo }}</td>
-          <td>{{ item.confirmacao === 0 ? "Não" : "Sim" }}</td>
-          <td>{{ item.pago }}</td>
-          <td>{{ item.receber }}</td>
+          <td *ngIf="TipoSelecionado === 2" class="text-center">{{ item.idade }}</td>
+          <td class="text-center">{{ item.sexo === 1 ? "Masculino" : "Feminino" }}</td>
+          <td class="text-center">{{ item.confirmacao === 0 ? "Não" : "Sim" }}</td>
+          <td class="text-center">{{ item.pago }}</td>
+          <td class="text-center">{{ item.receber }}</td>
           <td *ngIf="item.confirmacao === 0">
             <button
               mat-raised-button
-              color="accent"
               (click)="Confirmar(item.id)"
               aria-label="Visualizar docs"
             >
@@ -196,6 +196,16 @@
             <button
               mat-raised-button
               color="primary"
+              (click)="Atualizar(item.id)"
+              aria-label="Visualizar docs"
+            >
+              Atualizar Pagamento
+            </button>
+          </td>
+          <td *ngIf="item.confirmacao === 1">
+            <button
+              mat-raised-button
+              color="warn"
               (click)="Cancelar(item.id)"
               aria-label="Visualizar docs"
             >
@@ -205,7 +215,7 @@
           <td *ngIf="item.confirmacao === 1">
             <button
               mat-raised-button
-              color="primary"
+              color="accent"
               (click)="Transferir(item.id)"
               aria-label="Visualizar docs"
             >

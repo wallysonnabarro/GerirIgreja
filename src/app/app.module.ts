@@ -43,7 +43,8 @@ import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-vo
 import { SobreComponent } from './components/sobre/sobre.component';
 import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
 import { ConfirmarDialogComponent } from './components/confirmar-dialog/confirmar-dialog.component';
-import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from "ng2-currency-mask";
+import { CustomCurrencyMaskConfig } from './pipes/CustomCurrencyMaskConfig';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { CurrencyMaskModule } from "ng2-currency-mask";
           monthYearA11yLabel: 'MMMM YYYY',
         },
       },
-    }
+    },
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
   ],
   bootstrap: [AppComponent]
 })

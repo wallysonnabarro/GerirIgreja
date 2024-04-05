@@ -104,6 +104,38 @@ export class PagamentosComponent {
       });
 
       dialogRef.afterClosed().subscribe(result => {
+        const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
+
+        this.fichaInscricoes.lista(lista, this.token)
+          .pipe(
+            first(),
+            tap(result => {
+              if (result.succeeded) {
+                if (result.succeeded) {
+                  this.fichas = result.dados.dados;
+                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+                  this.totalF = result.dados.feminino.totalGeral;
+    
+                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+                  this.totalM = result.dados.masculino.totalGeral;
+    
+                  this.count = result.dados.count;
+                  this.pageNumber = result.dados.pageIndex;
+                } else {
+                  this.openDialog(result.errors[0].mensagem);
+                }
+              } else {
+                this.openDialog(result.errors[0].mensagem);
+              }
+            }),
+            catchError((error: HttpErrorResponse) => {
+              this.Errors(error.status);
+              return of(null);
+            })
+          )
+          .subscribe();
       });
     }
   }
@@ -231,6 +263,11 @@ export class PagamentosComponent {
   Transferir(id: number) {
 
   }
+
+  Atualizar(id: number) {
+
+  }
+
 
   onPageChange(id: number) {
 

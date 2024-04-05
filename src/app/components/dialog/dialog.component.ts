@@ -14,6 +14,6 @@ export class DialogComponent {
   ) {}
   
   Fechar(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({ status: this.data.paragrafo === "Registrado com sucesso." ? true : false });
   }
 }
