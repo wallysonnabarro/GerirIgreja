@@ -5,6 +5,7 @@ import { Result } from '../../interfaces/Result';
 import { Observable } from 'rxjs';
 import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
 import { PagamentoConfirmar } from '../../interfaces/PagamentoConfirmar';
+import { TransferenciaDto } from '../../interfaces/TransferenciaDto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,15 @@ export class PagamentosService {
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}cancelar`, pagamentoCancelar, { headers: _headers });
+  }
+
+  transferir(token: string, trasfer: TransferenciaDto): Observable<Result<boolean>>{
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Result<boolean>>(`${this.uri}trasnferir`, trasfer, { headers: _headers });
   }
 }

@@ -44,4 +44,14 @@ export class FichaConectadoService {
 
     return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes`, ficha, { headers: _headers });
   }
+
+  listaNaoConfirmados(ficha: FichaParametros, token: string): Observable<Result<FichaPagamento>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes-nao-confirmados`, ficha, { headers: _headers });
+  }
 }

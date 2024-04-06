@@ -16,6 +16,7 @@ import { ConfirmarDialogComponent } from '../confirmar-dialog/confirmar-dialog.c
 import { DialogInteracaoComponent } from '../dialog-interacao/dialog-interacao.component';
 import { PagamentosService } from './pagamentos.service';
 import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
+import { DialogTransferirComponent } from '../dialog-transferir/dialog-transferir.component';
 
 @Component({
   selector: 'app-pagamentos',
@@ -336,6 +337,54 @@ export class PagamentosComponent {
 
   Transferir(id: number) {
 
+    const dadosEvento = this.fichas.find(x => x.id == id);
+
+    if (dadosEvento !== null) {
+      let nome = dadosEvento?.nome;
+
+      const dialogRef = this.dialog.open(DialogTransferirComponent, {
+        data: {
+          titulo: 'Cancelar', paragrafo: "Transferência de pagamento(s):"
+          , id: id, siao: this.EventoSelecionado, tipo: this.TipoSelecionado, nome: nome
+        },
+        width: '800px',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
+
+        this.fichaInscricoes.lista(lista, this.token)
+          .pipe(
+            first(),
+            tap(result => {
+              if (result.succeeded) {
+                if (result.succeeded) {
+                  this.fichas = result.dados.dados;
+                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+                  this.totalF = result.dados.feminino.totalGeral;
+
+                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+                  this.totalM = result.dados.masculino.totalGeral;
+
+                  this.count = result.dados.count;
+                  this.pageNumber = result.dados.pageIndex;
+                } else {
+                  this.openDialog(result.errors[0].mensagem);
+                }
+              } else {
+                this.openDialog(result.errors[0].mensagem);
+              }
+            }),
+            catchError((error: HttpErrorResponse) => {
+              this.Errors(error.status);
+              return of(null);
+            })
+          )
+          .subscribe();
+      });
+    }
   }
 
   Atualizar(id: number) {

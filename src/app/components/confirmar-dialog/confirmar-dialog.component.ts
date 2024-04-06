@@ -28,7 +28,7 @@ export class ConfirmarDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogConfirmacao, private fb: FormBuilder, private dialog: MatDialog
     , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService
   ) {
-
+ 
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
