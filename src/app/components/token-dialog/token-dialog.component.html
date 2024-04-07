@@ -1,0 +1,34 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">{{ data.titulo }}</div>
+  </div>
+  <div class="card-body p-5">
+    <p>{{ data.paragrafo }}</p>
+
+    <form [formGroup]="form" novalidate>
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm"
+          >Token<span style="color: red"> *</span></span
+        >
+        <input
+          type="text"
+          class="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-sm"
+          formControlName="token"
+          style="text-transform: uppercase"
+        />
+      </div>
+      <div>
+        <button mat-stroked-button color="primary" (click)="confirmar()">
+          Enviar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <button mat-button (click)="Fechar()" class="btn btn-outline-danger">
+      Fechar
+    </button>
+  </div>
+</div>

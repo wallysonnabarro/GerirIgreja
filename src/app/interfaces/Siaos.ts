@@ -1,9 +1,10 @@
 export interface Siaos {
     id: number;
-    evento: string;
+    nome: string;
     coordenadores: string;
     descricao: string;
     inicio: Date;
     termino: Date;
     status: number;
+    token: string;
 }

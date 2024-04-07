@@ -45,4 +45,15 @@ export class PagamentosService {
 
     return this.http.post<Result<boolean>>(`${this.uri}trasnferir`, trasfer, { headers: _headers });
   }
+
+  
+  buscarPagamento(token: string, id: number): Observable<Result<boolean>>{
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<boolean>>(`${this.uri}buscar-pagamento/${id}`, { headers: _headers });
+  }
 }

@@ -22,6 +22,7 @@ export class SiaoComponent {
   form: FormGroup; 
   formEditar: FormGroup;
   token = "";
+  tokenEvento = "";
   siaoArray: Siaos[] = [];
   pageNumber: number = 1;
   count: number = 0;
@@ -44,6 +45,7 @@ export class SiaoComponent {
   Termino = "";
   Descricao = "";
   Status = "";
+  valorBotao = "Copiar para compartilhar";
 
   constructor(private fb: FormBuilder, private adapter: DateAdapter<any>, private router: Router, private dialog: MatDialog
     , private localStoreServices: LocalStorageServiceService, private siaoService: SiaoService) {
@@ -183,6 +185,7 @@ export class SiaoComponent {
     this.isDetalhar = false;
     this.isAtualizar = true;
     this.idEditar = id;
+    this.valorBotao = "Copiar para compartilhar";
 
     this.siaoService.Detalhar(id, this.token)
       .pipe(
@@ -191,11 +194,13 @@ export class SiaoComponent {
           if (result.succeeded) {
             this.formEditar.patchValue({
               coordenadores: result.dados.coordenadores,
-              evento: result.dados.evento,
+              evento: result.dados.nome,
               inicio: result.dados.inicio,
               termino: result.dados.termino,
-              descricao: result.dados.descricao,
+              descricao: result.dados.descricao
             });
+
+            this.tokenEvento = result.dados.token;
 
             this.formEditar.get('status')!.setValue(result.dados.status);
           } else {
@@ -213,21 +218,22 @@ export class SiaoComponent {
   }
 
   Detalhar(id: number) {
-
     this.isDetalhar = true;
     this.isAtualizar = false;
+    this.valorBotao = "Copiar para compartilhar";
 
     this.siaoService.Detalhar(id, this.token)
       .pipe(
         first(),
         tap(result => {
           if (result.succeeded) {
-            this.Evento = result.dados.evento;
+            this.Evento = result.dados.nome;
             this.Coordenadores = result.dados.coordenadores;
             this.Inicio = this.formatDate(result.dados.inicio);
             this.Termino = this.formatDate(result.dados.termino);
             this.Descricao = result.dados.descricao;
             this.Status = this.getStatusName(result.dados.status);
+            this.tokenEvento = result.dados.token;
           } else {
             this.openDialog(result.errors[0].mensagem);
           }
@@ -297,7 +303,7 @@ export class SiaoComponent {
     }
 
     return this.siaoArray.filter(item =>
-      item.evento.toLowerCase().includes(this.searchText.toLowerCase())
+      item.nome.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
 
@@ -306,8 +312,7 @@ export class SiaoComponent {
 
       const { evento, coordenadores, descricao, inicio, termino, status } = this.formEditar.value;
 
-      const postSiao: Siaos = { id: this.idEditar, evento: evento, coordenadores: coordenadores, descricao: descricao, inicio: inicio, termino: termino, status: status };
-
+      const postSiao: Siaos = { id: this.idEditar, nome: evento, coordenadores: coordenadores, descricao: descricao, inicio: inicio, termino: termino, status: status, token: this.tokenEvento };
 
       this.siaoService.Editar(postSiao, this.token)
         .pipe(
@@ -350,5 +355,15 @@ export class SiaoComponent {
     } else {
       this.openDialog("Preencha os dados necessários.");
     }
+  }
+
+  Copiar(){
+    const inputElement = document.createElement('input');
+    inputElement.setAttribute('value', this.tokenEvento);
+    document.body.appendChild(inputElement);
+    inputElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(inputElement);
+    this.valorBotao = "Copiado";
   }
 }

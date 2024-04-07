@@ -55,7 +55,7 @@ export class AreasService {
   getAreas(): Observable<Result<Areas[]>> {
 
     let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
+      'accept': 'application/json'
     });
 
     return this.http.get<Result<Areas[]>>(`${this.uri}getAreas`, { headers: _headers });

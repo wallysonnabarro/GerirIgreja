@@ -15,7 +15,7 @@
               <h5 class="m-1 fw-bold">Registre o novo Evento</h5>
             </div>
             <div class="card-body">
-              <form [formGroup]="form" novalidate> 
+              <form [formGroup]="form" novalidate>
                 <div class="row">
                   <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-3">
@@ -177,7 +177,7 @@
                           }
                   "
                 >
-                  <td style="text-transform: uppercase">{{ item.evento }}</td>
+                  <td style="text-transform: uppercase">{{ item.nome }}</td>
                   <td>{{ formatDate(item.inicio) }}</td>
                   <td>{{ formatDate(item.termino) }}</td>
                   <td>{{ getStatusName(item.status) }}</td>
@@ -301,6 +301,16 @@
               <mat-datepicker #picker2></mat-datepicker>
             </mat-form-field>
             <mat-divider class="m-3"></mat-divider>
+            <mat-label class="ms-3">Token: {{ this.tokenEvento }}</mat-label>
+            <button
+              mat-flat-button
+              color="accent"
+              class="ms-3"
+              (click)="Copiar()"
+            >
+              {{ valorBotao }}
+            </button>
+            <mat-divider class="m-3"></mat-divider>
             <mat-list-item>
               <mat-form-field>
                 <mat-label>Status</mat-label>
@@ -359,6 +369,21 @@
             <mat-list-item style="text-transform: uppercase"
               >{{ Descricao }}
             </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-label class="ms-3"
+              >Token:
+              <span style="color: rgb(20, 102, 102)">{{
+                this.tokenEvento
+              }}</span></mat-label
+            >
+            <button
+              mat-flat-button
+              color="accent"
+              class="ms-3"
+              (click)="Copiar()"
+            >
+            {{ valorBotao }}
+            </button>
           </mat-list>
         </form>
       </div>

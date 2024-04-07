@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'areas-servico', component: AreasComponent, canActivate: [CanActivate] },
   { path: 'pagamento-inscricoes', component: PagamentosComponent, canActivate: [CanActivate] },
   { path: 'conectado', component: FichaConectadoComponent },
-  { path: 'lider', component: FichaVoluntarioComponent },
+  { path: 'voluntario', component: FichaVoluntarioComponent },
   { path: 'sobre', component: SobreComponent },
 ];
 

@@ -37,8 +37,8 @@
               >Ficha de Inscrição</a
             >
             <mat-menu #menu="matMenu">
-              <a mat-menu-item routerLink="/conectado">Conectado</a> 
-              <a mat-menu-item routerLink="/lider">Líder</a>
+              <a mat-menu-item (click)="openModal(1)">Inscrições Consumidor</a> 
+              <a mat-menu-item (click)="openModal(2)">Inscrições Voluntários</a>
             </mat-menu>
           </span>
         </li>

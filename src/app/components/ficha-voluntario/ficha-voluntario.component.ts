@@ -15,6 +15,7 @@ import { Areas } from '../../interfaces/Areas';
 import { AreasService } from '../areas/areas.service';
 import { Sexo } from '../../interfaces/Sexo';
 import { FichaLider } from '../../interfaces/FichaLider';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ficha-voluntario',
@@ -36,7 +37,7 @@ export class FichaVoluntarioComponent {
   ];
 
   constructor(private fb: FormBuilder, private triboServices: TribosService, private dialog: MatDialog, private fichaService: FichaConectadoService
-    , private siaoService: SiaoService, private areasServices: AreasService) {
+    , private siaoService: SiaoService, private areasServices: AreasService, private route: ActivatedRoute) { 
 
     this.form = this.fb.group({
       tribo: [0, [Validators.required]],
@@ -79,28 +80,9 @@ export class FichaVoluntarioComponent {
       )
       .subscribe();
 
-    this.siaoService.getSiaoIniciado()
-      .pipe(
-        first(),
-        tap(result => {
-          if (result.dados.length > 0) {
-            this.eventos = result.dados;
-            this.EventDialog = {
-              evento: result.dados,
-              paragrafo: "Eventos ativos:",
-              titulo: "Eventos"
-            };
-
-            this.openDialogDoEvento(this.EventDialog);
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
-        }),
-        catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
-          return of(null);
-        }))
-      .subscribe();
+      this.evento = history.state.evento;
+      
+      this.idEvento = this.evento.id;
   }
 
   private Errors(status: number) {
@@ -128,27 +110,6 @@ export class FichaVoluntarioComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-    });
-  }
-
-  aqui() {
-    this.openDialogDoEvento(this.EventDialog);
-  }
-
-  openDialogDoEvento(event: DialogDataEvento): void {
-    const dialogRef = this.dialog.open(DialogEventoComponent, {
-      data: event,
-      width: '350px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      let id = result;
-      const novo = this.eventos.find(s => s.id === result.id);
-      if (novo) {
-        const ed: Eventos = { id: novo.id, nome: novo.nome };
-        this.evento = ed;
-        this.idEvento = id;
-      }
     });
   }
 

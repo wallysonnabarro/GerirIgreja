@@ -47,6 +47,7 @@ import { CURRENCY_MASK_CONFIG, CurrencyMaskModule } from "ng2-currency-mask";
 import { CustomCurrencyMaskConfig } from './pipes/CustomCurrencyMaskConfig';
 import { DialogInteracaoComponent } from './components/dialog-interacao/dialog-interacao.component';
 import { DialogTransferirComponent } from './components/dialog-transferir/dialog-transferir.component';
+import { TokenDialogComponent } from './components/token-dialog/token-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { DialogTransferirComponent } from './components/dialog-transferir/dialog
     ConfirmarDialogComponent,
     DialogInteracaoComponent,
     DialogTransferirComponent,
+    TokenDialogComponent,
   ],
   imports: [
     BrowserModule,

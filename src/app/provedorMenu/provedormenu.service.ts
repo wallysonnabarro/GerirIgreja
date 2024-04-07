@@ -15,7 +15,7 @@ export class ProvedormenuService {
     this.menus.push({ status: false, nome: "Sião" });
     this.menus.push({ status: false, nome: "Área" });
     this.menus.push({ status: false, nome: "Inscricões" });
-    this.menus.push({ status: false, nome: "Inscrições Líderes" });
+    this.menus.push({ status: false, nome: "Inscrições Voluntários" });
     this.menus.push({ status: false, nome: "Administração" });
     this.menus.push({ status: false, nome: "Novo Usuário" });
     this.menus.push({ status: false, nome: "Redefinir Senha" });
