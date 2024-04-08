@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PerfilListaPaginadaDto } from './perfil-lista-paginada-dto';
+import { Result } from '../interfaces/Result';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class PerfisService {
   
   constructor(private http: HttpClient) { }
 
-  getPerfis(token: string, role: string): Observable<PerfilListaPaginadaDto>{
+  getPerfis(token: string, role: string): Observable<Result<PerfilListaPaginadaDto>>{
     const dados = {
       Perfils: role
     }
@@ -23,6 +24,6 @@ export class PerfisService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<PerfilListaPaginadaDto>(`${this.uri}perfil`, dados,  { headers: _headers });
+    return this.http.post<Result<PerfilListaPaginadaDto>>(`${this.uri}perfil`, dados,  { headers: _headers });
   }
 }

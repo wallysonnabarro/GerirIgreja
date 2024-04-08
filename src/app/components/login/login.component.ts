@@ -74,8 +74,8 @@ export class LoginComponent {
                       first(),
                       tap(resultRole => {
                         //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
-                        if (resultRole.transacoes !== null) {
-                          this.menus.forEachTransacao(resultRole.transacoes);
+                        if (resultRole.succeeded) {
+                          this.menus.forEachTransacao(resultRole.dados.transacoes);
 
                           this.router.navigate(['/home']);
                         } else {
