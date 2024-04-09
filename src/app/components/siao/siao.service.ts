@@ -61,10 +61,11 @@ export class SiaoService {
     return this.http.post<Result<boolean>>(`${this.uri}editar`, siaos, { headers: _headers });
   }
 
-  getSiaoIniciado(): Observable<Result<Eventos[]>>{
+  getSiaoIniciado(token: string): Observable<Result<Eventos[]>>{
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
 
     return this.http.get<Result<Eventos[]>>(`${this.uri}evento-andamento`, { headers: _headers });

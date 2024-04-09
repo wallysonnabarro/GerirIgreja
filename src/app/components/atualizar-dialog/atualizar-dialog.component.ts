@@ -1,34 +1,36 @@
 import { Component, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { DialogEventoComponent } from '../dialog-evento/dialog-evento.component';
-import { DialogComponent } from '../dialog/dialog.component';
-import { DialogConfirmacao } from './DialogConfirmacao';
-import { LocalStorageServiceService } from '../../storage/local-storage-service.service';
 import { Router } from '@angular/router';
+import { LocalStorageServiceService } from '../../storage/local-storage-service.service';
+import { DialogConfirmacao } from '../confirmar-dialog/DialogConfirmacao';
 import { PagamentosService } from '../pagamentos/pagamentos.service';
-import { PagamentoConfirmar } from '../../interfaces/PagamentoConfirmar';
-import { catchError, first, of, tap } from 'rxjs';
+import { DialogComponent } from '../dialog/dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { first, tap, catchError, of } from 'rxjs';
+import { PagamentoConfirmar } from '../../interfaces/PagamentoConfirmar';
+import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
+import { PagamentoAtualizar } from '../../interfaces/PagamentoAtualizar';
 
 @Component({
-  selector: 'app-confirmar-dialog',
-  templateUrl: './confirmar-dialog.component.html',
-  styleUrl: './confirmar-dialog.component.css'
+  selector: 'app-atualizar-dialog',
+  templateUrl: './atualizar-dialog.component.html',
+  styleUrl: './atualizar-dialog.component.css'
 })
-export class ConfirmarDialogComponent {
+export class AtualizarDialogComponent {
+
   form: FormGroup;
   id = 0;
   siao = 0;
   tipo = 0;
   token = "";
- 
+  idPagamento = 0;
+
   constructor(
-    public dialogRef: MatDialogRef<DialogEventoComponent>,
+    public dialogRef: MatDialogRef<AtualizarDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogConfirmacao, private fb: FormBuilder, private dialog: MatDialog
     , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService
   ) {
- 
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
@@ -52,6 +54,40 @@ export class ConfirmarDialogComponent {
       decontar: [0],
       observacao: [''],
     });
+
+    const getAtualizar: PagamentoCancelar = {
+      id: this.id,
+      siao: this.siao,
+      tipo: this.tipo
+    }
+
+    this.pagamentoServices.buscarPagamento(this.token, getAtualizar)
+      .pipe(
+        first(),
+        tap(result => {
+          if (result.succeeded) {
+            this.form = this.fb.group({
+              debito: [result.dados.debito],
+              dinheiro: [result.dados.dinheiro],
+              credito: [result.dados.credito],
+              creditoParcelado: [result.dados.creditoParcelado],
+              pix: [result.dados.pix],
+              parcelas: [result.dados.parcelas],
+              receber: [result.dados.receber],
+              decontar: [result.dados.descontar],
+              observacao: [result.dados.observacao],
+            });
+            this.idPagamento = result.dados.idPagamento;
+          } else {
+            this.openDialog(result.errors[0].mensagem);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.Errors(error.status);
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   private Redirecionar() {
@@ -61,7 +97,7 @@ export class ConfirmarDialogComponent {
   OK() {
     const { debito, dinheiro, credito, creditoParcelado, pix, parcelas, receber, decontar, observacao } = this.form.value;
 
-    let novoPagamento: PagamentoConfirmar = {
+    let atualizarPagamento: PagamentoAtualizar = {
       credito: credito,
       creditoParcelado: creditoParcelado,
       dataRegistro: new Date(),
@@ -75,15 +111,16 @@ export class ConfirmarDialogComponent {
       pix: pix,
       receber: receber,
       siao: this.siao,
-      voluntario: this.tipo === 1 ? this.id : 0
+      voluntario: this.tipo === 1 ? this.id : 0,
+      idPagamento: this.idPagamento
     }
 
-    this.pagamentoServices.novo(novoPagamento, this.token)
+    this.pagamentoServices.atualizar(this.token, atualizarPagamento)
       .pipe(
         first(),
         tap(result => {
           if (result.succeeded) {
-            this.openDialog("Registrado com sucesso.");
+            this.openDialog("Atualizado com sucesso.");
           } else {
             this.openDialog(result.errors[0].mensagem);
           }
@@ -102,7 +139,7 @@ export class ConfirmarDialogComponent {
 
   openDialog(p: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { titulo: 'Login', paragrafo: p },
+      data: { titulo: 'Confirmar', paragrafo: p },
       width: '350px',
     });
 

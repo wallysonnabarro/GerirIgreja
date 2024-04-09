@@ -1,0 +1,194 @@
+<div class="card">
+    <div class="card-header">
+      <div class="card-title">{{ data.titulo }}</div>
+    </div>
+    <div class="card-body">
+      <p>{{ data.paragrafo }}</p>
+      <form [formGroup]="form" novalidate>
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Dinheiro</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="dinheiro"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Débito</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="debito"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Crédito</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="credito"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Pix</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="pix"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-evenly">
+          <div class="row">
+            <div class="col-lg-6 d-flex justify-content-evenly">
+              <mat-form-field floatLabel="always">
+                <mat-label>Crédito Parcelado</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="creditoParcelado"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Quantidade parcelas</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="1"
+                  max="12"
+                  formControlName="parcelas"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <h2 class="mt-2 mb-3">Outros valores:</h2>
+        <div class="d-flex justify-content-center">
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Receber</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="receber"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field floatLabel="always">
+                <mat-label>Descontar</mat-label>
+                <input
+                  matInput
+                  currencyMask
+                  class="example-right-align"
+                  placeholder="0"
+                  formControlName="decontar"
+                  [options]="{
+                    prefix: 'R$ ',
+                    thousands: '.',
+                    decimal: ',',
+                    allowNegative: false
+                  }"
+                />
+                <span matTextPrefix>R$&nbsp;</span>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label"
+              >Observações</label
+            >
+            <textarea
+              class="form-control"
+              id="exampleFormControlTextarea1"
+              rows="3"
+              formControlName="observacao"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer">
+      <button mat-flat-button color="primary" class="me-3" (click)="OK()">
+        Atualizar
+      </button>
+      <button mat-button (click)="Fechar()" class="btn btn-outline-danger">
+        Fechar
+      </button>
+    </div> 
+  </div>
+  

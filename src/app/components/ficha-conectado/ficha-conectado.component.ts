@@ -16,7 +16,6 @@ import moment from 'moment';
 import { SiaoService } from '../siao/siao.service';
 import { Eventos } from '../../interfaces/Eventos';
 import { DialogDataEvento } from '../dialog-evento/DialogDataEvento';
-import { DialogEventoComponent } from '../dialog-evento/dialog-evento.component';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -85,9 +84,9 @@ export class FichaConectadoComponent {
       )
       .subscribe();
 
-      this.evento = history.state.evento;
-      
-      this.idEvento = this.evento.id;
+    this.evento = history.state.evento;
+
+    this.idEvento = this.evento.id;
   }
 
   receberDadosDoFilho(dados: number) {
@@ -181,13 +180,14 @@ export class FichaConectadoComponent {
           Tribo: tribo,
           Siao: this.evento.id
         };
-
+ 
         this.fichaService.postFichaConectado(ficha)
           .pipe(
             first(),
             tap(result => {
               this.form.reset();
               this.openDialog("Registrado com sucesso.");
+              this.CarregarForm();
             }),
             catchError((error: HttpErrorResponse) => {
               this.Errors(error.status);
@@ -202,5 +202,25 @@ export class FichaConectadoComponent {
     } else {
       this.openDialog("Não foi localizado evento ativo. Entre em contato com o responsável do evento.");
     }
+  }
+
+  private CarregarForm() {
+    this.form = this.fb.group({
+      tribo: ['', [Validators.required]],
+      lider: ['', [Validators.required]],
+      cep: ['', [Validators.required]],
+      endereco: ['', [Validators.required]],
+      nome: ['', [Validators.required]],
+      sexo: ['', [Validators.required]],
+      estadoCivil: ['', [Validators.required]],
+      nascimento: ['', [Validators.required]],
+      telefone: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      contatoEmergencial: ['', [Validators.required]],
+      crianca: [false],
+      cuidados: [false],
+      idade: [0],
+      descricaoCuidados: [''],
+    });
   }
 }

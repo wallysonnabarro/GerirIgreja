@@ -17,6 +17,7 @@ import { DialogInteracaoComponent } from '../dialog-interacao/dialog-interacao.c
 import { PagamentosService } from './pagamentos.service';
 import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
 import { DialogTransferirComponent } from '../dialog-transferir/dialog-transferir.component';
+import { AtualizarDialogComponent } from '../atualizar-dialog/atualizar-dialog.component';
 
 @Component({
   selector: 'app-pagamentos',
@@ -53,7 +54,15 @@ export class PagamentosComponent {
       tipo: [0, [Validators.required]],
     });
 
-    this.siaoService.getSiaoIniciado()
+    const toke = this.localStoreServices.GetLocalStorage();
+
+    if (toke !== null) {
+      this.token = toke;
+    } else {
+      this.Redirecionar();
+    }
+
+    this.siaoService.getSiaoIniciado(this.token)
       .pipe(
         first(),
         tap(result => {
@@ -68,15 +77,6 @@ export class PagamentosComponent {
           return of(null);
         }))
       .subscribe();
-
-
-    const toke = this.localStoreServices.GetLocalStorage();
-
-    if (toke !== null) {
-      this.token = toke;
-    } else {
-      this.Redirecionar();
-    }
   }
 
   private Redirecionar() {
@@ -388,9 +388,56 @@ export class PagamentosComponent {
   }
 
   Atualizar(id: number) {
+    const dadosEvento = this.fichas.find(x => x.id == id);
 
+    if (dadosEvento !== null) {
+      let nome = dadosEvento?.nome;
+
+      const dialogRef = this.dialog.open(AtualizarDialogComponent, {
+        data: {
+          titulo: 'Confirmar', paragrafo: `Realize o pagamento do consumidor: ${nome}`
+          , id: id, siao: this.EventoSelecionado, tipo: this.TipoSelecionado
+        },
+        width: '580px',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+
+        const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
+
+        this.fichaInscricoes.lista(lista, this.token)
+          .pipe(
+            first(),
+            tap(result => {
+              if (result.succeeded) {
+                if (result.succeeded) {
+                  this.fichas = result.dados.dados;
+                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+                  this.totalF = result.dados.feminino.totalGeral;
+
+                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+                  this.totalM = result.dados.masculino.totalGeral;
+
+                  this.count = result.dados.count;
+                  this.pageNumber = result.dados.pageIndex;
+                } else {
+                  this.openDialog(result.errors[0].mensagem);
+                }
+              } else {
+                this.openDialog(result.errors[0].mensagem);
+              }
+            }),
+            catchError((error: HttpErrorResponse) => {
+              this.Errors(error.status);
+              return of(null);
+            })
+          )
+          .subscribe();
+      });
+    }
   }
-
 
   onPageChange(id: number) {
 

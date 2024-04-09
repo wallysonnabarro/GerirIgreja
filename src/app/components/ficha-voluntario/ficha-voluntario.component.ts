@@ -126,6 +126,7 @@ export class FichaVoluntarioComponent {
             if (result.dados !== false && result.succeeded) {
               this.openDialog("Registrado com sucesso.");
               this.form.reset();
+              this.CarregarForm();
             } else {
               this.openDialog(result.errors[0].mensagem);
             }
@@ -139,5 +140,14 @@ export class FichaVoluntarioComponent {
     } else {
       this.openDialog("Preenchas os campos.");
     }
+  }
+
+  private CarregarForm() {
+    this.form = this.fb.group({
+      tribo: [0, [Validators.required]],
+      nome: ['', [Validators.required]],
+      area: [0, [Validators.required]],
+      sexo: [0, [Validators.required]],
+    });
   }
 }
