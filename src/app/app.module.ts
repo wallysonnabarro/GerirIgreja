@@ -49,6 +49,8 @@ import { DialogInteracaoComponent } from './components/dialog-interacao/dialog-i
 import { DialogTransferirComponent } from './components/dialog-transferir/dialog-transferir.component';
 import { TokenDialogComponent } from './components/token-dialog/token-dialog.component';
 import { AtualizarDialogComponent } from './components/atualizar-dialog/atualizar-dialog.component';
+import { CheckInComponent } from './components/relatorios/checkin/check-in/check-in.component';
+import { ConectadosComponent } from './components/relatorios/checkin/conectados/conectados.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { AtualizarDialogComponent } from './components/atualizar-dialog/atualiza
     DialogTransferirComponent,
     TokenDialogComponent,
     AtualizarDialogComponent,
+    CheckInComponent,
+    ConectadosComponent,
   ],
   imports: [
     BrowserModule,

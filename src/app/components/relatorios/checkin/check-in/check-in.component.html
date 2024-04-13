@@ -1,0 +1,44 @@
+<!-- <div>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="gerarDPF()"
+    aria-label="Visualizar docs"
+  >
+    PDF
+  </button>
+</div> -->
+<div class="container p-3" id="content" #content>
+  <div class="border p-3">
+    <div class="d-flex justify-content-start mb-2">
+      <img [src]="src" alt="Imagem do relatório" class="imagem" />
+      <div>
+        <h1 class="titulo pt-2">{{ data.nome }}</h1>
+        <h1 class="titulo">{{ data.tituloRelatorio }}</h1>
+        <h2 class="sub-titulo">{{ data.subTituloRelatorio }}</h2>
+      </div>
+    </div>
+    <table border="1" class="tabela">
+      <thead>
+        <tr>
+          <th class="coluna-1">Nome</th>
+          <th class="coluna-2 text-center">Tribo/Equipe</th>
+          <th class="coluna-3 text-center">Sexo</th>
+          <th class="coluna-4 text-center">Área</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data.dados">
+          <td>{{ item.nome }}</td>
+          <td class="text-center">
+            {{ item.tribo }}
+          </td>
+          <td class="text-center">
+            {{ item.sexo === 1 ? "Masculino" : "Feminino" }}
+          </td>
+          <td class="text-center">{{ item.area }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

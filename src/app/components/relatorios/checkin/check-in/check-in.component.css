@@ -1,0 +1,55 @@
+.imagem {
+    width: 18%;
+    margin: 12px 15px 15px 0px;
+}
+
+.table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 2px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+th {
+    border: 0.8px solid rgb(124, 124, 124);
+    background-color: #09d8bc;
+    color: #fff;
+    font-size: 0.8rem;
+}
+
+td {
+    border: 1px solid rgb(124, 124, 124);
+    font-size: 0.4rem;
+}
+
+.coluna-1 {
+    width: 40%;
+}
+
+.coluna-2 {
+    width: 15%;
+}
+
+.coluna-3 {
+    width: 15%;
+}
+
+.coluna-4 {
+    width: 15%;
+}
+
+.titulo {
+    margin: 0px 0px 0px 10px;
+    font-size: 1.3rem;
+}
+
+.sub-titulo {
+    margin: 0px 0px 0px 10px;
+    font-size: 1.3rem;
+    color: #f38c2cfa;
+    font-style: italic;
+}

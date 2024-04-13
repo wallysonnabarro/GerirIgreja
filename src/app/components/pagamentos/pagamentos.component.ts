@@ -18,6 +18,9 @@ import { PagamentosService } from './pagamentos.service';
 import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
 import { DialogTransferirComponent } from '../dialog-transferir/dialog-transferir.component';
 import { AtualizarDialogComponent } from '../atualizar-dialog/atualizar-dialog.component';
+import { CheckInService } from '../relatorios/check-in.service';
+import { CheckInComponent } from '../relatorios/checkin/check-in/check-in.component';
+import { ConectadosComponent } from '../relatorios/checkin/conectados/conectados.component';
 
 @Component({
   selector: 'app-pagamentos',
@@ -46,9 +49,12 @@ export class PagamentosComponent {
   searchText: string = '';
   pageNumber: number = 1;
   count: number = 0;
+  botaoCheckin = false;
+  botaoConectados = false;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private siaoService: SiaoService, private fichaInscricoes: FichaConectadoService,
-    private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService) {
+    private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService,
+    private checkInService: CheckInService) {
     this.form = this.fb.group({
       evento: [0, [Validators.required]],
       tipo: [0, [Validators.required]],
@@ -169,9 +175,19 @@ export class PagamentosComponent {
     if (this.EventoSelecionado === 0) {
       this.TipoSelecionado = this.tipo[0].id;
       this.EventoSelecionado = evento;
+      this.botaoCheckin = true;
+      this.botaoConectados = false;
     } else {
       this.EventoSelecionado = evento;
       this.TipoSelecionado = tipo;
+    }
+
+    if (this.TipoSelecionado === 1) {
+      this.botaoCheckin = true;
+      this.botaoConectados = false;
+    } else {
+      this.botaoCheckin = false;
+      this.botaoConectados = true;
     }
 
     const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
@@ -217,6 +233,14 @@ export class PagamentosComponent {
     } else {
       this.EventoSelecionado = evento;
       this.TipoSelecionado = tipo;
+    }
+
+    if (this.TipoSelecionado === 1) {
+      this.botaoCheckin = true;
+      this.botaoConectados = false;
+    } else {
+      this.botaoCheckin = false;
+      this.botaoConectados = true;
     }
 
     const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
@@ -465,6 +489,67 @@ export class PagamentosComponent {
             }
           } else {
             this.openDialog(result.errors[0].mensagem);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.Errors(error.status);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  checkin() {
+    const nomeEvento = this.eventos.find(x => x.id == this.EventoSelecionado);
+
+    this.checkInService.getVoluntarios(this.token, this.TipoSelecionado, this.EventoSelecionado)
+      .pipe(
+        first(),
+        tap(result => {
+          if (result.succeeded) {
+            const dialogRef = this.dialog.open(CheckInComponent, {
+              data: {
+                titulo: 'Check-In', paragrafo: "Check-In voluntários."
+                , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
+                nome: nomeEvento?.nome
+              },
+              width: '578px',
+            });
+
+            dialogRef.afterClosed().subscribe(result => { });
+          } else {
+            this.openDialog(result.errors[0].mensagem)
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.Errors(error.status);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  getListaConectados(sexo: number){
+
+    const nomeEvento = this.eventos.find(x => x.id == this.EventoSelecionado);
+
+    this.checkInService.getConectados(this.token, this.TipoSelecionado, this.EventoSelecionado, sexo)
+      .pipe(
+        first(),
+        tap(result => {
+          if (result.succeeded) {
+            const dialogRef = this.dialog.open(ConectadosComponent, {
+              data: {
+                titulo: 'Conectados', paragrafo: "Ficha conectados."
+                , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
+                nome: nomeEvento?.nome, sexo: sexo
+              },
+              width: '1000px',
+            });
+
+            dialogRef.afterClosed().subscribe(result => { });
+          } else {
+            this.openDialog(result.errors[0].mensagem)
           }
         }),
         catchError((error: HttpErrorResponse) => {

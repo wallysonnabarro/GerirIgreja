@@ -20,7 +20,7 @@ export class DialogEventoComponent {
       id: ['', [Validators.required]]
     });
   }
-
+ 
   OK() {
     if (this.form.valid) {
       const { id } = this.form.value;
