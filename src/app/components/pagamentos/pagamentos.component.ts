@@ -544,7 +544,7 @@ export class PagamentosComponent {
                 , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
                 nome: nomeEvento?.nome, sexo: sexo
               },
-              width: '1000px',
+              width: '840px',
             });
 
             dialogRef.afterClosed().subscribe(result => { });

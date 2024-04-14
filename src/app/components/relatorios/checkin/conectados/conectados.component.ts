@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DadosRelatorio } from '../../DadosRelatorio';
@@ -9,20 +9,20 @@ import jsPDF from 'jspdf';
   templateUrl: './conectados.component.html',
   styleUrl: './conectados.component.css'
 })
-export class ConectadosComponent implements AfterViewInit {
+export class ConectadosComponent {
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
-  interacao = 0;
+  interacao = 1;
 
   constructor(public dialogRef: MatDialogRef<ConectadosComponent>, @Inject(MAT_DIALOG_DATA) public data: DadosRelatorio, private fb: FormBuilder) {
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.gerarDPF();
-    }, 800);
-  }
+  // ngAfterViewInit(): void {
+  //   setTimeout(() => {
+  //     this.gerarDPF();
+  //   }, 800);
+  // }
 
   Fechar(): void {
     this.dialogRef.close({});
@@ -40,6 +40,7 @@ export class ConectadosComponent implements AfterViewInit {
         }
       }
     })
-    // this.Fechar();
+    
+    this.Fechar();
   }
 }

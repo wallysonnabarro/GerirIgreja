@@ -1,4 +1,4 @@
-<!-- <div>
+<div>
   <button
     mat-raised-button
     color="primary"
@@ -7,15 +7,12 @@
   >
     PDF
   </button>
-</div> -->
+</div>
 <div class="container p-3" id="content" #content>
   <div class="border p-3">
     <div class="d-flex justify-content-start mb-2">
-      <img [src]="src" alt="Imagem do relatório" class="imagem" />
       <div>
-        <h1 class="titulo pt-2">{{ data.nome }}</h1>
-        <h1 class="titulo">{{ data.tituloRelatorio }}</h1>
-        <h2 class="sub-titulo">{{ data.subTituloRelatorio }}</h2>
+        <h1 class="titulo">{{ data.tituloRelatorio }} - {{ data.nome }}</h1>
       </div>
     </div>
     <table border="1" class="tabela">
