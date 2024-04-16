@@ -17,6 +17,8 @@ import { SiaoService } from '../siao/siao.service';
 import { Eventos } from '../../interfaces/Eventos';
 import { DialogDataEvento } from '../dialog-evento/DialogDataEvento';
 import { ActivatedRoute } from '@angular/router';
+import { sexoEnum } from '../../enums/sexoEnum';
+import { estadoCivil } from '../../enums/estadoCivil';
 
 @Component({
   selector: 'app-ficha-conectado',
@@ -26,14 +28,14 @@ import { ActivatedRoute } from '@angular/router';
 export class FichaConectadoComponent {
   istriboSelect: TriboSelected[] = [];
   isSexoSelect: Sexo[] = [
-    { id: 1, nome: 'Masculino' },
-    { id: 2, nome: 'Feminino' },
+    { id: sexoEnum.Masculino, nome: 'Masculino' },
+    { id: sexoEnum.Feminino, nome: 'Feminino' },
   ];
   isEstadoCivilSelect: EstadoCivil[] = [
-    { id: 1, nome: 'Solteiro(a)' },
-    { id: 2, nome: 'Casado(a)' },
-    { id: 3, nome: 'Divorciado(a)' },
-    { id: 4, nome: 'Viúvo(a)' },
+    { id: estadoCivil.Solteiro, nome: 'Solteiro(a)' },
+    { id: estadoCivil.Casado, nome: 'Casado(a)' },
+    { id: estadoCivil.Divorciado, nome: 'Divorciado(a)' },
+    { id: estadoCivil.Viuvo, nome: 'Viúvo(a)' },
   ];
   form: FormGroup;
   Cep = "";

@@ -11,6 +11,7 @@ import { FichaConectadoComponent } from './components/ficha-conectado/ficha-cone
 import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-voluntario.component';
 import { SobreComponent } from './components/sobre/sobre.component';
 import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
+import { ConfiguracoesComponent } from './components/configuracoes/configuracoes/configuracoes.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'conectado', component: FichaConectadoComponent },
   { path: 'voluntario', component: FichaVoluntarioComponent },
   { path: 'sobre', component: SobreComponent },
+  { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [CanActivate] },
 ];
 
 @NgModule({

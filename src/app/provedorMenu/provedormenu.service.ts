@@ -35,6 +35,7 @@ export class ProvedormenuService {
     this.menus.push({ status: false, nome: "Tipos de Saída" });
     this.menus.push({ status: false, nome: "Logout" });
     this.menus.push({ status: true, nome: "Login" });
+    this.menus.push({ status: true, nome: "Configuracões" });
 
 
     this.menus.push({ status: false, nome: "Desenvolvimento" });

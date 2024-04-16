@@ -16,8 +16,6 @@ td {
 
 th {
     border: 0.8px solid rgb(124, 124, 124);
-    background-color: #09d8bc;
-    color: #fff;
     font-size: 0.6rem;
 }
 
@@ -52,4 +50,24 @@ td {
     font-size: 1.3rem;
     color: #f38c2cfa;
     font-style: italic;
+}
+
+.cor-azul {
+    background-color: rgba(0, 100, 194, 0.842);
+    color: #ffffff;
+}
+
+.cor-rosa {
+    background-color: pink;
+    color: #535353;
+}
+
+.cor-background-color-homens {
+    background-color: rgba(30, 139, 241, 0.842);
+    color: #ffffff;
+}
+
+.cor-background-color-mulheres {    
+    background-color: rgb(252, 217, 223);
+    color: #535353;
 }

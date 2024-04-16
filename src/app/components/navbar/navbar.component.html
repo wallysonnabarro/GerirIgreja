@@ -37,7 +37,7 @@
               >Ficha de Inscrição</a
             >
             <mat-menu #menu="matMenu">
-              <a mat-menu-item (click)="openModal(1)">Inscrições Conectado</a> 
+              <a mat-menu-item (click)="openModal(1)">Inscrições Conectado</a>
               <a mat-menu-item (click)="openModal(2)">Inscrições Voluntários</a>
             </mat-menu>
           </span>
@@ -123,6 +123,12 @@
                 routerLink="/redefinir-acesso"
                 *ngIf="isMenuItemVisible('Redefinir Acesso')"
                 >Redefinir acesso</a
+              >
+              <a
+                mat-menu-item
+                routerLink="/configuracoes"
+                *ngIf="isMenuItemVisible('Configuracões')"
+                >Configurações</a
               >
               <button
                 mat-menu-item

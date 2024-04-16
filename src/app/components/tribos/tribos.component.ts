@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TriboNovo } from '../../interfaces/TriboNovo';
 import { Router } from '@angular/router';
 import { Status } from '../../interfaces/Status';
+import { StatusAtividade } from '../../enums/StatusAtividade';
 
 @Component({
   selector: 'app-tribos',
@@ -20,8 +21,8 @@ export class TribosComponent {
 
   triboArray: Tribos[] = [];
   isStatus: Status[] = [
-    { id: 0, st: "Inativo" },
-    { id: 1, st: "Ativo" }
+    { id: StatusAtividade.Inativo, st: "Inativo" },
+    { id: StatusAtividade.Ativo, st: "Ativo" }
   ];
   isLoading = false;
   pageNumber: number = 1;

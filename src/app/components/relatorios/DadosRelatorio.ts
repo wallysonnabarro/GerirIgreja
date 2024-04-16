@@ -1,7 +1,7 @@
 import { CheckInReports } from "./CheckInReports";
 
 export interface DadosRelatorio {
-    imagem: Uint16Array;
+    imagem: Uint8Array;
     tituloRelatorio: string;
     subTituloRelatorio: string;
     dados: CheckInReports[]; 

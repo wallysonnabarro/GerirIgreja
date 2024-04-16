@@ -16,6 +16,7 @@ import { AreasService } from '../areas/areas.service';
 import { Sexo } from '../../interfaces/Sexo';
 import { FichaLider } from '../../interfaces/FichaLider';
 import { ActivatedRoute } from '@angular/router';
+import { sexoEnum } from '../../enums/sexoEnum';
 
 @Component({
   selector: 'app-ficha-voluntario',
@@ -32,8 +33,8 @@ export class FichaVoluntarioComponent {
   istriboSelect: TriboSelected[] = [];
   isAreasSelect: Areas[] = [];
   isSexoSelect: Sexo[] = [
-    { id: 1, nome: 'Masculino' },
-    { id: 2, nome: 'Feminino' },
+    { id: sexoEnum.Masculino, nome: 'Masculino' },
+    { id: sexoEnum.Feminino, nome: 'Feminino' },
   ];
 
   constructor(private fb: FormBuilder, private triboServices: TribosService, private dialog: MatDialog, private fichaService: FichaConectadoService

@@ -1,8 +1,9 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DadosRelatorio } from '../../DadosRelatorio';
 import jsPDF from 'jspdf';
+import { sexoEnum } from '../../../../enums/sexoEnum';
 
 @Component({
   selector: 'app-conectados',
@@ -13,16 +14,26 @@ export class ConectadosComponent {
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
+  base64Image: string | null = null;
+  form: FormGroup;
   interacao = 1;
 
   constructor(public dialogRef: MatDialogRef<ConectadosComponent>, @Inject(MAT_DIALOG_DATA) public data: DadosRelatorio, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      titulo: ['', [Validators.required]]
+    });
+
+    this.getCorPorSexo();
+    this.getCorPorSexoTh();
   }
 
-  // ngAfterViewInit(): void {
-  //   setTimeout(() => {
-  //     this.gerarDPF();
-  //   }, 800);
-  // }
+  getCorPorSexo(): string {
+    return this.data.sexo === sexoEnum.Masculino ? 'cor-azul' : 'cor-rosa';
+  }
+
+  getCorPorSexoTh(){
+    return this.data.sexo === sexoEnum.Masculino ? 'cor-background-color-homens' : 'cor-background-color-mulheres';
+  }
 
   Fechar(): void {
     this.dialogRef.close({});
@@ -42,5 +53,15 @@ export class ConectadosComponent {
     })
     
     this.Fechar();
+  }
+  
+  inserir(){
+    if(this.form.valid){
+      const {titulo} = this.form.value;
+
+      this.data.tituloRelatorio = titulo; 
+    } else {
+      alert('Por favor, preencha os dados de título e subtítulo.');
+    }
   }
 }

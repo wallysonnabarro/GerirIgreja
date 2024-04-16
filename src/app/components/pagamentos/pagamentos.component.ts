@@ -21,6 +21,7 @@ import { AtualizarDialogComponent } from '../atualizar-dialog/atualizar-dialog.c
 import { CheckInService } from '../relatorios/check-in.service';
 import { CheckInComponent } from '../relatorios/checkin/check-in/check-in.component';
 import { ConectadosComponent } from '../relatorios/checkin/conectados/conectados.component';
+import { TipoEnum } from '../configuracoes/TipoEnum';
 
 @Component({
   selector: 'app-pagamentos',
@@ -30,8 +31,8 @@ import { ConectadosComponent } from '../relatorios/checkin/conectados/conectados
 export class PagamentosComponent {
 
   tipo: Tipo[] = [
-    { id: 1, nome: 'Voluntários' },
-    { id: 2, nome: 'Consumidores' },
+    { id: TipoEnum.Voluntario, nome: 'Voluntários' },
+    { id: TipoEnum.Conectado, nome: 'Conectados' },
   ];
 
   eventos: Eventos[] = [];

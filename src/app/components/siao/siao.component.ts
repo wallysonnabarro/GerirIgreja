@@ -12,6 +12,7 @@ import { catchError, first, of, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Status } from '../../interfaces/Status';
 import { Siaos } from '../../interfaces/Siaos';
+import { StatusEnum } from '../../enums/StatusEnum';
 
 @Component({
   selector: 'app-siao',
@@ -32,12 +33,12 @@ export class SiaoComponent {
   idEditar = 0;
   searchText: string = '';
   isStatus: Status[] = [
-    { id: 0, st: "Agendado" },
-    { id: 1, st: "Iniciado" },
-    { id: 2, st: "Paralisado" },
-    { id: 3, st: "Cancelado" },
-    { id: 4, st: "Em Andamento" },
-    { id: 5, st: "Finalizado" },
+    { id: StatusEnum.Agendado, st: "Agendado" },
+    { id: StatusEnum.Iniciado, st: "Iniciado" },
+    { id: StatusEnum.Paralisado, st: "Paralisado" },
+    { id: StatusEnum.Cancelado, st: "Cancelado" },
+    { id: StatusEnum.EmAndamento, st: "Em Andamento" },
+    { id: StatusEnum.Finalizado, st: "Finalizado" },
   ];
   Evento = "";
   Coordenadores = "";

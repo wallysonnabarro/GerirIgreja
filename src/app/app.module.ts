@@ -51,6 +51,8 @@ import { TokenDialogComponent } from './components/token-dialog/token-dialog.com
 import { AtualizarDialogComponent } from './components/atualizar-dialog/atualizar-dialog.component';
 import { CheckInComponent } from './components/relatorios/checkin/check-in/check-in.component';
 import { ConectadosComponent } from './components/relatorios/checkin/conectados/conectados.component';
+import { ConfiguracoesComponent } from './components/configuracoes/configuracoes/configuracoes.component';
+import { DialogImagemComponent } from './components/dialog-imagem/dialog-imagem.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { ConectadosComponent } from './components/relatorios/checkin/conectados/
     AtualizarDialogComponent,
     CheckInComponent,
     ConectadosComponent,
+    ConfiguracoesComponent,
+    DialogImagemComponent,
   ],
   imports: [
     BrowserModule,
