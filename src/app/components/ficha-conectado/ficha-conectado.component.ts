@@ -16,7 +16,7 @@ import moment from 'moment';
 import { SiaoService } from '../siao/siao.service';
 import { Eventos } from '../../interfaces/Eventos';
 import { DialogDataEvento } from '../dialog-evento/DialogDataEvento';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { sexoEnum } from '../../enums/sexoEnum';
 import { estadoCivil } from '../../enums/estadoCivil';
 
@@ -48,7 +48,8 @@ export class FichaConectadoComponent {
 
   constructor(private fb: FormBuilder, private triboServices: TribosService, private dialog: MatDialog, private cepService: CepService
     , private fichaService: FichaConectadoService
-    , private adapter: DateAdapter<any>, private siaoService: SiaoService, private route: ActivatedRoute) {
+    , private adapter: DateAdapter<any>, private siaoService: SiaoService, private route: ActivatedRoute
+    , private router: Router) {
     this.adapter.setLocale('pt-br');
 
     this.form = this.fb.group({
@@ -69,7 +70,13 @@ export class FichaConectadoComponent {
       descricaoCuidados: [''],
     });
 
-    this.triboServices.ListaSelected()
+    this.evento = history.state.evento;
+
+    const tokenEvento = history.state.token;
+
+    this.idEvento = this.evento.id;
+
+    this.triboServices.ListaSelected(tokenEvento)
       .pipe(
         first(),
         tap(result => {
@@ -77,6 +84,8 @@ export class FichaConectadoComponent {
             this.istriboSelect = result.dados;
           } else {
             this.openDialog(result.errors[0].mensagem);
+
+            this.Redirecionar();
           }
         }),
         catchError((error: HttpErrorResponse) => {
@@ -86,13 +95,15 @@ export class FichaConectadoComponent {
       )
       .subscribe();
 
-    this.evento = history.state.evento;
-
-    this.idEvento = this.evento.id;
   }
 
   receberDadosDoFilho(dados: number) {
     this.idEvento = dados;
+  }
+
+
+  private Redirecionar() {
+    this.router.navigate(['/home']);
   }
 
   private Errors(status: number) {
@@ -182,7 +193,7 @@ export class FichaConectadoComponent {
           Tribo: tribo,
           Siao: this.evento.id
         };
- 
+
         this.fichaService.postFichaConectado(ficha)
           .pipe(
             first(),

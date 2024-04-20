@@ -52,13 +52,13 @@ export class AreasService {
     return this.http.post<Result<Areas>>(`${this.uri}detalhar/${id}`, null, { headers: _headers });
   }
 
-  getAreas(): Observable<Result<Areas[]>> {
+  getAreas(token: string): Observable<Result<Areas[]>> {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json'
     });
 
-    return this.http.get<Result<Areas[]>>(`${this.uri}getAreas`, { headers: _headers });
+    return this.http.get<Result<Areas[]>>(`${this.uri}getAreas/${token}`, { headers: _headers });
   }
 
   Editar(areas: Areas, token: string): Observable<Result<boolean>> {

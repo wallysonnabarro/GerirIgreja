@@ -15,7 +15,7 @@ import { Areas } from '../../interfaces/Areas';
 import { AreasService } from '../areas/areas.service';
 import { Sexo } from '../../interfaces/Sexo';
 import { FichaLider } from '../../interfaces/FichaLider';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { sexoEnum } from '../../enums/sexoEnum';
 
 @Component({
@@ -38,7 +38,7 @@ export class FichaVoluntarioComponent {
   ];
 
   constructor(private fb: FormBuilder, private triboServices: TribosService, private dialog: MatDialog, private fichaService: FichaConectadoService
-    , private siaoService: SiaoService, private areasServices: AreasService, private route: ActivatedRoute) { 
+    , private siaoService: SiaoService, private areasServices: AreasService, private route: ActivatedRoute, private router: Router) {
 
     this.form = this.fb.group({
       tribo: [0, [Validators.required]],
@@ -47,7 +47,13 @@ export class FichaVoluntarioComponent {
       sexo: [0, [Validators.required]],
     });
 
-    this.areasServices.getAreas()
+    this.evento = history.state.evento;
+
+    const tokenEvento = history.state.token;
+
+    this.idEvento = this.evento.id;
+
+    this.areasServices.getAreas(tokenEvento)
       .pipe(
         first(),
         tap(result => {
@@ -55,6 +61,8 @@ export class FichaVoluntarioComponent {
             this.isAreasSelect = result.dados;
           } else {
             this.openDialog(result.errors[0].mensagem);
+
+            this.Redirecionar();
           }
         }),
         catchError((error: HttpErrorResponse) => {
@@ -64,7 +72,7 @@ export class FichaVoluntarioComponent {
       )
       .subscribe();
 
-    this.triboServices.ListaSelected()
+    this.triboServices.ListaSelected(tokenEvento)
       .pipe(
         first(),
         tap(result => {
@@ -72,6 +80,8 @@ export class FichaVoluntarioComponent {
             this.istriboSelect = result.dados;
           } else {
             this.openDialog(result.errors[0].mensagem);
+
+            this.Redirecionar();
           }
         }),
         catchError((error: HttpErrorResponse) => {
@@ -80,10 +90,10 @@ export class FichaVoluntarioComponent {
         })
       )
       .subscribe();
+  }
 
-      this.evento = history.state.evento;
-      
-      this.idEvento = this.evento.id;
+  private Redirecionar() {
+    this.router.navigate(['/home']);
   }
 
   private Errors(status: number) {

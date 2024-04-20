@@ -38,10 +38,13 @@ export class CheckInComponent {
 
   gerarDPF() {
     let pdf = new jsPDF('p', 'pt', 'a4');
+    const dataAtual = new Date();
+    const dataFormatada = `${dataAtual.getFullYear()}-${String(dataAtual.getMonth() + 1).padStart(2, '0')}-${String(dataAtual.getDate()).padStart(2, '0')}`;
+    const nomeDoArquivo = `${this.data.nome}_${dataFormatada}.pdf`;
 
     pdf.html(this.el.nativeElement, {
       callback: (pdf) => {
-        pdf.save("h.pdf");
+        pdf.save(nomeDoArquivo);
       }
     })
     this.Fechar();

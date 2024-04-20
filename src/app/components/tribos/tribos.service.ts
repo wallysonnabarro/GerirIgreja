@@ -61,12 +61,12 @@ export class TribosService {
     return this.http.post<Result<Tribos>>(`${this.uri}editar`, tribo, { headers: _headers });
   }
 
-  ListaSelected(): Observable<Result<TriboSelected[]>>{
+  ListaSelected(token: string): Observable<Result<TriboSelected[]>>{
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
     });
 
-    return this.http.get<Result<TriboSelected[]>>(`${this.uri}lista-selected`, { headers: _headers });
+    return this.http.get<Result<TriboSelected[]>>(`${this.uri}lista-selected/${token}`, { headers: _headers });
   }
 }

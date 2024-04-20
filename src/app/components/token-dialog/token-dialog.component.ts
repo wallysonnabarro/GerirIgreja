@@ -49,11 +49,11 @@ export class TokenDialogComponent {
             if (result.succeeded) {
               if (this.id === 1) {
                 const evento = result.dados;
-                this.router.navigate(['/conectado'], { state: { evento } });
+                this.router.navigate(['/conectado'], { state: { evento, token } });
                 this.Fechar();
               } else {
                 const evento = result.dados;
-                this.router.navigate(['/voluntario'], { state: { evento } });
+                this.router.navigate(['/voluntario'], { state: { evento, token } });
                 this.Fechar();
               }
             } else {
