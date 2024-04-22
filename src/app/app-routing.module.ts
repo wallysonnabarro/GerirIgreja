@@ -12,6 +12,8 @@ import { FichaVoluntarioComponent } from './components/ficha-voluntario/ficha-vo
 import { SobreComponent } from './components/sobre/sobre.component';
 import { PagamentosComponent } from './components/pagamentos/pagamentos.component';
 import { ConfiguracoesComponent } from './components/configuracoes/configuracoes/configuracoes.component';
+import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fechamento-geral/fechamento-geral.component';
+import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -26,6 +28,8 @@ const routes: Routes = [
   { path: 'voluntario', component: FichaVoluntarioComponent },
   { path: 'sobre', component: SobreComponent },
   { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [CanActivate] },
+  { path: 'fechamentos', component: FechamentoGeralComponent, canActivate: [CanActivate] },
+  { path: 'saidas', component: SaidasComponent, canActivate: [CanActivate] },
 ];
 
 @NgModule({

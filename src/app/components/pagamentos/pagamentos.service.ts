@@ -7,6 +7,7 @@ import { PagamentoCancelar } from '../../interfaces/PagamentoCancelar';
 import { PagamentoConfirmar } from '../../interfaces/PagamentoConfirmar';
 import { TransferenciaDto } from '../../interfaces/TransferenciaDto';
 import { PagamentoAtualizar } from '../../interfaces/PagamentoAtualizar';
+import { Pagamentos } from '../../interfaces/Pagamentos';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,14 @@ export class PagamentosService {
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}atualizar-pagamento`, atualizar, { headers: _headers });
+  }
+
+  buscarPagamentos(token: string, id: number): Observable<Result<Pagamentos>> {
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<Pagamentos>>(`${this.uri}buscar-pagamentos/${id}`, { headers: _headers });
   }
 }
