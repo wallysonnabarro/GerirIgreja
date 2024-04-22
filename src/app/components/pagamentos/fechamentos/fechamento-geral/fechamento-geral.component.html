@@ -1,0 +1,146 @@
+<br>
+<div class="container">
+  <mat-card>
+    <mat-card-content class="pb-4">
+      <form [formGroup]="form" novalidate>
+        <p>Selecione um evento.</p>
+        <div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <mat-label>Evento<span style="color: red">*</span></mat-label>
+                <mat-select
+                  formControlName="evento"
+                  (selectionChange)="eventoSelecionado()"
+                >
+                  @for (eventoSelect of eventos; track eventoSelect) {
+                  <mat-option [value]="eventoSelect.id">{{
+                    eventoSelect.nome
+                  }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <br />
+  <mat-card>
+    <mat-card class="text-center titulo-1">
+        <span>Entradas - Inscrições</span>
+    </mat-card>
+    <br>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-lg-10">
+          <div class="row">
+            <div class="col-lg-2">
+              <mat-card class="card-style-1 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ dinheiro | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-1"
+                      >Dinheiro</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+            <div class="col-lg-2">
+              <mat-card class="card-style-2 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ debito | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-2"
+                      >Débito</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+            <div class="col-lg-2">
+              <mat-card class="card-style-3 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ credito | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-3"
+                      >Crédito</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+            <div class="col-lg-2">
+              <mat-card class="card-style-4 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ creditoParcelado | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-4"
+                      >Crédito Parcelado</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+            <div class="col-lg-2">
+              <mat-card class="card-style-5 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ pix | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-5"
+                      >PIX</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-lg-2">
+              <mat-card class="card-style-1 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ aReceber | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-1"
+                      >Receber</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+            <div class="col-lg-2">
+              <mat-card class="card-style-2 mt-2">
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ descontar | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                    <mat-card-subtitle class="card-subtitulo-2"
+                      >Descontar</mat-card-subtitle
+                    >
+                  </mat-card-title-group>
+                </mat-card-header>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 align-self-center">
+          <mat-card class="card-style-7 mt-2">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>{{ total | currency:'BRL':'symbol':'1.2-2' }}</mat-card-title>
+                <mat-card-subtitle class="card-subtitulo-7"
+                  >Total</mat-card-subtitle
+                >
+              </mat-card-title-group>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<br>

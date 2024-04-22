@@ -53,6 +53,8 @@ import { CheckInComponent } from './components/relatorios/checkin/check-in/check
 import { ConectadosComponent } from './components/relatorios/checkin/conectados/conectados.component';
 import { ConfiguracoesComponent } from './components/configuracoes/configuracoes/configuracoes.component';
 import { DialogImagemComponent } from './components/dialog-imagem/dialog-imagem.component';
+import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fechamento-geral/fechamento-geral.component';
+import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { DialogImagemComponent } from './components/dialog-imagem/dialog-imagem.
     ConectadosComponent,
     ConfiguracoesComponent,
     DialogImagemComponent,
+    FechamentoGeralComponent,
+    SaidasComponent,
   ],
   imports: [
     BrowserModule,
