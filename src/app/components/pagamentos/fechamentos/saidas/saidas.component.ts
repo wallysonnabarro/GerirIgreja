@@ -13,6 +13,8 @@ import { selector } from '../../../../interfaces/seletor';
 import { formaPagamento } from '../../../../enums/formaPagamento';
 import { ItemPagamento } from '../../../../interfaces/ItemPagamento';
 import { ErrorsService } from '../../../errors/errors.service';
+import { Tipo } from '../../../../interfaces/Tipo';
+import { TiposSaidaService } from '../../../../services/tipossaida/tipos-saida.service';
 
 @Component({
   selector: 'app-saidas',
@@ -22,6 +24,7 @@ import { ErrorsService } from '../../../errors/errors.service';
 export class SaidasComponent {
 
   eventos: Eventos[] = [];
+  tipos: Tipo[] = [];
   lista: ItemPagamento[] = [];
   formas: selector[] = [
     { id: formaPagamento.dinheiro, nome: 'Dinheiro' },
@@ -36,13 +39,14 @@ export class SaidasComponent {
   forma = 0;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
-    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService, 
-    private errorServices: ErrorsService) {
+    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService,
+    private errorServices: ErrorsService, private tipoSaida: TiposSaidaService) {
     this.form = this.fb.group({
       valor: [0, [Validators.required]],
       evento: [0, [Validators.required]],
       descricao: ['', [Validators.required]],
       forma: [0, [Validators.required]],
+      tipo: [0, [Validators.required]],
     });
 
     const toke = this.localStoreServices.GetLocalStorage();
@@ -56,12 +60,25 @@ export class SaidasComponent {
       .pipe(
         first(),
         tap(result => {
-            this.eventos = result.dados;
+          this.eventos = result.dados;
         }),
         catchError((error: HttpErrorResponse) => {
           this.errorServices.Errors(error);
           return of(null);
         }))
+      .subscribe();
+
+    this.tipoSaida.ListaTodos(this.token)
+      .pipe(
+        first(),
+        tap(result => {
+          this.tipos = result.dados;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.errorServices.Errors(error);
+          return of(null);
+        })
+      )
       .subscribe();
   }
 
@@ -69,6 +86,8 @@ export class SaidasComponent {
     const { evento } = this.form.value;
     this.evento = evento;
   }
+
+  tipoSelecionado() { }
 
   formaSelecionado() {
     const { forma } = this.form.value;
@@ -87,22 +106,28 @@ export class SaidasComponent {
 
   adicionar() {
     if (this.form.valid) {
-      const { descricao, valor, forma } = this.form.value;
+      const { descricao, valor, forma, tipo } = this.form.value;
 
       const formaSelecionada = this.formas.find(forma => forma.id === this.forma);
+      const TipoNome = this.tipos.find(t => t.id === tipo);
 
       const item: ItemPagamento = {
         descricao: descricao,
         formaPagamento: formaSelecionada ? formaSelecionada.nome : '',
-        valor: valor
+        valor: valor,
+        tipo: tipo,
+        tipoNome: TipoNome?.nome ?? ""
       };
 
       this.lista.push(item);
 
       this.form.reset({
         valor: 0,
-        descricao: ''
+        descricao: '',
+        forma: 0,
+        tipo: 0
       });
+
     }
     else {
       this.openDialog("Preencha os campos obrigatórios.");
@@ -110,6 +135,6 @@ export class SaidasComponent {
   }
 
   finalizar() {
-    
+
   }
 }

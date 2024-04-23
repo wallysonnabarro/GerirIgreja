@@ -29,6 +29,17 @@ export class TiposSaidaService {
     return this.http.post<Result<Pages<Tipo[]>>>(`${this.uri}listar`, wrapper, { headers: _headers });
   }
 
+
+  ListaTodos(token: string): Observable<Result<Tipo[]>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<Tipo[]>>(`${this.uri}listar-todos`, { headers: _headers });
+  }
+
   novo(tipo: string, token: string): Observable<Result<string>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',

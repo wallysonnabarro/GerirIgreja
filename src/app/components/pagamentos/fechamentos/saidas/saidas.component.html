@@ -4,7 +4,7 @@
     <mat-card-content class="pb-4">
       <form [formGroup]="form" novalidate>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-4">
             <p>Selecione um evento.</p>
             <div>
               <div class="row">
@@ -34,16 +34,14 @@
               <div class="row">
                 <div class="col-lg-6">
                   <mat-form-field style="width: 300px">
-                    <mat-label
-                      >Evento<span style="color: red">*</span></mat-label
-                    >
+                    <mat-label>Tipo<span style="color: red">*</span></mat-label>
                     <mat-select
-                      formControlName="evento"
-                      (selectionChange)="eventoSelecionado()"
+                      formControlName="tipo"
+                      (selectionChange)="tipoSelecionado()"
                     >
-                      @for (eventoSelect of eventos; track eventoSelect) {
-                      <mat-option [value]="eventoSelect.id">{{
-                        eventoSelect.nome
+                      @for (tiposSelect of tipos; track tiposSelect) {
+                      <mat-option [value]="tiposSelect.id">{{
+                        tiposSelect.nome
                       }}</mat-option>
                       }
                     </mat-select>
@@ -114,12 +112,14 @@
           <tr>
             <th>Descrição</th>
             <th>Forma de Pagamento</th>
+            <th>Tipo Saída</th>
             <th>Valor</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of lista">
             <td style="text-transform: uppercase">{{ item.descricao }}</td>
+            <td style="text-transform: uppercase">{{ item.tipoNome }}</td>
             <td>{{ item.formaPagamento }}</td>
             <td>{{ item.valor | currency : "BRL" : "symbol" : "1.2-2" }}</td>
           </tr>
