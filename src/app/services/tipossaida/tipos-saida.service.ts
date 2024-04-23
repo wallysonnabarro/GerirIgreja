@@ -11,7 +11,7 @@ import { Pages } from '../../interfaces/pages';
 })
 export class TiposSaidaService {
 
-  private readonly uri: string = `${environment.apiUrl}Configuracoes/`;
+  private readonly uri: string = `${environment.apiUrl}TiposSaidas/`;
 
   constructor(private http: HttpClient) { }
 
