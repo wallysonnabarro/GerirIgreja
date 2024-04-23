@@ -13,6 +13,7 @@ import { FichaConectadoService } from '../ficha-conectado/ficha-conectado.servic
 import { FichaParametros } from '../../interfaces/FichaParametros';
 import { DialogTransferencia } from './DialogTransferencia';
 import { TransferenciaDto } from '../../interfaces/TransferenciaDto';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-dialog-transferir',
@@ -32,14 +33,14 @@ export class DialogTransferirComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogEventoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogTransferencia, private dialog: MatDialog, private fichaInscricoes: FichaConectadoService
-    , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService
+    , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService, private errorServices: ErrorsService,
   ) {
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
       this.token = toke;
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
 
     this.id = data.id;
@@ -52,54 +53,22 @@ export class DialogTransferirComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            if (result.succeeded) {
-              this.fichas = result.dados.dados;
+          this.fichas = result.dados.dados;
 
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            } else {
-              this.openDialogError(result.errors[0].mensagem);
-            }
-          } else {
-            this.openDialogError(result.errors[0].mensagem);
-          }
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
       .subscribe();
   }
 
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialogError(errorMessage);
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
-  }
-
   OK(id: number) {
     this.openDialog("Tem certeza que deseja transferir o pagamento?", id);
   }
-
 
   Fechar(): void {
     this.dialogRef.close({});
@@ -125,19 +94,15 @@ export class DialogTransferirComponent {
           .pipe(
             first(),
             tap(result => {
-              if(result.succeeded){
-                this.openDialogError("Transferência realizada com sucesso.");
-              } else {
-                this.openDialogError(result.errors[0].mensagem);
-              }
+              this.openDialogError("Transferência realizada com sucesso.");
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               return of(null);
             })
           )
           .subscribe();
-      } 
+      }
     });
   }
 
@@ -160,21 +125,13 @@ export class DialogTransferirComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            if (result.succeeded) {
-              this.fichas = result.dados.dados;
+          this.fichas = result.dados.dados;
 
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            } else {
-              this.openDialogError(result.errors[0].mensagem);
-            }
-          } else {
-            this.openDialogError(result.errors[0].mensagem);
-          }
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )

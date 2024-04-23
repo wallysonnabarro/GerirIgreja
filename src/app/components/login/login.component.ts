@@ -11,6 +11,7 @@ import { ProvedormenuService } from '../../provedorMenu/provedormenu.service';
 import { Router } from '@angular/router';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent {
   isLoading = false;
 
   constructor(private loginServices: LoginServicesService, private fb: FormBuilder, private jwtService: JwtServiceService,
-    private perfis: PerfisService, private menus: ProvedormenuService, private router: Router, private dialog: MatDialog) {
+    private perfis: PerfisService, private menus: ProvedormenuService, private router: Router, private dialog: MatDialog,
+    private errorServices: ErrorsService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       senha: ['', Validators.required]
@@ -97,21 +99,8 @@ export class LoginComponent {
               }
             }),
             catchError((error: HttpErrorResponse) => {
-              let errorMessage = "";
-
-              if (error.status === 403) {
-                errorMessage = 'Acesso negado.';
-              } else if (error.status === 401) {
-                errorMessage = 'Não autorizado.';
-              } else if (error.status === 500) {
-                errorMessage = 'Erro interno do servidor.';
-              } else if (error.status === 0) {
-                errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-              } else if (error.message && error.message.includes('ERR_CONNECTION_REFUSED')) {
-                errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-              }
-
-              this.openDialog(errorMessage);
+              this.errorServices.Errors(error);
+              
               this.isLoading = false;
               return of(null);
             })

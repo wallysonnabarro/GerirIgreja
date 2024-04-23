@@ -12,6 +12,7 @@ import { DialogComponent } from '../../../dialog/dialog.component';
 import { selector } from '../../../../interfaces/seletor';
 import { formaPagamento } from '../../../../enums/formaPagamento';
 import { ItemPagamento } from '../../../../interfaces/ItemPagamento';
+import { ErrorsService } from '../../../errors/errors.service';
 
 @Component({
   selector: 'app-saidas',
@@ -35,7 +36,8 @@ export class SaidasComponent {
   forma = 0;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
-    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService) {
+    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService, 
+    private errorServices: ErrorsService) {
     this.form = this.fb.group({
       valor: [0, [Validators.required]],
       evento: [0, [Validators.required]],
@@ -48,20 +50,16 @@ export class SaidasComponent {
     if (toke !== null) {
       this.token = toke;
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
     this.siaoService.getSiaoIniciado(this.token)
       .pipe(
         first(),
         tap(result => {
-          if (result.dados.length > 0) {
             this.eventos = result.dados;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         }))
       .subscribe();
@@ -85,28 +83,6 @@ export class SaidasComponent {
 
     dialogRef.afterClosed().subscribe(result => {
     });
-  }
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
   }
 
   adicionar() {

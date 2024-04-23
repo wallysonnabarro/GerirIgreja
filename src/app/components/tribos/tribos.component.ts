@@ -11,6 +11,7 @@ import { TriboNovo } from '../../interfaces/TriboNovo';
 import { Router } from '@angular/router';
 import { Status } from '../../interfaces/Status';
 import { StatusAtividade } from '../../enums/StatusAtividade';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-tribos',
@@ -37,7 +38,7 @@ export class TribosComponent {
   searchText: string = '';
 
   constructor(private triboServices: TribosService, private localStoreServices: LocalStorageServiceService, private dialog: MatDialog
-    , private fb: FormBuilder, private router: Router) {
+    , private fb: FormBuilder, private router: Router, private errorServices: ErrorsService) {
 
     this.form = this.fb.group({
       nome: ['', [Validators.required]]
@@ -55,14 +56,12 @@ export class TribosComponent {
         .pipe(
           first(),
           tap(result => {
-            if (result.succeeded) {
-              this.triboArray = result.dados.dados;
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            }
+            this.triboArray = result.dados.dados;
+            this.count = result.dados.count;
+            this.pageNumber = result.dados.pageIndex;
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.isLoading = false;
             return of(null);
           })
@@ -86,7 +85,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.isLoading = false;
             return of(null);
           })
@@ -121,7 +120,7 @@ export class TribosComponent {
               }
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               this.isLoading = false;
               this.form.reset();
               return of(null);
@@ -160,7 +159,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -198,7 +197,7 @@ export class TribosComponent {
                     }
                   }),
                   catchError((error: HttpErrorResponse) => {
-                    this.Errors(error.status);
+                    this.errorServices.Errors(error);
                     this.isLoading = false;
                     return of(null);
                   })
@@ -213,7 +212,7 @@ export class TribosComponent {
             this.isDetalhar = false;
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -245,7 +244,7 @@ export class TribosComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.isLoading = false;
             this.form.reset();
             return of(null);
@@ -266,7 +265,7 @@ export class TribosComponent {
     dialogRef.afterClosed().subscribe(result => {
     });
   }
-  
+
   get filteredTriboArray() {
     if (!this.searchText.trim()) {
       return this.triboArray;
@@ -277,23 +276,5 @@ export class TribosComponent {
     );
   }
 
-  
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
-  }
 
 }

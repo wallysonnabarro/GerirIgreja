@@ -10,6 +10,7 @@ import { PagamentosService } from '../pagamentos/pagamentos.service';
 import { PagamentoConfirmar } from '../../interfaces/PagamentoConfirmar';
 import { catchError, first, of, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-confirmar-dialog',
@@ -22,19 +23,19 @@ export class ConfirmarDialogComponent {
   siao = 0;
   tipo = 0;
   token = "";
- 
+
   constructor(
     public dialogRef: MatDialogRef<DialogEventoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogConfirmacao, private fb: FormBuilder, private dialog: MatDialog
-    , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService
+    , private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService, private errorServices: ErrorsService,
   ) {
- 
+
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
       this.token = toke;
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
 
     this.id = data.id;
@@ -52,10 +53,6 @@ export class ConfirmarDialogComponent {
       decontar: [0],
       observacao: [''],
     });
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
   }
 
   OK() {
@@ -82,14 +79,10 @@ export class ConfirmarDialogComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.openDialog("Registrado com sucesso.");
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.openDialog("Registrado com sucesso.");
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
@@ -113,21 +106,4 @@ export class ConfirmarDialogComponent {
     });
   }
 
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
-  }
 }

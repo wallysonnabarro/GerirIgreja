@@ -17,4 +17,8 @@ export class ConfiguracoesComponent {
   conectados() {
     // this.router.navigate(['/configurar-conectados']);
   }
+
+  tiposSaida(){
+    this.router.navigate(['/configurar-tipos-saida']);
+  }
 }

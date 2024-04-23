@@ -1,0 +1,187 @@
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div
+          class="card-header p-1"
+          style="background-color: #363636; color: azure"
+        >
+          <h5 class="m-1 fw-bold">Tipos de saída de pagamentos</h5>
+        </div>
+        <div class="card-body">
+          <div class="card border-dark">
+            <div class="card-header p-1" style="background-color: #dcdcdc">
+              <h5 class="m-1 fw-bold">Registre um novo tipo de saída</h5>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="form" novalidate>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div class="input-group input-group-sm mb-3">
+                      <span class="input-group-text" id="inputGroup-sizing-sm"
+                        >Tipo saída</span
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm"
+                        style="text-transform: uppercase"
+                        formControlName="tipo"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer d-flex flex-row-reverse">
+              <button mat-stroked-button color="primary" (click)="novo()">
+                Registrar
+              </button>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="card m-3">
+          <div class="card-header p-1" style="background-color: #dcdcdc">
+            <h5 class="m-1 fw-bold">Tabela de tipos de saída</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="row mb-3">
+                <div class="col-lg-6">
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"
+                      >Buscar</span
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="Sizing example input"
+                      aria-describedby="inputGroup-sizing-sm"
+                      style="text-transform: uppercase"
+                      placeholder="Buscar uma tipo de saída..."
+                      [(ngModel)]="searchText"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Tipo de saída</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let item of filteredSiaoArray
+                      | paginate
+                        : {
+                            itemsPerPage: 10,
+                            currentPage: pageNumber,
+                            totalItems: count
+                          }
+                  "
+                >
+                  <td style="text-transform: uppercase">{{ item.nome }}</td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      color="accent"
+                      (click)="Editar(item.id)"
+                      aria-label="Visualizar docs"
+                    >
+                      Editar
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="Detalhar(item.id)"
+                      aria-label="Visualizar docs"
+                    >
+                      Detalhar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="mt-3 mb-3 d-flex justify-content-end">
+            <pagination-controls
+              (pageChange)="onPageChange($event)"
+            ></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div
+        class="card border-dark p-2"
+        style="background-color: #e7e7e7"
+        *ngIf="isAtualizar"
+      >
+        <div class="card-header">
+          <h2 class="text-center fw-bold">
+            Editar informações de tipos de saída
+          </h2>
+        </div>
+        <form [formGroup]="formEditar" novalidate>
+          <mat-list>
+            <mat-list-item>
+              <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm"
+                  >Tipo:</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                  style="text-transform: uppercase"
+                  formControlName="tipo"
+                  required
+                />
+              </div>
+            </mat-list-item>
+            <mat-divider class="m-3"></mat-divider>
+            <mat-list-item>
+              <button
+                mat-flat-button
+                color="accent"
+                class="ms-3"
+                (click)="Atualizar()"
+              >
+                Atualizar
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </form>
+      </div>
+      <div
+        class="card border-dark p-2"
+        style="background-color: #d6d6d6"
+        *ngIf="isDetalhar"
+      >
+        <form [formGroup]="formEditar" novalidate>
+          <h2 class="text-center fw-bold">Detalhes do tipo de saída</h2>
+          <mat-list>
+            <mat-list-item style="text-transform: uppercase"
+              >Tipo: {{ Nome }}</mat-list-item
+            >
+            <mat-divider></mat-divider>
+          </mat-list>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<br />

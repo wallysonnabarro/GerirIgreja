@@ -10,6 +10,7 @@ import { catchError, first, of, tap } from 'rxjs';
 import { DialogComponent } from '../dialog/dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PostAreas } from '../../interfaces/PostAreas';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-areas',
@@ -31,7 +32,7 @@ export class AreasComponent {
   searchText: string = '';
   Nome = "";
 
-  constructor(private fb: FormBuilder, private adapter: DateAdapter<any>, private router: Router, private dialog: MatDialog
+  constructor(private fb: FormBuilder, private adapter: DateAdapter<any>, private errorServices: ErrorsService, private dialog: MatDialog
     , private localStoreServices: LocalStorageServiceService, private areasServices: AreasService) {
     this.form = this.fb.group({
       nome: ['', [Validators.required]]
@@ -49,19 +50,13 @@ export class AreasComponent {
         .pipe(
           first(),
           tap(result => {
-            if (result.succeeded) {
-              if (result.dados.dados.length > 0) {
-                this.areasArray = result.dados.dados;
-                this.count = result.dados.count;
-                this.pageNumber = result.dados.pageIndex;
-              }
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
+            this.areasArray = result.dados.dados;
+            this.count = result.dados.count;
+            this.pageNumber = result.dados.pageIndex;
             this.isLoading = false;
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.form.reset();
             this.isLoading = false;
             return of(null);
@@ -69,7 +64,7 @@ export class AreasComponent {
         )
         .subscribe();
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
   }
 
@@ -85,36 +80,28 @@ export class AreasComponent {
           .pipe(
             first(),
             tap(result => {
-              if (result.succeeded) {
-                this.openDialog("Registrado com sucesso.");
-                this.areasServices.Lista(1, this.token)
-                  .pipe(
-                    first(),
-                    tap(result => {
-                      if (result.succeeded) {
-                        this.areasArray = result.dados.dados;
-                        this.count = result.dados.count;
-                        this.pageNumber = result.dados.pageIndex;
-                      } else {
-                        this.openDialog(result.errors[0].mensagem);
-                      }
-                      this.isLoading = false;
-                    }),
-                    catchError((error: HttpErrorResponse) => {
-                      this.Errors(error.status);
-                      this.form.reset();
-                      this.isLoading = false;
-                      return of(null);
-                    })
-                  )
-                  .subscribe();
-              } else {
-                this.openDialog(result.errors[0].mensagem);
-              }
+              this.openDialog("Registrado com sucesso.");
+              this.areasServices.Lista(1, this.token)
+                .pipe(
+                  first(),
+                  tap(result => {
+                    this.areasArray = result.dados.dados;
+                    this.count = result.dados.count;
+                    this.pageNumber = result.dados.pageIndex;
+                    this.isLoading = false;
+                  }),
+                  catchError((error: HttpErrorResponse) => {
+                    this.errorServices.Errors(error);
+                    this.form.reset();
+                    this.isLoading = false;
+                    return of(null);
+                  })
+                )
+                .subscribe();
               this.form.reset();
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               this.form.reset();
               return of(null);
             })
@@ -124,7 +111,7 @@ export class AreasComponent {
         this.openDialog('Preencha as informações');
       }
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
   }
 
@@ -137,16 +124,12 @@ export class AreasComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.formEditar.patchValue({
-              nome: result.dados.nome,
-            });
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.formEditar.patchValue({
+            nome: result.dados.nome,
+          });
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.isLoading = false;
           this.form.reset();
           return of(null);
@@ -163,14 +146,10 @@ export class AreasComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.Nome = result.dados.nome;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.Nome = result.dados.nome;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.isLoading = false;
           this.form.reset();
           return of(null);
@@ -186,17 +165,13 @@ export class AreasComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.areasArray = result.dados.dados;
-            this.count = result.dados.count;
-            this.pageNumber = result.dados.pageIndex;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.areasArray = result.dados.dados;
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
           this.isLoading = false;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.form.reset();
           this.isLoading = false;
           return of(null);
@@ -216,34 +191,26 @@ export class AreasComponent {
         .pipe(
           first(),
           tap(result => {
-            if (result.succeeded) {
-              this.areasServices.Lista(1, this.token)
-                .pipe(
-                  first(),
-                  tap(result => {
-                    if (result.succeeded) {
-                      this.areasArray = result.dados.dados;
-                      this.count = result.dados.count;
-                      this.pageNumber = result.dados.pageIndex;
-                    } else {
-                      this.openDialog(result.errors[0].mensagem);
-                    }
-                    this.isLoading = false;
-                  }),
-                  catchError((error: HttpErrorResponse) => {
-                    this.Errors(error.status);
-                    this.form.reset();
-                    this.isLoading = false;
-                    return of(null);
-                  })
-                )
-                .subscribe();
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
+            this.areasServices.Lista(1, this.token)
+              .pipe(
+                first(),
+                tap(result => {
+                  this.areasArray = result.dados.dados;
+                  this.count = result.dados.count;
+                  this.pageNumber = result.dados.pageIndex;
+                  this.isLoading = false;
+                }),
+                catchError((error: HttpErrorResponse) => {
+                  this.errorServices.Errors(error);
+                  this.form.reset();
+                  this.isLoading = false;
+                  return of(null);
+                })
+              )
+              .subscribe();
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.form.reset();
             this.isLoading = false;
             return of(null);
@@ -253,28 +220,6 @@ export class AreasComponent {
     } else {
       this.openDialog("Preencha os dados necessários.");
     }
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
-  }
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
   }
 
   openDialog(p: string): void {

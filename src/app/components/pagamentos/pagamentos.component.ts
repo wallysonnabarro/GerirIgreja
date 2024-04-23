@@ -10,7 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FichaConectadoService } from '../ficha-conectado/ficha-conectado.service';
 import { FichaParametros } from '../../interfaces/FichaParametros';
 import { LocalStorageServiceService } from '../../storage/local-storage-service.service';
-import { Router } from '@angular/router';
 import { ListaInscricoes } from './ListaInscricoes';
 import { ConfirmarDialogComponent } from '../confirmar-dialog/confirmar-dialog.component';
 import { DialogInteracaoComponent } from '../dialog-interacao/dialog-interacao.component';
@@ -22,6 +21,7 @@ import { CheckInService } from '../relatorios/check-in.service';
 import { CheckInComponent } from '../relatorios/checkin/check-in/check-in.component';
 import { ConectadosComponent } from '../relatorios/checkin/conectados/conectados.component';
 import { TipoEnum } from '../configuracoes/TipoEnum';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-pagamentos',
@@ -54,7 +54,7 @@ export class PagamentosComponent {
   botaoConectados = false;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private siaoService: SiaoService, private fichaInscricoes: FichaConectadoService,
-    private localStoreServices: LocalStorageServiceService, private router: Router, private pagamentoServices: PagamentosService,
+    private localStoreServices: LocalStorageServiceService, private errorServices: ErrorsService, private pagamentoServices: PagamentosService,
     private checkInService: CheckInService) {
     this.form = this.fb.group({
       evento: [0, [Validators.required]],
@@ -66,28 +66,20 @@ export class PagamentosComponent {
     if (toke !== null) {
       this.token = toke;
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
 
     this.siaoService.getSiaoIniciado(this.token)
       .pipe(
         first(),
         tap(result => {
-          if (result.dados.length > 0) {
-            this.eventos = result.dados;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.eventos = result.dados;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         }))
       .subscribe();
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
   }
 
   openDialog(p: string): void {
@@ -122,52 +114,26 @@ export class PagamentosComponent {
           .pipe(
             first(),
             tap(result => {
-              if (result.succeeded) {
-                if (result.succeeded) {
-                  this.fichas = result.dados.dados;
-                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-                  this.totalF = result.dados.feminino.totalGeral;
+              this.fichas = result.dados.dados;
+              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+              this.totalF = result.dados.feminino.totalGeral;
 
-                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-                  this.totalM = result.dados.masculino.totalGeral;
+              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+              this.totalM = result.dados.masculino.totalGeral;
 
-                  this.count = result.dados.count;
-                  this.pageNumber = result.dados.pageIndex;
-                } else {
-                  this.openDialog(result.errors[0].mensagem);
-                }
-              } else {
-                this.openDialog(result.errors[0].mensagem);
-              }
+              this.count = result.dados.count;
+              this.pageNumber = result.dados.pageIndex;
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               return of(null);
             })
           )
           .subscribe();
       });
     }
-  }
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
   }
 
   eventoSelecionado() {
@@ -197,28 +163,20 @@ export class PagamentosComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            if (result.succeeded) {
-              this.fichas = result.dados.dados;
-              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-              this.totalF = result.dados.feminino.totalGeral;
+          this.fichas = result.dados.dados;
+          this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+          this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+          this.totalF = result.dados.feminino.totalGeral;
 
-              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-              this.totalM = result.dados.masculino.totalGeral;
+          this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+          this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+          this.totalM = result.dados.masculino.totalGeral;
 
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
@@ -250,21 +208,17 @@ export class PagamentosComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.fichas = result.dados.dados;
-            this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-            this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-            this.totalF = result.dados.feminino.totalGeral;
+          this.fichas = result.dados.dados;
+          this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+          this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+          this.totalF = result.dados.feminino.totalGeral;
 
-            this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-            this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-            this.totalM = result.dados.masculino.totalGeral;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+          this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+          this.totalM = result.dados.masculino.totalGeral;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
@@ -311,47 +265,35 @@ export class PagamentosComponent {
             .pipe(
               first(),
               tap(result => {
-                if (result.succeeded) {
-                  this.openDialog("Cancelado com sucesso.");
+                this.openDialog("Cancelado com sucesso.");
 
-                  const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
+                const lista: FichaParametros = { evento: this.EventoSelecionado, tipo: this.TipoSelecionado, skip: 1, pageSize: 10 };
 
-                  this.fichaInscricoes.lista(lista, this.token)
-                    .pipe(
-                      first(),
-                      tap(result => {
-                        if (result.succeeded) {
-                          if (result.succeeded) {
-                            this.fichas = result.dados.dados;
-                            this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-                            this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-                            this.totalF = result.dados.feminino.totalGeral;
+                this.fichaInscricoes.lista(lista, this.token)
+                  .pipe(
+                    first(),
+                    tap(result => {
+                      this.fichas = result.dados.dados;
+                      this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+                      this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+                      this.totalF = result.dados.feminino.totalGeral;
 
-                            this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-                            this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-                            this.totalM = result.dados.masculino.totalGeral;
+                      this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+                      this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+                      this.totalM = result.dados.masculino.totalGeral;
 
-                            this.count = result.dados.count;
-                            this.pageNumber = result.dados.pageIndex;
-                          } else {
-                            this.openDialog(result.errors[0].mensagem);
-                          }
-                        } else {
-                          this.openDialog(result.errors[0].mensagem);
-                        }
-                      }),
-                      catchError((error: HttpErrorResponse) => {
-                        this.Errors(error.status);
-                        return of(null);
-                      })
-                    )
-                    .subscribe();
-                } else {
-                  this.openDialog(result.errors[0].mensagem);
-                }
+                      this.count = result.dados.count;
+                      this.pageNumber = result.dados.pageIndex;
+                    }),
+                    catchError((error: HttpErrorResponse) => {
+                      this.errorServices.Errors(error);
+                      return of(null);
+                    })
+                  )
+                  .subscribe();
               }),
               catchError((error: HttpErrorResponse) => {
-                this.Errors(error.status);
+                this.errorServices.Errors(error);
                 return of(null);
               }))
             .subscribe();
@@ -382,28 +324,20 @@ export class PagamentosComponent {
           .pipe(
             first(),
             tap(result => {
-              if (result.succeeded) {
-                if (result.succeeded) {
-                  this.fichas = result.dados.dados;
-                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-                  this.totalF = result.dados.feminino.totalGeral;
+              this.fichas = result.dados.dados;
+              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+              this.totalF = result.dados.feminino.totalGeral;
 
-                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-                  this.totalM = result.dados.masculino.totalGeral;
+              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+              this.totalM = result.dados.masculino.totalGeral;
 
-                  this.count = result.dados.count;
-                  this.pageNumber = result.dados.pageIndex;
-                } else {
-                  this.openDialog(result.errors[0].mensagem);
-                }
-              } else {
-                this.openDialog(result.errors[0].mensagem);
-              }
+              this.count = result.dados.count;
+              this.pageNumber = result.dados.pageIndex;
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               return of(null);
             })
           )
@@ -434,28 +368,20 @@ export class PagamentosComponent {
           .pipe(
             first(),
             tap(result => {
-              if (result.succeeded) {
-                if (result.succeeded) {
-                  this.fichas = result.dados.dados;
-                  this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-                  this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-                  this.totalF = result.dados.feminino.totalGeral;
+              this.fichas = result.dados.dados;
+              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+              this.totalF = result.dados.feminino.totalGeral;
 
-                  this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-                  this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-                  this.totalM = result.dados.masculino.totalGeral;
+              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+              this.totalM = result.dados.masculino.totalGeral;
 
-                  this.count = result.dados.count;
-                  this.pageNumber = result.dados.pageIndex;
-                } else {
-                  this.openDialog(result.errors[0].mensagem);
-                }
-              } else {
-                this.openDialog(result.errors[0].mensagem);
-              }
+              this.count = result.dados.count;
+              this.pageNumber = result.dados.pageIndex;
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               return of(null);
             })
           )
@@ -472,28 +398,20 @@ export class PagamentosComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            if (result.succeeded) {
-              this.fichas = result.dados.dados;
-              this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
-              this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
-              this.totalF = result.dados.feminino.totalGeral;
+          this.fichas = result.dados.dados;
+          this.totalConfirmadoF = result.dados.feminino.totalConfirmado;
+          this.totalNConfirmadoF = result.dados.feminino.totalNaoConfirmado;
+          this.totalF = result.dados.feminino.totalGeral;
 
-              this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
-              this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
-              this.totalM = result.dados.masculino.totalGeral;
+          this.totalConfirmadoH = result.dados.masculino.totalConfirmado;
+          this.totalNConfirmadoM = result.dados.masculino.totalNaoConfirmado;
+          this.totalM = result.dados.masculino.totalGeral;
 
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
@@ -507,30 +425,26 @@ export class PagamentosComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            const dialogRef = this.dialog.open(CheckInComponent, {
-              data: {
-                titulo: 'Check-In', paragrafo: "Check-In voluntários."
-                , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
-                nome: nomeEvento?.nome
-              },
-              width: '578px',
-            });
+          const dialogRef = this.dialog.open(CheckInComponent, {
+            data: {
+              titulo: 'Check-In', paragrafo: "Check-In voluntários."
+              , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
+              nome: nomeEvento?.nome
+            },
+            width: '578px',
+          });
 
-            dialogRef.afterClosed().subscribe(result => { });
-          } else {
-            this.openDialog(result.errors[0].mensagem)
-          }
+          dialogRef.afterClosed().subscribe(result => { });
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
       .subscribe();
   }
 
-  getListaConectados(sexo: number){
+  getListaConectados(sexo: number) {
 
     const nomeEvento = this.eventos.find(x => x.id == this.EventoSelecionado);
 
@@ -538,23 +452,19 @@ export class PagamentosComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            const dialogRef = this.dialog.open(ConectadosComponent, {
-              data: {
-                titulo: 'Conectados', paragrafo: "Ficha conectados."
-                , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
-                nome: nomeEvento?.nome, sexo: sexo
-              },
-              width: '840px',
-            });
+          const dialogRef = this.dialog.open(ConectadosComponent, {
+            data: {
+              titulo: 'Conectados', paragrafo: "Ficha conectados."
+              , imagem: result.dados.imagem, tituloRelatorio: result.dados.tituloRelatorio, dados: result.dados.dados, subTituloRelatorio: result.dados.subTituloRelatorio,
+              nome: nomeEvento?.nome, sexo: sexo
+            },
+            width: '840px',
+          });
 
-            dialogRef.afterClosed().subscribe(result => { });
-          } else {
-            this.openDialog(result.errors[0].mensagem)
-          }
+          dialogRef.afterClosed().subscribe(result => { });
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )

@@ -55,6 +55,7 @@ import { ConfiguracoesComponent } from './components/configuracoes/configuracoes
 import { DialogImagemComponent } from './components/dialog-imagem/dialog-imagem.component';
 import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fechamento-geral/fechamento-geral.component';
 import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
+import { TiposSaidasComponent } from './components/configuracoes/configuracoes/tipos-saidas/tipos-saidas.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/said
     DialogImagemComponent,
     FechamentoGeralComponent,
     SaidasComponent,
+    TiposSaidasComponent,
   ],
   imports: [
     BrowserModule,

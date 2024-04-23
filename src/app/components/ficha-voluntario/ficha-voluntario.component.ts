@@ -17,6 +17,7 @@ import { Sexo } from '../../interfaces/Sexo';
 import { FichaLider } from '../../interfaces/FichaLider';
 import { ActivatedRoute, Router } from '@angular/router';
 import { sexoEnum } from '../../enums/sexoEnum';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-ficha-voluntario',
@@ -38,7 +39,8 @@ export class FichaVoluntarioComponent {
   ];
 
   constructor(private fb: FormBuilder, private triboServices: TribosService, private dialog: MatDialog, private fichaService: FichaConectadoService
-    , private siaoService: SiaoService, private areasServices: AreasService, private route: ActivatedRoute, private router: Router) {
+    , private siaoService: SiaoService, private areasServices: AreasService, private route: ActivatedRoute, private router: Router,
+    private errorServices: ErrorsService) {
 
     this.form = this.fb.group({
       tribo: [0, [Validators.required]],
@@ -57,16 +59,10 @@ export class FichaVoluntarioComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.dados.length > 0 && result.succeeded) {
             this.isAreasSelect = result.dados;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-
-            this.Redirecionar();
-          }
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
@@ -76,42 +72,14 @@ export class FichaVoluntarioComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.dados.length > 0 && result.succeeded) {
             this.istriboSelect = result.dados;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-
-            this.Redirecionar();
-          }
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           return of(null);
         })
       )
       .subscribe();
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/home']);
-  }
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
   }
 
   openDialog(p: string): void {
@@ -134,16 +102,12 @@ export class FichaVoluntarioComponent {
         .pipe(
           first(),
           tap(result => {
-            if (result.dados !== false && result.succeeded) {
               this.openDialog("Registrado com sucesso.");
               this.form.reset();
               this.CarregarForm();
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             return of(null);
           })
         )

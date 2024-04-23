@@ -13,6 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Status } from '../../interfaces/Status';
 import { Siaos } from '../../interfaces/Siaos';
 import { StatusEnum } from '../../enums/StatusEnum';
+import { ErrorsService } from '../errors/errors.service';
 
 @Component({
   selector: 'app-siao',
@@ -20,7 +21,7 @@ import { StatusEnum } from '../../enums/StatusEnum';
   styleUrl: './siao.component.css'
 })
 export class SiaoComponent {
-  form: FormGroup; 
+  form: FormGroup;
   formEditar: FormGroup;
   token = "";
   tokenEvento = "";
@@ -49,7 +50,7 @@ export class SiaoComponent {
   valorBotao = "Copiar para compartilhar";
 
   constructor(private fb: FormBuilder, private adapter: DateAdapter<any>, private router: Router, private dialog: MatDialog
-    , private localStoreServices: LocalStorageServiceService, private siaoService: SiaoService) {
+    , private localStoreServices: LocalStorageServiceService, private siaoService: SiaoService, private errorServices: ErrorsService) {
     this.adapter.setLocale('pt-br');
 
     this.form = this.fb.group({
@@ -79,17 +80,13 @@ export class SiaoComponent {
         .pipe(
           first(),
           tap(result => {
-            if (result.succeeded) {
-              this.siaoArray = result.dados.dados;
-              this.count = result.dados.count;
-              this.pageNumber = result.dados.pageIndex;
-            } else {
-              this.openDialog(result.errors[0].mensagem);
-            }
+            this.siaoArray = result.dados.dados;
+            this.count = result.dados.count;
+            this.pageNumber = result.dados.pageIndex;
             this.isLoading = false;
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.form.reset();
             this.isLoading = false;
             return of(null);
@@ -97,7 +94,7 @@ export class SiaoComponent {
         )
         .subscribe();
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
   }
 
@@ -123,17 +120,13 @@ export class SiaoComponent {
                   .pipe(
                     first(),
                     tap(result => {
-                      if (result.succeeded) {
-                        this.siaoArray = result.dados.dados;
-                        this.count = result.dados.count;
-                        this.pageNumber = result.dados.pageIndex;
-                      } else {
-                        this.openDialog(result.errors[0].mensagem);
-                      }
+                      this.siaoArray = result.dados.dados;
+                      this.count = result.dados.count;
+                      this.pageNumber = result.dados.pageIndex;
                       this.isLoading = false;
                     }),
                     catchError((error: HttpErrorResponse) => {
-                      this.Errors(error.status);
+                      this.errorServices.Errors(error);
                       this.form.reset();
                       this.isLoading = false;
                       return of(null);
@@ -146,7 +139,7 @@ export class SiaoComponent {
               this.form.reset();
             }),
             catchError((error: HttpErrorResponse) => {
-              this.Errors(error.status);
+              this.errorServices.Errors(error);
               this.form.reset();
               return of(null);
             })
@@ -156,30 +149,8 @@ export class SiaoComponent {
         this.openDialog('Preencha as informações');
       }
     } else {
-      this.Redirecionar();
+      this.errorServices.Redirecionar();
     }
-  }
-
-  private Redirecionar() {
-    this.router.navigate(['/login']);
-  }
-
-  private Errors(status: number) {
-    let errorMessage = "";
-
-    if (status === 403) {
-      errorMessage = 'Acesso negado.';
-    } else if (status === 401) {
-      errorMessage = 'Não autorizado.';
-    } else if (status === 500) {
-      errorMessage = 'Erro interno do servidor.';
-    } else if (status === 0) {
-      errorMessage = 'Erro de conexão: O servidor não está ativo ou não responde.';
-    } else {
-      errorMessage = 'Erro de conexão: O servidor recusou a conexão.';
-    }
-
-    this.openDialog(errorMessage);
   }
 
   Editar(id: number) {
@@ -192,24 +163,20 @@ export class SiaoComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.formEditar.patchValue({
-              coordenadores: result.dados.coordenadores,
-              evento: result.dados.nome,
-              inicio: result.dados.inicio,
-              termino: result.dados.termino,
-              descricao: result.dados.descricao
-            });
+          this.formEditar.patchValue({
+            coordenadores: result.dados.coordenadores,
+            evento: result.dados.nome,
+            inicio: result.dados.inicio,
+            termino: result.dados.termino,
+            descricao: result.dados.descricao
+          });
 
-            this.tokenEvento = result.dados.token;
+          this.tokenEvento = result.dados.token;
 
-            this.formEditar.get('status')!.setValue(result.dados.status);
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.formEditar.get('status')!.setValue(result.dados.status);
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.isLoading = false;
           this.form.reset();
           return of(null);
@@ -217,7 +184,7 @@ export class SiaoComponent {
       )
       .subscribe();
   }
-
+ 
   Detalhar(id: number) {
     this.isDetalhar = true;
     this.isAtualizar = false;
@@ -227,20 +194,16 @@ export class SiaoComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.Evento = result.dados.nome;
-            this.Coordenadores = result.dados.coordenadores;
-            this.Inicio = this.formatDate(result.dados.inicio);
-            this.Termino = this.formatDate(result.dados.termino);
-            this.Descricao = result.dados.descricao;
-            this.Status = this.getStatusName(result.dados.status);
-            this.tokenEvento = result.dados.token;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.Evento = result.dados.nome;
+          this.Coordenadores = result.dados.coordenadores;
+          this.Inicio = this.formatDate(result.dados.inicio);
+          this.Termino = this.formatDate(result.dados.termino);
+          this.Descricao = result.dados.descricao;
+          this.Status = this.getStatusName(result.dados.status);
+          this.tokenEvento = result.dados.token;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.isLoading = false;
           this.form.reset();
           return of(null);
@@ -256,17 +219,13 @@ export class SiaoComponent {
       .pipe(
         first(),
         tap(result => {
-          if (result.succeeded) {
-            this.siaoArray = result.dados.dados;
-            this.count = result.dados.count;
-            this.pageNumber = result.dados.pageIndex;
-          } else {
-            this.openDialog(result.errors[0].mensagem);
-          }
+          this.siaoArray = result.dados.dados;
+          this.count = result.dados.count;
+          this.pageNumber = result.dados.pageIndex;
           this.isLoading = false;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.Errors(error.status);
+          this.errorServices.Errors(error);
           this.form.reset();
           this.isLoading = false;
           return of(null);
@@ -324,17 +283,13 @@ export class SiaoComponent {
                 .pipe(
                   first(),
                   tap(result => {
-                    if (result.succeeded) {
-                      this.siaoArray = result.dados.dados;
-                      this.count = result.dados.count;
-                      this.pageNumber = result.dados.pageIndex;
-                    } else {
-                      this.openDialog(result.errors[0].mensagem);
-                    }
+                    this.siaoArray = result.dados.dados;
+                    this.count = result.dados.count;
+                    this.pageNumber = result.dados.pageIndex;
                     this.isLoading = false;
                   }),
                   catchError((error: HttpErrorResponse) => {
-                    this.Errors(error.status);
+                    this.errorServices.Errors(error);
                     this.form.reset();
                     this.isLoading = false;
                     return of(null);
@@ -346,7 +301,7 @@ export class SiaoComponent {
             }
           }),
           catchError((error: HttpErrorResponse) => {
-            this.Errors(error.status);
+            this.errorServices.Errors(error);
             this.form.reset();
             this.isLoading = false;
             return of(null);
@@ -358,7 +313,7 @@ export class SiaoComponent {
     }
   }
 
-  Copiar(){
+  Copiar() {
     const inputElement = document.createElement('input');
     inputElement.setAttribute('value', this.tokenEvento);
     document.body.appendChild(inputElement);
