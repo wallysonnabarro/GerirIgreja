@@ -15,6 +15,7 @@ import { ItemPagamento } from '../../../../interfaces/ItemPagamento';
 import { ErrorsService } from '../../../errors/errors.service';
 import { Tipo } from '../../../../interfaces/Tipo';
 import { TiposSaidaService } from '../../../../services/tipossaida/tipos-saida.service';
+import { SaidasService } from './saidas.service';
 
 @Component({
   selector: 'app-saidas',
@@ -40,7 +41,7 @@ export class SaidasComponent {
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
     private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService,
-    private errorServices: ErrorsService, private tipoSaida: TiposSaidaService) {
+    private errorServices: ErrorsService, private tipoSaida: TiposSaidaService, private saidaServices: SaidasService) {
     this.form = this.fb.group({
       valor: [0, [Validators.required]],
       evento: [0, [Validators.required]],
@@ -135,6 +136,22 @@ export class SaidasComponent {
   }
 
   finalizar() {
-
+    if (this.lista.length > 0) {
+      this.saidaServices.PostSaida(this.lista, this.token)
+        .pipe(
+          first(),
+          tap(result => {
+            this.openDialog("Lista registrada com sucesso.");
+            this.lista = [];
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.errorServices.Errors(error);
+            return of(null);
+          })
+        )
+        .subscribe();
+    } else {
+      this.openDialog("A lista vázia.");
+    }
   }
 }
