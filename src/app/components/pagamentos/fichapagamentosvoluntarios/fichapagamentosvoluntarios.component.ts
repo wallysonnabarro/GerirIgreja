@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import jsPDF from 'jspdf';
@@ -10,7 +10,7 @@ import { ListPagamento } from '../../../interfaces/ListPagamento';
   templateUrl: './fichapagamentosvoluntarios.component.html',
   styleUrl: './fichapagamentosvoluntarios.component.css'
 })
-export class FichapagamentosvoluntariosComponent {
+export class FichapagamentosvoluntariosComponent  implements AfterViewInit {
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   totaldinheiro = 0;
@@ -21,13 +21,17 @@ export class FichapagamentosvoluntariosComponent {
   totaldescontar = 0;
   totalreceber = 0;
   tituloTotal = "Total";
+  todosElementosCarregados = false;
   
   constructor(public dialogRef: MatDialogRef<FichapagamentosvoluntariosComponent>, @Inject(MAT_DIALOG_DATA) public data: DataPagamentos, private fb: FormBuilder) {
     this.somarValores(data.Lista);
   }
 
+  ngAfterViewInit(): void {
+    this.todosElementosCarregados = true;
+  }
+
   gerarDPF() {
-    setTimeout(() => {
       let pdf = new jsPDF('l', 'pt', 'a4');
   
       pdf.html(this.el.nativeElement, {
@@ -37,7 +41,6 @@ export class FichapagamentosvoluntariosComponent {
       });
   
       this.Fechar();
-    }, 30000); // 30 segundos em milissegundos
   }
 
   Fechar(): void {
