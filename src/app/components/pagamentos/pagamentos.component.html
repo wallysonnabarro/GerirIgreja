@@ -205,8 +205,8 @@
           <td class="text-center">
             {{ item.confirmacao === 0 ? "Não" : "Sim" }}
           </td>
-          <td class="text-center">{{ item.pago }}</td>
-          <td class="text-center">{{ item.receber }}</td>
+          <td class="text-center">{{ item.pago | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td class="text-center">{{ item.receber | currency : "BRL" : "symbol" : "1.2-2" }}</td>
           <td *ngIf="item.confirmacao === 0">
             <button
               mat-raised-button

@@ -11,7 +11,7 @@ import { sexoEnum } from '../../../../enums/sexoEnum';
   styleUrl: './conectados.component.css'
 })
 export class ConectadosComponent {
-
+ 
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
   base64Image: string | null = null;

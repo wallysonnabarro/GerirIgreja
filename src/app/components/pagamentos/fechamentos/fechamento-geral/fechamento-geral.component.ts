@@ -10,6 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { first, tap, catchError, of } from 'rxjs';
 import { SiaoService } from '../../../siao/siao.service';
 import { ErrorsService } from '../../../errors/errors.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { ListPagamento } from '../../../../interfaces/ListPagamento';
+import { FichapagamentosvoluntariosComponent } from '../../fichapagamentosvoluntarios/fichapagamentosvoluntarios.component';
+
 
 @Component({
   selector: 'app-fechamento-geral',
@@ -19,6 +24,7 @@ import { ErrorsService } from '../../../errors/errors.service';
 export class FechamentoGeralComponent {
 
   eventos: Eventos[] = [];
+  listPagamento: ListPagamento[] = [];
   form: FormGroup;
   token = "";
   dinheiro = 0;
@@ -29,6 +35,7 @@ export class FechamentoGeralComponent {
   aReceber = 0;
   descontar = 0;
   total = 0;
+  eventoSelect = false;
 
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
@@ -49,13 +56,14 @@ export class FechamentoGeralComponent {
       .pipe(
         first(),
         tap(result => {
-            this.eventos = result.dados;
+          this.eventos = result.dados;
         }),
         catchError((error: HttpErrorResponse) => {
           this.errorServices.Errors(error);
           return of(null);
         }))
       .subscribe();
+
   }
 
   eventoSelecionado() {
@@ -65,14 +73,16 @@ export class FechamentoGeralComponent {
       .pipe(
         first(),
         tap(result => {
-            this.dinheiro = result.dados.dinheiro;
-            this.debito = result.dados.debito;
-            this.credito = result.dados.credito;
-            this.creditoParcelado = result.dados.creditoParcelado;
-            this.pix = result.dados.pix;
-            this.aReceber = result.dados.receber;
-            this.descontar = result.dados.descontar;
-            this.total = result.dados.total;
+          this.dinheiro = result.dados.dinheiro;
+          this.debito = result.dados.debito;
+          this.credito = result.dados.credito;
+          this.creditoParcelado = result.dados.creditoParcelado;
+          this.pix = result.dados.pix;
+          this.aReceber = result.dados.receber;
+          this.descontar = result.dados.descontar;
+          this.total = result.dados.total;
+
+          this.eventoSelect = true;
         }),
         catchError((error: HttpErrorResponse) => {
           this.errorServices.Errors(error);
@@ -91,4 +101,59 @@ export class FechamentoGeralComponent {
     });
   }
 
+  PagamentosConectados() {
+    const { evento } = this.form.value;
+    
+    var tituloRelatorio = "FICHA DE PAGAMENTOS CONECTADOS"
+
+    this.pagamentoServices.buscarPagamentosExcelConectados(this.token, evento)
+      .pipe(
+        first(),
+        tap(result => {
+          this.listPagamento = result;
+
+          const dialogRef = this.dialog.open(FichapagamentosvoluntariosComponent, {
+            data: {
+              titulo: tituloRelatorio, paragrafo: "Ficha conectados."
+              , Lista: this.listPagamento
+            },
+            width: '840px',
+          });
+
+          dialogRef.afterClosed().subscribe(result => { });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.errorServices.Errors(error);
+          return of(null);
+        }))
+      .subscribe();
+  }
+
+  PagamentosVoluntarios() {
+    const { evento } = this.form.value;
+    
+    var tituloRelatorio = "FICHA DE PAGAMENTOS VOLUNTÁRIOS"
+
+    this.pagamentoServices.buscarPagamentosExcelVoluntarios(this.token, evento)
+      .pipe(
+        first(),
+        tap(result => {
+          this.listPagamento = result;
+
+          const dialogRef = this.dialog.open(FichapagamentosvoluntariosComponent, {
+            data: {
+              titulo: tituloRelatorio, paragrafo: "Ficha voluntários."
+              , Lista: this.listPagamento
+            },
+            width: '840px',
+          });
+
+          dialogRef.afterClosed().subscribe(result => { });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.errorServices.Errors(error);
+          return of(null);
+        }))
+      .subscribe();
+  }
 }

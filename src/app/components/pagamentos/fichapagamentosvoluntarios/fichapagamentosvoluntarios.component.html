@@ -1,0 +1,93 @@
+<br />
+<div class="container">
+  <div class="container">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-actions align="end">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="gerarDPF()"
+            aria-label="Visualizar docs"
+          >
+            Gerar PDF
+          </button>
+        </mat-card-actions>
+      </mat-card-content></mat-card
+    >
+  </div>
+</div>
+
+<div class="container p-3" id="content" #content>
+  <div class="border p-3">
+    <div class="text-center p-3" [ngClass]="getCorPorSexo()">
+      <div>
+        <h1 class="titulo" style="color: aliceblue">{{ data.titulo }}</h1>
+      </div>
+    </div>
+    <table border="1" class="tabela">
+      <thead>
+        <tr [ngClass]="getCorPorSexoTh()">
+          <th class="coluna-1">Nome</th>
+          <th class="coluna-2 text-center">Tribo/Equipe</th>
+          <th style="width: 5%">Sexo</th>
+          <th style="width: 5%">Dinheiro</th>
+          <th style="width: 5%">Débito</th>
+          <th style="width: 5%">Crédito à Vista</th>
+          <th style="width: 5%">Crédito parcelado</th>
+          <th style="width: 5%">TED/PIX</th>
+          <th style="width: 5%">Descontar</th>
+          <th style="width: 5%">A Receber</th>
+          <th class="coluna-1">Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data.Lista">
+          <td>{{ item.nome }}</td>
+          <td class="text-center">
+            {{ item.tribo }}
+          </td>
+          <td class="text-center">
+            {{ item.sexo }}
+          </td>
+          <td class="text-center">
+            {{ item.dinheiro | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.debito | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.credVista | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.credParcelado | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.tedPix | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.descontar | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td class="text-center">
+            {{ item.receber | currency : "BRL" : "symbol" : "1.2-2" }}
+          </td>
+          <td>
+            {{ item.obs }}
+          </td>
+        </tr>
+        <tr style="font-weight: bold">
+          <td></td>
+          <td></td>
+          <td>{{ tituloTotal }}</td>
+          <td>{{ totaldinheiro | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totaldebito | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totalcredVista | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totalcredParcelado | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totaltedPix | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totaldescontar | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          <td>{{ totalreceber | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
