@@ -10,7 +10,7 @@ import { UtilitariosService } from '../../../../services/utilitarios/utilitarios
   templateUrl: './check-in.component.html',
   styleUrl: './check-in.component.css'
 })
-export class CheckInComponent  implements AfterViewInit{
+export class CheckInComponent implements AfterViewInit {
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
@@ -20,11 +20,11 @@ export class CheckInComponent  implements AfterViewInit{
 
   constructor(public dialogRef: MatDialogRef<CheckInComponent>, @Inject(MAT_DIALOG_DATA) public data: DadosRelatorio, private fb: FormBuilder,
     private utilService: UtilitariosService) {
-      this.form = this.fb.group({
-        titulo: ['', [Validators.required]],
-        subtitulo: ['', [Validators.required]],
-      });
-  
+    this.form = this.fb.group({
+      titulo: ['', [Validators.required]],
+      subtitulo: ['', [Validators.required]],
+    });
+
   }
   ngAfterViewInit(): void {
     this.todosElementosCarregados = true;
@@ -56,7 +56,7 @@ export class CheckInComponent  implements AfterViewInit{
 
   Fechar(): void {
     this.dialogRef.close({});
-  } 
+  }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -73,20 +73,20 @@ export class CheckInComponent  implements AfterViewInit{
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.base64Image = reader.result as string; 
-        this.src = this.base64Image; 
-        console.log(this.base64Image); 
+        this.base64Image = reader.result as string;
+        this.src = this.base64Image;
+        console.log(this.base64Image);
       };
       reader.readAsDataURL(file);
     }
   }
 
-  inserir(){
-    if(this.form.valid){
-      const {titulo, subtitulo} = this.form.value;
+  inserir() {
+    if (this.form.valid) {
+      const { titulo, subtitulo } = this.form.value;
 
       this.data.tituloRelatorio = titulo;
-      this.data.subTituloRelatorio = subtitulo;      
+      this.data.subTituloRelatorio = subtitulo;
     } else {
       alert('Por favor, preencha os dados de título e subtítulo.');
     }
