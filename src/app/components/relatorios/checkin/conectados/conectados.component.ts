@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DadosRelatorio } from '../../DadosRelatorio';
@@ -10,13 +10,14 @@ import { sexoEnum } from '../../../../enums/sexoEnum';
   templateUrl: './conectados.component.html',
   styleUrl: './conectados.component.css'
 })
-export class ConectadosComponent {
+export class ConectadosComponent implements AfterViewInit{
  
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
   base64Image: string | null = null;
   form: FormGroup;
   interacao = 1;
+  todosElementosCarregados = false;
 
   constructor(public dialogRef: MatDialogRef<ConectadosComponent>, @Inject(MAT_DIALOG_DATA) public data: DadosRelatorio, private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -25,6 +26,9 @@ export class ConectadosComponent {
 
     this.getCorPorSexo();
     this.getCorPorSexoTh();
+  }
+  ngAfterViewInit(): void {
+    this.todosElementosCarregados = true;
   }
 
   getCorPorSexo(): string {

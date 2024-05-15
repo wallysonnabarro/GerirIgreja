@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DadosRelatorio } from '../../DadosRelatorio';
@@ -10,12 +10,13 @@ import { UtilitariosService } from '../../../../services/utilitarios/utilitarios
   templateUrl: './check-in.component.html',
   styleUrl: './check-in.component.css'
 })
-export class CheckInComponent {
+export class CheckInComponent  implements AfterViewInit{
 
   @ViewChild('content', { static: false }) el!: ElementRef;
   src = "";
   base64Image: string | null = null;
   form: FormGroup;
+  todosElementosCarregados = false;
 
   constructor(public dialogRef: MatDialogRef<CheckInComponent>, @Inject(MAT_DIALOG_DATA) public data: DadosRelatorio, private fb: FormBuilder,
     private utilService: UtilitariosService) {
@@ -24,6 +25,9 @@ export class CheckInComponent {
         subtitulo: ['', [Validators.required]],
       });
   
+  }
+  ngAfterViewInit(): void {
+    this.todosElementosCarregados = true;
   }
 
   // ngOnInit(): void {
