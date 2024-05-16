@@ -193,11 +193,19 @@
     <mat-card-content>
       <div class="row">
         <div class="col-lg-4">
-          <apx-chart [series]="chartSeries" [chart]="chartDetails" [labels]="chartLabels" [title]="chartTitle"></apx-chart>
+          <apx-chart
+            [series]="chartSeries"
+            [chart]="chartDetails"
+            [labels]="chartLabels"
+            [title]="chartTitle"
+          ></apx-chart>
         </div>
         <div class="col-lg-8">
           <div class="row d-flex justify-content-center">
-            <mat-card class="card-style-1 m-1" style="width: 160px; height: 85px;">
+            <mat-card
+              class="card-style-1 m-1"
+              style="width: 160px; height: 85px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
@@ -209,8 +217,11 @@
                 </mat-card-title-group>
               </mat-card-header>
             </mat-card>
-  
-            <mat-card class="card-style-saida-1 m-1" style="width: 160px; height: 85px;">
+
+            <mat-card
+              class="card-style-saida-1 m-1"
+              style="width: 160px; height: 85px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
@@ -222,8 +233,11 @@
                 </mat-card-title-group>
               </mat-card-header>
             </mat-card>
-  
-            <mat-card class="card-style-saida-2 m-1" style="width: 160px; height: 85px;">
+
+            <mat-card
+              class="card-style-saida-2 m-1"
+              style="width: 160px; height: 85px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
@@ -235,12 +249,16 @@
                 </mat-card-title-group>
               </mat-card-header>
             </mat-card>
-  
-            <mat-card class="card-style-saida-3 m-1" style="width: 160px; height: 85px;">
+
+            <mat-card
+              class="card-style-saida-3 m-1"
+              style="width: 160px; height: 85px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
-                    creditoParceladoSaida | currency : "BRL" : "symbol" : "1.2-2"
+                    creditoParceladoSaida
+                      | currency : "BRL" : "symbol" : "1.2-2"
                   }}</mat-card-title>
                   <mat-card-subtitle class="card-subtitulo-saida"
                     >Crédito Parcelado</mat-card-subtitle
@@ -248,8 +266,11 @@
                 </mat-card-title-group>
               </mat-card-header>
             </mat-card>
-  
-            <mat-card class="card-style-saida-4 m-1" style="width: 160px; height: 85px;">
+
+            <mat-card
+              class="card-style-saida-4 m-1"
+              style="width: 160px; height: 85px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
@@ -263,7 +284,10 @@
             </mat-card>
           </div>
           <div class="row d-flex justify-content-center">
-            <mat-card class="card-style-7 mt-5"  style="width: 200px; height: 100px;">
+            <mat-card
+              class="card-style-7 mt-5"
+              style="width: 200px; height: 100px"
+            >
               <mat-card-header>
                 <mat-card-title-group>
                   <mat-card-title>{{
@@ -275,7 +299,129 @@
                 </mat-card-title-group>
               </mat-card-header>
             </mat-card>
-          </div>          
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <br />
+
+  <mat-card>
+    <mat-card class="text-center titulo-1">
+      <span>Entrada - Ofertas</span>
+    </mat-card>
+    <br />
+    <mat-card-content>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="row d-flex justify-content-center">
+            <mat-card
+              class="card-style-1 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    dinheiroOferta | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Dinheiro</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-1 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    debitoOferta | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Débito</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-2 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    creditoOferta | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Crédito à Vista</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-3 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    creditoParceladoOferta
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Crédito Parcelado</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-4 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    pixOferta | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >PIX</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <mat-card
+              class="card-style-7 mt-5"
+              style="width: 200px; height: 100px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    TotalOferta | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-7"
+                    >Total</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <apx-chart
+            [series]="chartSeriesoferta"
+            [chart]="chartDetails"
+            [labels]="chartLabels"
+            [title]="chartTitleOferta"
+          ></apx-chart>
         </div>
       </div>
     </mat-card-content>

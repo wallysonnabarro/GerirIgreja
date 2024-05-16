@@ -44,7 +44,17 @@ export class FechamentoGeralComponent {
   creditoParceladoSaida = 0;
   TotalSaida = 0;
 
+  //Pagamentos - saida
+
+  dinheiroOferta = 0;
+  debitoOferta = 0;
+  pixOferta = 0;
+  creditoOferta = 0;
+  creditoParceladoOferta = 0;
+  TotalOferta = 0;
+
   chartSeries: ApexNonAxisChartSeries = [];
+  chartSeriesoferta: ApexNonAxisChartSeries = [];
   chartDetails: ApexChart = {
     type: 'donut',
     toolbar: {
@@ -59,6 +69,10 @@ export class FechamentoGeralComponent {
     align: 'left'
   }
 
+  chartTitleOferta: ApexTitleSubtitle = {
+    text: 'Ofertas',
+    align: 'left'
+  }
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
     private pagamentoServices: PagamentosService, private siaoService: SiaoService, private errorServices: ErrorsService) {
     this.form = this.fb.group({
@@ -107,7 +121,7 @@ export class FechamentoGeralComponent {
               this.total = d.total;
             }
 
-            if (d.tipo == 2) {
+            if(d.tipo == 2){
               this.dinheiroSaida = d.dinheiro;
               this.debitoSaida = d.debito;
               this.pixSaida = d.pix;
@@ -123,6 +137,24 @@ export class FechamentoGeralComponent {
                 (this.creditoParceladoSaida / d.total) * 100
               ]
             }
+
+            if (d.tipo == 3) {
+              this.dinheiroOferta = d.dinheiro;
+              this.debitoOferta = d.debito;
+              this.pixOferta = d.pix;
+              this.creditoOferta = d.credito;
+              this.creditoParceladoOferta = d.creditoParcelado;
+              this.TotalOferta = d.total;
+
+              this.chartSeriesoferta = [
+                (this.dinheiroOferta / d.total) * 100,
+                (this.debitoOferta / d.total) * 100,
+                (this.pixOferta / d.total) * 100,
+                (this.creditoOferta / d.total) * 100,
+                (this.creditoParceladoOferta / d.total) * 100
+              ]
+            }
+
           });
 
           this.eventoSelect = true;

@@ -59,6 +59,7 @@ import { TiposSaidasComponent } from './components/configuracoes/configuracoes/t
 import { FichapagamentosvoluntariosComponent } from './components/pagamentos/fichapagamentosvoluntarios/fichapagamentosvoluntarios.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
+import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { OfertaComponent } from './components/pagamentos/oferta/oferta.component
     TiposSaidasComponent,
     FichapagamentosvoluntariosComponent,
     OfertaComponent,
+    LanchoneteComponent,
   ],
   imports: [
     BrowserModule,
