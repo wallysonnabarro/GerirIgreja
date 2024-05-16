@@ -9,6 +9,7 @@ import { TransferenciaDto } from '../../interfaces/TransferenciaDto';
 import { PagamentoAtualizar } from '../../interfaces/PagamentoAtualizar';
 import { Pagamentos } from '../../interfaces/Pagamentos';
 import { ListPagamento } from '../../interfaces/ListPagamento';
+import { Oferta } from './oferta/Oferta';
 
 @Injectable({
   providedIn: 'root'
@@ -97,4 +98,13 @@ export class PagamentosService {
     return this.http.get<ListPagamento[]>(`${this.uri}pagamentos-conectados-excel/${id}`, { headers: _headers });
   }
 
+  PostEntradaOfertas(lista: Oferta[], token: string, id: number): Observable<Result<string>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Result<string>>(`${this.uri}registra-lista-oferta/${id}`, lista, { headers: _headers });
+  }
 }

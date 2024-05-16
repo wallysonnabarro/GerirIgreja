@@ -15,6 +15,7 @@ import { ConfiguracoesComponent } from './components/configuracoes/configuracoes
 import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fechamento-geral/fechamento-geral.component';
 import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
 import { TiposSaidasComponent } from './components/configuracoes/configuracoes/tipos-saidas/tipos-saidas.component';
+import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [CanActivate] },
   { path: 'fechamentos', component: FechamentoGeralComponent, canActivate: [CanActivate] },
   { path: 'saidas', component: SaidasComponent, canActivate: [CanActivate] },
+  { path: 'oferta-Siao', component: OfertaComponent, canActivate: [CanActivate] },
   { path: 'configurar-tipos-saida', component: TiposSaidasComponent, canActivate: [CanActivate] },
 ];
 

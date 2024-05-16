@@ -4,29 +4,28 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { first, tap, catchError, of } from 'rxjs';
-import { Eventos } from '../../../../interfaces/Eventos';
-import { LocalStorageServiceService } from '../../../../storage/local-storage-service.service';
-import { SiaoService } from '../../../siao/siao.service';
-import { PagamentosService } from '../../pagamentos.service';
-import { DialogComponent } from '../../../dialog/dialog.component';
-import { selector } from '../../../../interfaces/seletor';
-import { formaPagamento } from '../../../../enums/formaPagamento';
-import { ItemPagamento } from '../../../../interfaces/ItemPagamento';
-import { ErrorsService } from '../../../errors/errors.service';
-import { Tipo } from '../../../../interfaces/Tipo';
-import { TiposSaidaService } from '../../../../services/tipossaida/tipos-saida.service';
-import { SaidasService } from './saidas.service';
+import { formaPagamento } from '../../../enums/formaPagamento';
+import { Eventos } from '../../../interfaces/Eventos';
+import { ItemPagamento } from '../../../interfaces/ItemPagamento';
+import { selector } from '../../../interfaces/seletor';
+import { TiposSaidaService } from '../../../services/tipossaida/tipos-saida.service';
+import { LocalStorageServiceService } from '../../../storage/local-storage-service.service';
+import { ErrorsService } from '../../errors/errors.service';
+import { SiaoService } from '../../siao/siao.service';
+import { SaidasService } from '../fechamentos/saidas/saidas.service';
+import { PagamentosService } from '../pagamentos.service';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { Oferta } from './Oferta';
 
 @Component({
-  selector: 'app-saidas',
-  templateUrl: './saidas.component.html',
-  styleUrl: './saidas.component.css'
+  selector: 'app-oferta',
+  templateUrl: './oferta.component.html',
+  styleUrl: './oferta.component.css'
 })
-export class SaidasComponent {
+export class OfertaComponent {
 
   eventos: Eventos[] = [];
-  tipos: Tipo[] = [];
-  lista: ItemPagamento[] = [];
+  lista: Oferta[] = [];
   formas: selector[] = [
     { id: formaPagamento.dinheiro, nome: 'Dinheiro' },
     { id: formaPagamento.debito, nome: 'Débito' },
@@ -40,16 +39,14 @@ export class SaidasComponent {
   forma = 0;
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
-    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService,
-    private errorServices: ErrorsService, private tipoSaida: TiposSaidaService, private saidaServices: SaidasService) {
+    private pagamentoServices: PagamentosService, private siaoService: SiaoService,
+    private errorServices: ErrorsService) {
     this.form = this.fb.group({
       valor: [0, [Validators.required]],
       evento: [0, [Validators.required]],
-      descricao: ['', [Validators.required]],
-      forma: [0, [Validators.required]],
-      tipo: [0, [Validators.required]],
+      forma: [0, [Validators.required]]
     });
- 
+
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
@@ -69,26 +66,12 @@ export class SaidasComponent {
         }))
       .subscribe();
 
-    this.tipoSaida.ListaTodos(this.token)
-      .pipe(
-        first(),
-        tap(result => {
-          this.tipos = result.dados;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          this.errorServices.Errors(error);
-          return of(null);
-        })
-      )
-      .subscribe();
-  } 
+  }
 
   eventoSelecionado() {
     const { evento } = this.form.value;
     this.evento = evento;
   }
-
-  tipoSelecionado() { }
 
   formaSelecionado() {
     const { forma } = this.form.value;
@@ -107,26 +90,20 @@ export class SaidasComponent {
 
   adicionar() {
     if (this.form.valid) {
-      const { descricao, valor, forma, tipo } = this.form.value;
+      const { valor } = this.form.value;
 
       const formaSelecionada = this.formas.find(forma => forma.id === this.forma);
-      const TipoNome = this.tipos.find(t => t.id === tipo);
 
-      const item: ItemPagamento = {
-        descricao: descricao,
-        formaPagamento: formaSelecionada ? formaSelecionada.nome : '',
-        valor: valor,
-        tipo: tipo,
-        tipoNome: TipoNome?.nome ?? ""
+      const item: Oferta = {
+        Forma: formaSelecionada ? formaSelecionada.nome : '',
+        Valor: valor
       };
 
       this.lista.push(item);
 
       this.form.reset({
         valor: 0,
-        descricao: '',
-        forma: 0,
-        tipo: 0
+        forma: 0
       });
 
     }
@@ -137,7 +114,8 @@ export class SaidasComponent {
 
   finalizar() {
     if (this.lista.length > 0) {
-      this.saidaServices.PostSaida(this.lista, this.token, this.evento)
+
+      this.pagamentoServices.PostEntradaOfertas(this.lista, this.token, this.evento)
         .pipe(
           first(),
           tap(result => {
@@ -154,4 +132,5 @@ export class SaidasComponent {
       this.openDialog("A lista vázia.");
     }
   }
+
 }

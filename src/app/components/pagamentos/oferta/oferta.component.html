@@ -1,0 +1,101 @@
+<br />
+<div class="container">
+  <mat-card>
+    <mat-card-content class="pb-4">
+      <form [formGroup]="form" novalidate>
+        <div class="row">
+          <div class="col-lg-4">
+            <p>Selecione um evento.</p>
+            <div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <mat-form-field style="width: 300px">
+                    <mat-label
+                      >Evento<span style="color: red">*</span></mat-label
+                    >
+                    <mat-select
+                      formControlName="evento"
+                      (selectionChange)="eventoSelecionado()"
+                    >
+                      @for (eventoSelect of eventos; track eventoSelect) {
+                      <mat-option [value]="eventoSelect.id">{{
+                        eventoSelect.nome
+                      }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-2">
+            <mat-form-field floatLabel="always" class="mt-4">
+              <mat-label>Valor</mat-label>
+              <input
+                matInput
+                currencyMask
+                class="example-right-align"
+                placeholder="0"
+                formControlName="valor"
+                [options]="{
+                  prefix: 'R$ ',
+                  thousands: '.',
+                  decimal: ',',
+                  allowNegative: false
+                }"
+              />
+              <span matTextPrefix>R$&nbsp;</span>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <mat-form-field style="width: 100%">
+              <mat-label
+                >Forma de pagamento<span style="color: red">*</span></mat-label
+              >
+              <mat-select
+                formControlName="forma"
+                (selectionChange)="formaSelecionado()"
+              >
+                @for (formasSelect of formas; track formasSelect) {
+                <mat-option [value]="formasSelect.id">{{
+                  formasSelect.nome
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-card-actions>
+          <button mat-stroked-button (click)="adicionar()">Adicionar</button>
+        </mat-card-actions>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <br />
+  <mat-card>
+    <mat-card-content>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Forma de Pagamento</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of lista">
+            <td>{{ item.Forma }}</td>
+            <td>{{ item.Valor | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-stroked-button color="primary" (click)="finalizar()">
+        Finalize e Registrar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

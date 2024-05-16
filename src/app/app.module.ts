@@ -58,6 +58,7 @@ import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/said
 import { TiposSaidasComponent } from './components/configuracoes/configuracoes/tipos-saidas/tipos-saidas.component';
 import { FichapagamentosvoluntariosComponent } from './components/pagamentos/fichapagamentosvoluntarios/fichapagamentosvoluntarios.component';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     SaidasComponent,
     TiposSaidasComponent,
     FichapagamentosvoluntariosComponent,
+    OfertaComponent,
   ],
   imports: [
     BrowserModule,
