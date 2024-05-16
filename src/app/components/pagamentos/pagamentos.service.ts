@@ -70,13 +70,13 @@ export class PagamentosService {
     return this.http.post<Result<boolean>>(`${this.uri}atualizar-pagamento`, atualizar, { headers: _headers });
   }
 
-  buscarPagamentos(token: string, id: number): Observable<Result<Pagamentos>> {
+  buscarPagamentos(token: string, id: number): Observable<Result<Pagamentos[]>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get<Result<Pagamentos>>(`${this.uri}buscar-pagamentos/${id}`, { headers: _headers });
+    return this.http.get<Result<Pagamentos[]>>(`${this.uri}buscar-pagamentos/${id}`, { headers: _headers });
   }
 
   buscarPagamentosExcelVoluntarios(token: string, id: number): Observable<ListPagamento[]> {

@@ -137,7 +137,7 @@ export class SaidasComponent {
 
   finalizar() {
     if (this.lista.length > 0) {
-      this.saidaServices.PostSaida(this.lista, this.token)
+      this.saidaServices.PostSaida(this.lista, this.token, this.evento)
         .pipe(
           first(),
           tap(result => {

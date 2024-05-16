@@ -67,3 +67,28 @@ span {
 .card-style-7 .card-subtitulo-7 {
     color: aliceblue;
 }
+
+
+.card-style-saida-1 {
+    background-color: rgb(65, 168, 56);
+    color: aliceblue;
+}
+
+.card-style-saida-2 {
+    background-color: rgb(187, 169, 5);
+    color: aliceblue;
+}
+
+.card-style-saida-3 {
+    background-color: rgb(163, 43, 43);
+    color: aliceblue;
+}
+
+.card-style-saida-4 {
+    background-color: rgb(48, 96, 168);
+    color: aliceblue;
+}
+
+.card-subtitulo-saida {
+    color: aliceblue;
+}

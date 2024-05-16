@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Eventos } from '../../../../interfaces/Eventos';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,11 +10,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { first, tap, catchError, of } from 'rxjs';
 import { SiaoService } from '../../../siao/siao.service';
 import { ErrorsService } from '../../../errors/errors.service';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 import { ListPagamento } from '../../../../interfaces/ListPagamento';
 import { FichapagamentosvoluntariosComponent } from '../../fichapagamentosvoluntarios/fichapagamentosvoluntarios.component';
-
+import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexTitleSubtitle, ChartComponent } from "ng-apexcharts";
 
 @Component({
   selector: 'app-fechamento-geral',
@@ -37,10 +35,32 @@ export class FechamentoGeralComponent {
   total = 0;
   eventoSelect = false;
 
+  //Pagamentos - saida
+
+  dinheiroSaida = 0;
+  debitoSaida = 0;
+  pixSaida = 0;
+  creditoSaida = 0;
+  creditoParceladoSaida = 0;
+  TotalSaida = 0;
+
+  chartSeries: ApexNonAxisChartSeries = [];
+  chartDetails: ApexChart = {
+    type: 'donut',
+    toolbar: {
+      show: true
+    }
+  }
+
+  chartLabels = ["Dinheiro", "Débito", "Crédito à vista", "Crédito Parcelado", "PIX/TED"];
+
+  chartTitle: ApexTitleSubtitle = {
+    text: 'Pagamentos',
+    align: 'left'
+  }
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
-    private router: Router, private pagamentoServices: PagamentosService, private siaoService: SiaoService,
-    private errorServices: ErrorsService) {
+    private pagamentoServices: PagamentosService, private siaoService: SiaoService, private errorServices: ErrorsService) {
     this.form = this.fb.group({
       evento: [0, [Validators.required]]
     });
@@ -52,6 +72,7 @@ export class FechamentoGeralComponent {
     } else {
       this.errorServices.Redirecionar();
     }
+
     this.siaoService.getSiaoIniciado(this.token)
       .pipe(
         first(),
@@ -73,14 +94,36 @@ export class FechamentoGeralComponent {
       .pipe(
         first(),
         tap(result => {
-          this.dinheiro = result.dados.dinheiro;
-          this.debito = result.dados.debito;
-          this.credito = result.dados.credito;
-          this.creditoParcelado = result.dados.creditoParcelado;
-          this.pix = result.dados.pix;
-          this.aReceber = result.dados.receber;
-          this.descontar = result.dados.descontar;
-          this.total = result.dados.total;
+
+          result.dados.forEach(d => {
+            if (d.tipo == 1) {
+              this.dinheiro = d.dinheiro;
+              this.debito = d.debito;
+              this.credito = d.credito;
+              this.creditoParcelado = d.creditoParcelado;
+              this.pix = d.pix;
+              this.aReceber = d.receber;
+              this.descontar = d.descontar;
+              this.total = d.total;
+            }
+
+            if (d.tipo == 2) {
+              this.dinheiroSaida = d.dinheiro;
+              this.debitoSaida = d.debito;
+              this.pixSaida = d.pix;
+              this.creditoSaida = d.credito;
+              this.creditoParceladoSaida = d.creditoParcelado;
+              this.TotalSaida = d.total;
+
+              this.chartSeries = [
+                (this.dinheiroSaida / d.total) * 100,
+                (this.debitoSaida / d.total) * 100,
+                (this.pixSaida / d.total) * 100,
+                (this.creditoSaida / d.total) * 100,
+                (this.creditoParceladoSaida / d.total) * 100
+              ]
+            }
+          });
 
           this.eventoSelect = true;
         }),
@@ -103,7 +146,7 @@ export class FechamentoGeralComponent {
 
   PagamentosConectados() {
     const { evento } = this.form.value;
-    
+
     var tituloRelatorio = "FICHA DE PAGAMENTOS CONECTADOS"
 
     this.pagamentoServices.buscarPagamentosExcelConectados(this.token, evento)
@@ -131,7 +174,7 @@ export class FechamentoGeralComponent {
 
   PagamentosVoluntarios() {
     const { evento } = this.form.value;
-    
+
     var tituloRelatorio = "FICHA DE PAGAMENTOS VOLUNTÁRIOS"
 
     this.pagamentoServices.buscarPagamentosExcelVoluntarios(this.token, evento)

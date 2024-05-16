@@ -57,6 +57,7 @@ import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fe
 import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
 import { TiposSaidasComponent } from './components/configuracoes/configuracoes/tipos-saidas/tipos-saidas.component';
 import { FichapagamentosvoluntariosComponent } from './components/pagamentos/fichapagamentosvoluntarios/fichapagamentosvoluntarios.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { FichapagamentosvoluntariosComponent } from './components/pagamentos/fic
     MatCheckboxModule,
     MatRadioModule,
     CurrencyMaskModule,
+    NgApexchartsModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'XSRF-TOKEN',
       headerName: 'X-XSRF-TOKEN',

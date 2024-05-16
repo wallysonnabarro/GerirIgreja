@@ -36,7 +36,7 @@ export class FichapagamentosvoluntariosComponent  implements AfterViewInit {
   
       pdf.html(this.el.nativeElement, {
         callback: (pdf) => {
-          pdf.save("homens.pdf");
+          pdf.save("pagamentos.pdf");
         }
       });
   

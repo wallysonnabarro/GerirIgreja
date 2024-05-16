@@ -8,4 +8,5 @@ export interface Pagamentos {
     pix: number;
     receber: number;
     descontar: number;
+    tipo: number;
 }

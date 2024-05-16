@@ -14,13 +14,13 @@ export class SaidasService {
 
   constructor(private http: HttpClient) { }
 
-  PostSaida(lista: ItemPagamento[], token: string): Observable<Result<string>>{
+  PostSaida(lista: ItemPagamento[], token: string, id: number): Observable<Result<string>>{
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<Result<string>>(`${this.uri}registra-lista-saida`, lista, { headers: _headers });
+    return this.http.post<Result<string>>(`${this.uri}registra-lista-saida/${id}`, lista, { headers: _headers });
   }
 }
