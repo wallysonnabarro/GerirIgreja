@@ -16,6 +16,7 @@ import { FechamentoGeralComponent } from './components/pagamentos/fechamentos/fe
 import { SaidasComponent } from './components/pagamentos/fechamentos/saidas/saidas.component';
 import { TiposSaidasComponent } from './components/configuracoes/configuracoes/tipos-saidas/tipos-saidas.component';
 import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
+import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'saidas', component: SaidasComponent, canActivate: [CanActivate] },
   { path: 'oferta-Siao', component: OfertaComponent, canActivate: [CanActivate] },
   { path: 'configurar-tipos-saida', component: TiposSaidasComponent, canActivate: [CanActivate] },
+  { path: 'lanchonete', component: LanchoneteComponent, canActivate: [CanActivate] },
 ];
 
 @NgModule({

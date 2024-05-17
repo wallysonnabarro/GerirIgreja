@@ -44,7 +44,7 @@ export class FechamentoGeralComponent {
   creditoParceladoSaida = 0;
   TotalSaida = 0;
 
-  //Pagamentos - saida
+  //Pagamentos - oferta
 
   dinheiroOferta = 0;
   debitoOferta = 0;
@@ -53,8 +53,18 @@ export class FechamentoGeralComponent {
   creditoParceladoOferta = 0;
   TotalOferta = 0;
 
+  //Pagamentos - lanchonete
+
+  dinheirolanchonete = 0;
+  debitolanchonete = 0;
+  pixlanchonete = 0;
+  creditolanchonete = 0;
+  creditoParceladolanchonete = 0;
+  Totallanchonete = 0;
+
   chartSeries: ApexNonAxisChartSeries = [];
   chartSeriesoferta: ApexNonAxisChartSeries = [];
+  chartSeriesolanchonete: ApexNonAxisChartSeries = [];
   chartDetails: ApexChart = {
     type: 'donut',
     toolbar: {
@@ -73,6 +83,12 @@ export class FechamentoGeralComponent {
     text: 'Ofertas',
     align: 'left'
   }
+  
+  chartTitlelanchonete: ApexTitleSubtitle = {
+    text: 'Lanchonete',
+    align: 'left'
+  }
+
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
     private pagamentoServices: PagamentosService, private siaoService: SiaoService, private errorServices: ErrorsService) {
     this.form = this.fb.group({
@@ -152,6 +168,23 @@ export class FechamentoGeralComponent {
                 (this.pixOferta / d.total) * 100,
                 (this.creditoOferta / d.total) * 100,
                 (this.creditoParceladoOferta / d.total) * 100
+              ]
+            }
+
+            if (d.tipo == 4) {
+              this.dinheirolanchonete = d.dinheiro;
+              this.debitolanchonete = d.debito;
+              this.pixlanchonete = d.pix;
+              this.creditolanchonete = d.credito;
+              this.creditoParceladolanchonete = d.creditoParcelado;
+              this.Totallanchonete = d.total;
+
+              this.chartSeriesolanchonete = [
+                (this.dinheirolanchonete / d.total) * 100,
+                (this.debitolanchonete / d.total) * 100,
+                (this.pixlanchonete / d.total) * 100,
+                (this.creditolanchonete / d.total) * 100,
+                (this.creditoParceladolanchonete / d.total) * 100
               ]
             }
 

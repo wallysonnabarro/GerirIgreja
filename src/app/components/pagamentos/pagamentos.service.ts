@@ -107,4 +107,15 @@ export class PagamentosService {
 
     return this.http.post<Result<string>>(`${this.uri}registra-lista-oferta/${id}`, lista, { headers: _headers });
   }
+
+  
+  PostEntradaLanchonete(lista: Oferta[], token: string, id: number): Observable<Result<string>> {
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.post<Result<string>>(`${this.uri}registra-lista-lanchonete/${id}`, lista, { headers: _headers });
+  }
 }

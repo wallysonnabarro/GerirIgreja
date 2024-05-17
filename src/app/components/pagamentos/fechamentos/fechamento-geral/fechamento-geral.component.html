@@ -426,6 +426,129 @@
       </div>
     </mat-card-content>
   </mat-card>
+  
+  <br />
+
+  <mat-card>
+    <mat-card class="text-center titulo-1">
+      <span>Entradas - Lanchonete</span>
+    </mat-card>
+    <br />
+    <mat-card-content>
+      <div class="row">
+        <div class="col-lg-4">
+          <apx-chart
+            [series]="chartSeriesolanchonete"
+            [chart]="chartDetails"
+            [labels]="chartLabels"
+            [title]="chartTitlelanchonete"
+          ></apx-chart>
+        </div>
+        <div class="col-lg-8">
+          <div class="row d-flex justify-content-center">
+            <mat-card
+              class="card-style-1 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    dinheirolanchonete | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Dinheiro</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-1 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    debitolanchonete | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Débito</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-2 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    creditolanchonete | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Crédito à Vista</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-3 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    creditoParceladolanchonete
+                      | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >Crédito Parcelado</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card
+              class="card-style-saida-4 m-1"
+              style="width: 160px; height: 85px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    pixlanchonete | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-saida"
+                    >PIX</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="row d-flex justify-content-center">
+            <mat-card
+              class="card-style-7 mt-5"
+              style="width: 200px; height: 100px"
+            >
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{
+                    Totallanchonete | currency : "BRL" : "symbol" : "1.2-2"
+                  }}</mat-card-title>
+                  <mat-card-subtitle class="card-subtitulo-7"
+                    >Total</mat-card-subtitle
+                  >
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>
 
 <br />
