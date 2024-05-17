@@ -21,7 +21,7 @@ import { Lanchonete } from './Lanchonete';
 export class LanchoneteComponent {
 
   eventos: Eventos[] = [];
-  lista: Lanchonete[] = [];
+  lista: Lanchonete[] = []; 
   formas: selector[] = [
     { id: formaPagamento.dinheiro, nome: 'Dinheiro' },
     { id: formaPagamento.debito, nome: 'Débito' },

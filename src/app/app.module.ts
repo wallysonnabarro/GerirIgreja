@@ -60,6 +60,7 @@ import { FichapagamentosvoluntariosComponent } from './components/pagamentos/fic
 import { NgApexchartsModule } from "ng-apexcharts";
 import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
 import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchone
     FichapagamentosvoluntariosComponent,
     OfertaComponent,
     LanchoneteComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,26 +1,44 @@
 <br />
 <div class="container">
   <div class="row">
-    <div class="col-lg-8"> 
+    <div class="col-lg-8">
       <div class="card">
         <div
           class="card-header p-1"
           style="background-color: #363636; color: azure"
         >
-          <h5 class="m-1 fw-bold">Áreas de atuações</h5>
+          <h5 class="m-1 fw-bold">Perfil de acesso</h5>
         </div>
         <div class="card-body">
           <div class="card border-dark">
             <div class="card-header p-1" style="background-color: #dcdcdc">
-              <h5 class="m-1 fw-bold">Registre uma nova área de atuação</h5>
+              <h5 class="m-1 fw-bold">Registre um novo perfil de acesso</h5>
             </div>
             <div class="card-body">
               <form [formGroup]="form" novalidate>
                 <div class="row">
                   <div class="col-lg-5">
+                    <mat-form-field style="width: 300px">
+                      <mat-label
+                        >Contratos<span style="color: red">*</span></mat-label
+                      >
+                      <mat-select
+                        formControlName="contrato"
+                        (selectionChange)="contratoSelecionado()"
+                      >
+                        @for (contratoSelect of contratos; track contratoSelect)
+                        {
+                        <mat-option [value]="contratoSelect.id">{{
+                          contratoSelect.nome
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-5">
                     <div class="input-group input-group-sm mb-3">
                       <span class="input-group-text" id="inputGroup-sizing-sm"
-                        >Área</span
+                        >Perfil</span
                       >
                       <input
                         type="text"
@@ -28,10 +46,30 @@
                         aria-label="Sizing example input"
                         aria-describedby="inputGroup-sizing-sm"
                         style="text-transform: uppercase"
-                        formControlName="nome"
+                        formControlName="perfil"
                         required
                       />
                     </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <mat-form-field style="width: 300px">
+                      <mat-label
+                        >Status<span style="color: red">*</span></mat-label
+                      >
+                      <mat-select
+                        formControlName="status"
+                        (selectionChange)="statusSelecionado()"
+                      >
+                        @for (statusSelect of statusLista; track statusSelect)
+                        {
+                        <mat-option [value]="statusSelect.id">{{
+                          statusSelect.nome
+                        }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </form>
@@ -81,7 +119,7 @@
               <tbody>
                 <tr
                   *ngFor="
-                    let item of filteredSiaoArray
+                    let item of filteredPerfilArray
                       | paginate
                         : {
                             itemsPerPage: 10,
@@ -131,7 +169,7 @@
       >
         <div class="card-header">
           <h2 class="text-center fw-bold">
-            Editar informações da área de atuação
+            Editar perfil
           </h2>
         </div>
         <form [formGroup]="formEditar" novalidate>
@@ -172,7 +210,7 @@
         *ngIf="isDetalhar"
       >
         <form [formGroup]="formEditar" novalidate>
-          <h2 class="text-center fw-bold">Detalhes da área de atuação</h2>
+          <h2 class="text-center fw-bold">Detalhar perfil</h2>
           <mat-list>
             <mat-list-item style="text-transform: uppercase"
               >Evento: {{ Nome }}</mat-list-item
