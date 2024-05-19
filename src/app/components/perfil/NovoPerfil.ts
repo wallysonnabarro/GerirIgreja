@@ -1,5 +1,4 @@
-export interface Perfil {
-    id: number;
+export interface NovoPerfil{    
     perfilName: string;
     statusSelecionadoId: number;
     contratoSelecionadoId: number;

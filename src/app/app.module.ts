@@ -61,6 +61,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
 import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
     MatListModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatExpansionModule,
     FormsModule,
     NgxMaskDirective,
     MatCheckboxModule,
