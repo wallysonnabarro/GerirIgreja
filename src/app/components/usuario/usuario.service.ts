@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Result } from '../../interfaces/Result';
 import { Pages } from '../../interfaces/pages';
 import { UsuarioNovo } from './UsuarioNovo';
+import { UsuarioDetalhar } from './UsuarioDetalhar';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UsuarioService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.post<Result<Pages<UsuarioLista[]>>>(`${this.uri}lista-paginada`, wrapper, { headers: _headers });
+    return this.http.post<Result<Pages<UsuarioLista[]>>>(`${this.uri}lista-paginada-novo`, wrapper, { headers: _headers });
   }
 
   
@@ -39,5 +40,15 @@ export class UsuarioService {
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}novo`, novo, { headers: _headers });
+  }
+
+  
+  detalhar(token: string, id: number): Observable<Result<UsuarioDetalhar>> {
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<UsuarioDetalhar>>(`${this.uri}detalhar/${id}`, { headers: _headers });
   }
 }

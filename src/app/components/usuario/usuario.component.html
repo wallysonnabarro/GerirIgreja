@@ -30,7 +30,8 @@
                                             <span class="input-group-text" id="inputGroup-sizing-sm">Nome de
                                                 usuário</span>
                                             <input type="text" class="form-control" aria-label="Sizing example input"
-                                                aria-describedby="inputGroup-sizing-sm" formControlName="userName" required />
+                                                aria-describedby="inputGroup-sizing-sm" formControlName="userName"
+                                                required />
                                         </div>
                                     </div>
                                 </div>
@@ -54,7 +55,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <mat-form-field  style="width: 300px">
+                                        <mat-form-field style="width: 300px">
                                             <mat-label>Senha</mat-label>
                                             <input matInput [type]="hide ? 'password' : 'text'" formControlName="senha">
                                             <button mat-icon-button matSuffix (click)="hide = !hide"
@@ -143,6 +144,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome</th>
+                                    <th>tribo</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -158,6 +160,7 @@
                           }
                   ">
                                     <td style="text-transform: uppercase">{{ item.nome }}</td>
+                                    <td style="text-transform: uppercase">{{ item.tribo }}</td>
                                     <td>
                                         <button mat-raised-button color="accent" (click)="Editar(item.id)"
                                             aria-label="Visualizar docs">
@@ -213,8 +216,50 @@
             <div class="card border-dark p-2" style="background-color: #d6d6d6" *ngIf="isDetalhar">
                 <form [formGroup]="formEditar" novalidate>
                     <h2 class="text-center fw-bold">Detalhar usuário</h2>
+                    <mat-list>
+                        <mat-list-item>Nome: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            nome
+                            }}</mat-list-item>
 
+                        <mat-divider></mat-divider>
 
+                        <mat-list-item>Tribo/Equipe: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            tribo
+                            }}</mat-list-item>
+                            
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>Usuário: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            userName
+                            }}</mat-list-item>
+                            
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>E-mail: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            email
+                            }}</mat-list-item>
+                            
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>CPF: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            cpf
+                            }}</mat-list-item>
+                            
+                        <mat-divider></mat-divider>
+
+                        <mat-list-item>Contrato: </mat-list-item>
+                        <mat-list-item style="text-transform: uppercase">{{
+                            contrato
+                            }}</mat-list-item>
+                            
+                        <mat-divider></mat-divider>
+
+                    </mat-list>
                 </form>
             </div>
         </div>

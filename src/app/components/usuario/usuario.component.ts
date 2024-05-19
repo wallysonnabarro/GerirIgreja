@@ -44,6 +44,15 @@ export class UsuarioComponent {
   isDetalhar = false;
   isAtualizar = false;
 
+  //detalhar
+  id = 0;
+  nome = "";
+  tribo = "";
+  email = "";
+  cpf = "";
+  contrato = "";
+  userName = "";
+
   constructor(private fb: FormBuilder, private dialog: MatDialog, private localStoreServices: LocalStorageServiceService,
     private errorServices: ErrorsService, private contratoServices: ContratoservicesService, private perfilService: PerfilServicesService,
     private triboServices: TribosService, private usuarioServices: UsuarioService) {
@@ -145,10 +154,10 @@ export class UsuarioComponent {
 
   novo() {
     const { senha, email, cpf, userName, nome, contratoSelecionadoId, roleSelecionadoId, triboSelecionadoId } = this.form.value;
-    
+
     if (this.triboId === 0) {
       this.openDialog("Selecione uma tribo");
-    } else if (this.contratoId === 0) {      
+    } else if (this.contratoId === 0) {
       this.openDialog("Selecione um contrato");
     } else if (this.roleId === 0) {
       this.openDialog("Selecione um perfil");
@@ -156,11 +165,11 @@ export class UsuarioComponent {
       this.openDialog("Campo senha é obrigatório");
     } else if (email === "") {
       this.openDialog("Campo e-mail é obrigatório");
-    }  else if (cpf === "") {
+    } else if (cpf === "") {
       this.openDialog("Campo CPF é obrigatório");
-    }  else if (userName === "") {
+    } else if (userName === "") {
       this.openDialog("Campo nome de usuário é obrigatório");
-    }  else if (nome === "") {
+    } else if (nome === "") {
       this.openDialog("Campo nome completo é obrigatório");
     } else {
       const novoUser: UsuarioNovo = {
@@ -175,17 +184,17 @@ export class UsuarioComponent {
       };
 
       this.usuarioServices.novo(this.token, novoUser)
-      .pipe(
-        first(),
-        tap(result => {
-          this.openDialog("Registrado com sucesso.");
-          this.form.reset();
-        }),
-        catchError((error: HttpErrorResponse) => {
-          this.errorServices.Errors(error);
-          return of(null);
-        }))
-      .subscribe();      
+        .pipe(
+          first(),
+          tap(result => {
+            this.openDialog("Registrado com sucesso.");
+            this.form.reset();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.errorServices.Errors(error);
+            return of(null);
+          }))
+        .subscribe();
     }
   }
 
@@ -210,11 +219,49 @@ export class UsuarioComponent {
   }
 
   Editar(id: number) {
+    this.isDetalhar = false;
+    this.isAtualizar = true;
+    
+    const toke = this.localStoreServices.GetLocalStorage();
+
+    if (toke !== null) {
+      this.token = toke;
+    } else {
+      this.errorServices.Redirecionar();
+    }
 
   }
 
   Detalhar(id: number) {
+    this.isDetalhar = true;
+    this.isAtualizar = false;
+    
+    const toke = this.localStoreServices.GetLocalStorage();
 
+    if (toke !== null) {
+      this.token = toke;
+    } else {
+      this.errorServices.Redirecionar();
+    }
+
+    
+    this.usuarioServices.detalhar(this.token, id)
+      .pipe(
+        first(),
+        tap(result => {
+          this.id = result.dados.id;
+          this.nome = result.dados.nome;
+          this.email = result.dados.email;
+          this.cpf = result.dados.cpf;
+          this.tribo = result.dados.tribo;
+          this.contrato = result.dados.contrato;
+          this.userName = result.dados.userName;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.errorServices.Errors(error);
+          return of(null);
+        }))
+      .subscribe();
   }
 
 
