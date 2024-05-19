@@ -18,6 +18,7 @@ import { TiposSaidasComponent } from './components/configuracoes/configuracoes/t
 import { OfertaComponent } from './components/pagamentos/oferta/oferta.component';
 import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { UsuarioComponent } from './components/usuario/usuario.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'configurar-tipos-saida', component: TiposSaidasComponent, canActivate: [CanActivate] },
   { path: 'configurar-perfil', component: PerfilComponent, canActivate: [CanActivate] },
   { path: 'lanchonete', component: LanchoneteComponent, canActivate: [CanActivate] },
+  { path: 'novo-usuario', component: UsuarioComponent, canActivate: [CanActivate] },
 ];
 
 @NgModule({

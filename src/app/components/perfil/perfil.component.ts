@@ -21,7 +21,7 @@ import { Transacoes } from './Transacoes';
   styleUrl: './perfil.component.css'
 })
 export class PerfilComponent {
-
+ 
   contratos: ContratoSelected[] = [];
   perfilTransacoes: PerfilTransacoes[] = [];
   statusLista: selector[] = [

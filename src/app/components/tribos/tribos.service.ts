@@ -69,4 +69,14 @@ export class TribosService {
 
     return this.http.get<Result<TriboSelected[]>>(`${this.uri}lista-selected/${token}`, { headers: _headers });
   }
+  
+  ListaSelectedAll(token: string): Observable<Result<TriboSelected[]>>{
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<TriboSelected[]>>(`${this.uri}lista-selected-all`, { headers: _headers });
+  }
 }

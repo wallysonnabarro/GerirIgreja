@@ -7,6 +7,7 @@ import { NovoPerfil } from './NovoPerfil';
 import { Perfil } from './Perfil';
 import { Pages } from '../../interfaces/pages';
 import { PerfilTransacoes } from './PerfilTransacoes';
+import { Perfils } from '../../interfaces/Perfils';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,13 @@ export class PerfilServicesService {
     return this.http.post<Result<Pages<PerfilTransacoes[]>>>(`${this.uri}lista-paginada`, wrapper, { headers: _headers });
   }
 
+  ListaPerfilSelected(token: string): Observable<Result<Perfils[]>>{
+
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<Result<Perfils[]>>(`${this.uri}perfil-listaSelected`, { headers: _headers });
+  }
 }

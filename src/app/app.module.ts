@@ -62,6 +62,7 @@ import { OfertaComponent } from './components/pagamentos/oferta/oferta.component
 import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { UsuarioComponent } from './components/usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     OfertaComponent,
     LanchoneteComponent,
     PerfilComponent,
+    UsuarioComponent,
   ],
   imports: [
     BrowserModule,
