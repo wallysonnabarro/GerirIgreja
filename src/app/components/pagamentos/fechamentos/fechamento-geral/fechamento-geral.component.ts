@@ -72,7 +72,7 @@ export class FechamentoGeralComponent {
     }
   }
 
-  chartLabels = ["Dinheiro", "Débito", "Crédito à vista", "Crédito Parcelado", "PIX/TED"];
+  chartLabels = ["Dinheiro", "Débito", "PIX/TED", "Crédito à vista", "Crédito Parcelado"];
 
   chartTitle: ApexTitleSubtitle = {
     text: 'Pagamentos',
