@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogComponent } from '../dialog/dialog.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ValidarTokenService } from '../../services/validar-token.service';
+import { catchError, first, of, tap } from 'rxjs';
+import { LoginServicesService } from '../login/login-services.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +14,7 @@ export class ErrorsService {
 
   status = 0;
 
-  constructor(private dialog: MatDialog, private router: Router) { }
+  constructor(private loginServices: LoginServicesService, private dialog: MatDialog, private router: Router, private validarTokenService: ValidarTokenService) { }
 
   Errors(error: HttpErrorResponse) {
     let errorMessage = "";
@@ -48,4 +51,24 @@ export class ErrorsService {
   Redirecionar() {
     this.router.navigate(['/login']);
   }
+
+  Recarregar(navegacao: string, token: string) {
+    this.validarTokenService.ValidarToken(token)
+      .pipe(
+        first(),
+        tap(result => {
+          if (result === true) {
+            this.loginServices.setUserAuthenticado(true);
+            this.router.navigate([navegacao]);
+          } else {
+            this.router.navigate(['/login']);
+          }
+        }),
+        catchError((error: HttpErrorResponse) => {
+          this.Errors(error);
+          return of(null);
+        }))
+      .subscribe();
+  }
+
 }

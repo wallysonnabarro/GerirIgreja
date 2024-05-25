@@ -35,6 +35,26 @@ export class JwtServiceService {
     }    
   }
 
+  decodeJwtstring(tokenInterface: string): TokenResult {
+    try {
+      const decodedToken: any = jwtDecode(tokenInterface);
+  
+      this.result = {
+        name: decodedToken['unique_name'],
+        role: decodedToken['role'],
+        success: true
+      };
+      
+      return this.result;  
+    } catch (error) {      
+      return this.result = {
+        name: '',
+        role: '',
+        success: false
+      };
+    }    
+  }
+
   decodeTokenJwt(token: string){
     const decodedToken: any = jwtDecode(token);
 

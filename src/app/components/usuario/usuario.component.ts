@@ -79,8 +79,9 @@ export class UsuarioComponent {
 
     const toke = this.localStoreServices.GetLocalStorage();
 
-    if (toke !== null) {
+    if (toke !== null) { 
       this.token = toke;
+      // this.errorServices.Recarregar('/novo-usuario', this.token);
     } else {
       this.errorServices.Redirecionar();
     }
