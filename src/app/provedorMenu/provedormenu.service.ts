@@ -22,40 +22,39 @@ export class ProvedormenuService {
     private dialog: MatDialog, private loginServices: LoginServicesService
   ) {
 
+    this.menus.push({ status: false, nome: "Tribos/Equipes" });
+    this.menus.push({ status: false, nome: "Membros" });
+    this.menus.push({ status: false, nome: "Cadastro Sião" });
+    this.menus.push({ status: false, nome: "Sião" });
+    this.menus.push({ status: false, nome: "Área" });
+    this.menus.push({ status: false, nome: "Inscricões" });
+    this.menus.push({ status: false, nome: "Inscrições Voluntários" });
+    this.menus.push({ status: false, nome: "Administração" });
+    this.menus.push({ status: false, nome: "Novo Usuário" });
+    this.menus.push({ status: false, nome: "Redefinir Senha" });
+    this.menus.push({ status: false, nome: "Redefinir Acesso" });
+    this.menus.push({ status: false, nome: "Fechamento/Pagamentos" });
+    this.menus.push({ status: false, nome: "Fechamento - Sião" });
+    this.menus.push({ status: false, nome: "Saída - Pagamentos" });
+    this.menus.push({ status: false, nome: "Descontos - Pagamentos" });
+    this.menus.push({ status: false, nome: "Fornecedor - Pagamentos" });
+    this.menus.push({ status: false, nome: "Pendências - Pagamentos" });
+    this.menus.push({ status: false, nome: "Ofertas - Sião" });
+    this.menus.push({ status: false, nome: "Lançamentos Lanchonete" });
+    this.menus.push({ status: false, nome: "Financeiro" });
+    this.menus.push({ status: false, nome: "Registrar Financeiro" });
+    this.menus.push({ status: false, nome: "Despesas e Obrigações" });
+    this.menus.push({ status: false, nome: "Visualizar Financeiro" })
+    this.menus.push({ status: false, nome: "Tipos de Saída" });
+    this.menus.push({ status: false, nome: "Logout" });
+    this.menus.push({ status: true, nome: "Login" });
+    this.menus.push({ status: false, nome: "Configuracões" });
+    this.menus.push({ status: false, nome: "Configurar tipos saída" });
+    this.menus.push({ status: false, nome: "Desenvolvimento" });
+
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
-
-      this.menus.push({ status: true, nome: "Tribos/Equipes" });
-      this.menus.push({ status: true, nome: "Membros" });
-      this.menus.push({ status: true, nome: "Cadastro Sião" });
-      this.menus.push({ status: true, nome: "Sião" });
-      this.menus.push({ status: true, nome: "Área" });
-      this.menus.push({ status: true, nome: "Inscricões" });
-      this.menus.push({ status: true, nome: "Inscrições Voluntários" });
-      this.menus.push({ status: true, nome: "Administração" });
-      this.menus.push({ status: true, nome: "Novo Usuário" });
-      this.menus.push({ status: true, nome: "Redefinir Senha" });
-      this.menus.push({ status: true, nome: "Redefinir Acesso" });
-      this.menus.push({ status: true, nome: "Fechamento/Pagamentos" });
-      this.menus.push({ status: true, nome: "Fechamento - Sião" });
-      this.menus.push({ status: true, nome: "Saída - Pagamentos" });
-      this.menus.push({ status: true, nome: "Descontos - Pagamentos" });
-      this.menus.push({ status: true, nome: "Fornecedor - Pagamentos" });
-      this.menus.push({ status: true, nome: "Pendências - Pagamentos" });
-      this.menus.push({ status: true, nome: "Ofertas - Sião" });
-      this.menus.push({ status: true, nome: "Lançamentos Lanchonete" });
-      this.menus.push({ status: true, nome: "Financeiro" });
-      this.menus.push({ status: true, nome: "Registrar Financeiro" });
-      this.menus.push({ status: true, nome: "Despesas e Obrigações" });
-      this.menus.push({ status: true, nome: "Visualizar Financeiro" })
-      this.menus.push({ status: true, nome: "Tipos de Saída" });
-      this.menus.push({ status: true, nome: "Logout" });
-      this.menus.push({ status: true, nome: "Login" });
-      this.menus.push({ status: true, nome: "Configuracões" });
-      this.menus.push({ status: true, nome: "Configurar tipos saída" });
-      this.menus.push({ status: true, nome: "Desenvolvimento" });
-
       const jwt = this.jwtService.decodeJwtstring(toke);
 
       //Próximos passos
@@ -67,7 +66,7 @@ export class ProvedormenuService {
             //2º: Fazer com que seja apresentado somente os menus e submenus de acordo com as transações.
             if (resultRole.succeeded) {
               this.forEachTransacao(resultRole.dados.transacoes);
-              
+
               this.loginServices.setUserAuthenticado(true);
             }
           }),
@@ -75,36 +74,6 @@ export class ProvedormenuService {
             return of(null);
           })
         ).subscribe();
-    } else {
-      this.menus.push({ status: false, nome: "Tribos/Equipes" });
-      this.menus.push({ status: false, nome: "Membros" });
-      this.menus.push({ status: false, nome: "Cadastro Sião" });
-      this.menus.push({ status: false, nome: "Sião" });
-      this.menus.push({ status: false, nome: "Área" });
-      this.menus.push({ status: false, nome: "Inscricões" });
-      this.menus.push({ status: false, nome: "Inscrições Voluntários" });
-      this.menus.push({ status: false, nome: "Administração" });
-      this.menus.push({ status: false, nome: "Novo Usuário" });
-      this.menus.push({ status: false, nome: "Redefinir Senha" });
-      this.menus.push({ status: false, nome: "Redefinir Acesso" });
-      this.menus.push({ status: false, nome: "Fechamento/Pagamentos" });
-      this.menus.push({ status: false, nome: "Fechamento - Sião" });
-      this.menus.push({ status: false, nome: "Saída - Pagamentos" });
-      this.menus.push({ status: false, nome: "Descontos - Pagamentos" });
-      this.menus.push({ status: false, nome: "Fornecedor - Pagamentos" });
-      this.menus.push({ status: false, nome: "Pendências - Pagamentos" });
-      this.menus.push({ status: false, nome: "Ofertas - Sião" });
-      this.menus.push({ status: false, nome: "Lançamentos Lanchonete" });
-      this.menus.push({ status: false, nome: "Financeiro" });
-      this.menus.push({ status: false, nome: "Registrar Financeiro" });
-      this.menus.push({ status: false, nome: "Despesas e Obrigações" });
-      this.menus.push({ status: false, nome: "Visualizar Financeiro" })
-      this.menus.push({ status: false, nome: "Tipos de Saída" });
-      this.menus.push({ status: false, nome: "Logout" });
-      this.menus.push({ status: true, nome: "Login" });
-      this.menus.push({ status: true, nome: "Configuracões" });
-      this.menus.push({ status: true, nome: "Configurar tipos saída" });
-      this.menus.push({ status: false, nome: "Desenvolvimento" });
     }
   }
 
