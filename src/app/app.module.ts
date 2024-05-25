@@ -63,6 +63,7 @@ import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchone
 import { PerfilComponent } from './components/perfil/perfil.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { UsuarioComponent } from './components/usuario/usuario.component';
+import { AuthGuardCanActivate } from './guard/auth.guard.canActivate';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
   ],
   providers: [
     LoginServicesService,
+    AuthGuardCanActivate,
     ProvedormenuService,
     provideNativeDateAdapter(),
     provideAnimationsAsync(),

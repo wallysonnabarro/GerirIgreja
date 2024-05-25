@@ -19,27 +19,28 @@ import { OfertaComponent } from './components/pagamentos/oferta/oferta.component
 import { LanchoneteComponent } from './components/pagamentos/lanchonete/lanchonete.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { UsuarioComponent } from './components/usuario/usuario.component';
+import { AuthGuardCanActivate } from './guard/auth.guard.canActivate';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'tribo-equipes', component: TribosComponent, canActivate: [CanActivate] },
-  { path: 'logout', component: LogoutComponent, canActivate: [CanActivate] },
-  { path: 'siao', component: SiaoComponent, canActivate: [CanActivate] },
-  { path: 'areas-servico', component: AreasComponent, canActivate: [CanActivate] },
-  { path: 'pagamento-inscricoes', component: PagamentosComponent, canActivate: [CanActivate] },
   { path: 'conectado', component: FichaConectadoComponent },
   { path: 'voluntario', component: FichaVoluntarioComponent },
   { path: 'sobre', component: SobreComponent },
-  { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [CanActivate] },
-  { path: 'fechamentos', component: FechamentoGeralComponent, canActivate: [CanActivate] },
-  { path: 'saidas', component: SaidasComponent, canActivate: [CanActivate] },
-  { path: 'oferta-Siao', component: OfertaComponent, canActivate: [CanActivate] },
-  { path: 'configurar-tipos-saida', component: TiposSaidasComponent, canActivate: [CanActivate] },
-  { path: 'configurar-perfil', component: PerfilComponent, canActivate: [CanActivate] },
-  { path: 'lanchonete', component: LanchoneteComponent, canActivate: [CanActivate] },
-  { path: 'novo-usuario', component: UsuarioComponent, canActivate: [CanActivate] },
+  { path: 'tribo-equipes', component: TribosComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'siao', component: SiaoComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'areas-servico', component: AreasComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'pagamento-inscricoes', component: PagamentosComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'configuracoes', component: ConfiguracoesComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'fechamentos', component: FechamentoGeralComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'saidas', component: SaidasComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'oferta-Siao', component: OfertaComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'configurar-tipos-saida', component: TiposSaidasComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'configurar-perfil', component: PerfilComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'lanchonete', component: LanchoneteComponent, canActivate: [AuthGuardCanActivate] },
+  { path: 'novo-usuario', component: UsuarioComponent, canActivate: [AuthGuardCanActivate] },
 ];
 
 @NgModule({

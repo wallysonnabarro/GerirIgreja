@@ -10,16 +10,19 @@ import { TokenInterface } from './TokenInterface';
 export class LoginServicesService {
  
   private usuarioAutenticado: boolean = false;
+  private authKey = 'isAuthenticated';
   private readonly uri: string = `${environment.apiUrl}Usuario/`;
 
   constructor(private http: HttpClient) { }
 
   UserIsAuthentication(){
-    return this.usuarioAutenticado;
+    const isAuthenticated = localStorage.getItem(this.authKey);
+    return isAuthenticated === "true";
   }
   
   setUserAuthenticado(status: boolean){
     this.usuarioAutenticado = status;
+    localStorage.setItem(this.authKey, status ? 'true' : 'false');
     return this.usuarioAutenticado;
   }
 
