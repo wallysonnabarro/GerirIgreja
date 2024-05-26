@@ -10,7 +10,7 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrl: './dialog-evento.component.css'
 })
 export class DialogEventoComponent {
-  form: FormGroup;
+  form: FormGroup; 
 
   constructor(
     public dialogRef: MatDialogRef<DialogEventoComponent>,

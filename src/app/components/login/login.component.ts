@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorsService } from '../errors/errors.service';
+import { UsuarioreseteComponent } from '../usuario/usuarioresete/usuarioresete/usuarioresete.component';
 
 @Component({
   selector: 'app-login',
@@ -100,7 +101,7 @@ export class LoginComponent {
             }),
             catchError((error: HttpErrorResponse) => {
               this.errorServices.Errors(error);
-              
+
               this.isLoading = false;
               return of(null);
             })
@@ -124,4 +125,13 @@ export class LoginComponent {
     });
   }
 
+  Redefinir() {
+    const dialogRef = this.dialog.open(UsuarioreseteComponent, {
+      data: { titulo: 'Redefinir senha.', paragrafo: "" },
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 }

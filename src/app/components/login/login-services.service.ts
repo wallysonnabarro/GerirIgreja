@@ -3,6 +3,8 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenInterface } from './TokenInterface';
+import { Result } from '../../interfaces/Result';
+import { Login } from './login';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +43,12 @@ export class LoginServicesService {
 
     return this.http.post<TokenInterface>(`${this.uri}login`, login,  { headers: _headers });
   } 
+
+  RedefinirSenha(login: Login): Observable<Result<boolean>>{    
+    let _headers: HttpHeaders = new HttpHeaders({
+      'accept': 'application/json'
+    });
+
+    return this.http.post<Result<boolean>>(`${this.uri}redefinir-senha`, login,  { headers: _headers });
+  }
 }

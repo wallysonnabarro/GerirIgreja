@@ -64,6 +64,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { AuthGuardCanActivate } from './guard/auth.guard.canActivate';
+import { UsuarioreseteComponent } from './components/usuario/usuarioresete/usuarioresete/usuarioresete.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { AuthGuardCanActivate } from './guard/auth.guard.canActivate';
     LanchoneteComponent,
     PerfilComponent,
     UsuarioComponent,
+    UsuarioreseteComponent,
   ],
   imports: [
     BrowserModule,
