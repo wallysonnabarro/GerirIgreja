@@ -22,7 +22,8 @@ export class CheckInService {
     
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<DadosRelatorio>>(`${this.uri}get-lista-voluntarios`, dados,  { headers: _headers });
@@ -38,7 +39,8 @@ export class CheckInService {
     
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<DadosRelatorio>>(`${this.uri}get-lista-conectados`, dados,  { headers: _headers });

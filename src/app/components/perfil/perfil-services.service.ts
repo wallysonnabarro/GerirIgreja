@@ -22,7 +22,8 @@ export class PerfilServicesService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<number>>(`${this.uri}perfil-novo`, perfil, { headers: _headers });
@@ -32,7 +33,8 @@ export class PerfilServicesService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<number>>(`${this.uri}perfil-atualizar`, perfil, { headers: _headers });
@@ -46,7 +48,8 @@ export class PerfilServicesService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<Pages<PerfilTransacoes[]>>>(`${this.uri}lista-paginada`, wrapper, { headers: _headers });
@@ -56,7 +59,8 @@ export class PerfilServicesService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<Perfils[]>>(`${this.uri}perfil-listaSelected`, { headers: _headers });

@@ -24,7 +24,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}confirmar`, pagamento, { headers: _headers });
@@ -34,7 +35,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}cancelar`, pagamentoCancelar, { headers: _headers });
@@ -44,7 +46,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}trasnferir`, trasfer, { headers: _headers });
@@ -55,7 +58,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<PagamentoAtualizar>>(`${this.uri}buscar-pagamento`, atualizar, { headers: _headers });
@@ -65,7 +69,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}atualizar-pagamento`, atualizar, { headers: _headers });
@@ -74,7 +79,8 @@ export class PagamentosService {
   buscarPagamentos(token: string, id: number): Observable<Result<Pagamentos[]>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<Pagamentos[]>>(`${this.uri}buscar-pagamentos/${id}`, { headers: _headers });
@@ -83,7 +89,8 @@ export class PagamentosService {
   buscarPagamentosExcelVoluntarios(token: string, id: number): Observable<ListPagamento[]> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<ListPagamento[]>(`${this.uri}pagamentos-voluntarios-excel/${id}`, { headers: _headers });
@@ -92,7 +99,8 @@ export class PagamentosService {
   buscarPagamentosExcelConectados(token: string, id: number): Observable<ListPagamento[]> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<ListPagamento[]>(`${this.uri}pagamentos-conectados-excel/${id}`, { headers: _headers });
@@ -102,7 +110,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<string>>(`${this.uri}registra-lista-oferta/${id}`, lista, { headers: _headers });
@@ -113,7 +122,8 @@ export class PagamentosService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<string>>(`${this.uri}registra-lista-lanchonete/${id}`, lista, { headers: _headers });

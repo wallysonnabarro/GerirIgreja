@@ -17,7 +17,8 @@ export class ValidarTokenService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<boolean>(`${this.uri}validar-token`,{ headers: _headers });

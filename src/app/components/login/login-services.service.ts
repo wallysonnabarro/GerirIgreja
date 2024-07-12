@@ -38,7 +38,8 @@ export class LoginServicesService {
   Logar(login: object): Observable<TokenInterface>{
     
     let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json'
+      'accept': 'application/json',
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<TokenInterface>(`${this.uri}login`, login,  { headers: _headers });
@@ -46,7 +47,8 @@ export class LoginServicesService {
 
   RedefinirSenha(login: Login): Observable<Result<boolean>>{    
     let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json'
+      'accept': 'application/json',
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}redefinir-senha`, login,  { headers: _headers });

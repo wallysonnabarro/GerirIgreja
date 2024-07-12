@@ -39,7 +39,8 @@ export class FichaConectadoService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes`, ficha, { headers: _headers });
@@ -49,7 +50,8 @@ export class FichaConectadoService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes-nao-confirmados`, ficha, { headers: _headers });

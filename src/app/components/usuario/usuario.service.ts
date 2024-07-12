@@ -26,7 +26,8 @@ export class UsuarioService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<Pages<UsuarioLista[]>>>(`${this.uri}lista-paginada-novo`, wrapper, { headers: _headers });
@@ -36,7 +37,8 @@ export class UsuarioService {
   novo(token: string, novo: UsuarioNovo ): Observable<Result<boolean>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<boolean>>(`${this.uri}novo`, novo, { headers: _headers });
@@ -46,7 +48,8 @@ export class UsuarioService {
   detalhar(token: string, id: number): Observable<Result<UsuarioDetalhar>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<UsuarioDetalhar>>(`${this.uri}detalhar/${id}`, { headers: _headers });

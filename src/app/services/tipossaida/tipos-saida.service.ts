@@ -23,7 +23,8 @@ export class TiposSaidaService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<Pages<Tipo[]>>>(`${this.uri}listar`, wrapper, { headers: _headers });
@@ -34,7 +35,8 @@ export class TiposSaidaService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<Tipo[]>>(`${this.uri}listar-todos`, { headers: _headers });
@@ -43,7 +45,8 @@ export class TiposSaidaService {
   novo(tipo: string, token: string): Observable<Result<string>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<string>>(`${this.uri}novo/${tipo}`, { headers: _headers });
@@ -52,7 +55,8 @@ export class TiposSaidaService {
   detalhar(id: number, token: string): Observable<Result<Tipo>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<Tipo>>(`${this.uri}detalhar/${id}`, { headers: _headers });
@@ -61,7 +65,8 @@ export class TiposSaidaService {
   editar(tipo: Tipo, token: string): Observable<Result<string>> {
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.post<Result<string>>(`${this.uri}editar`, tipo, { headers: _headers });

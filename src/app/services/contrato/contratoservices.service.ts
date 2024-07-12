@@ -18,7 +18,8 @@ export class ContratoservicesService {
 
     let _headers: HttpHeaders = new HttpHeaders({
       'accept': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
     });
 
     return this.http.get<Result<ContratoSelected[]>>(`${this.uri}contratos-ativos`,{ headers: _headers });
