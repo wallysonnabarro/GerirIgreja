@@ -7,6 +7,7 @@ import { Result } from '../../interfaces/Result';
 import { FichaLider } from '../../interfaces/FichaLider';
 import { FichaParametros } from '../../interfaces/FichaParametros';
 import { FichaPagamento } from '../pagamentos/FichaPagamento';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,44 +16,32 @@ export class FichaConectadoService {
 
   private readonly uri: string = `${environment.apiUrl}Ficha/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   postFichaConectado(ficha: FichaConectado): Observable<Result<boolean>> {
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho('');
 
     return this.http.post<Result<boolean>>(`${this.uri}novo-conectado`, ficha, { headers: _headers });
   }
 
   postFichaLider(ficha: FichaLider): Observable<Result<boolean>> {
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho('');
 
     return this.http.post<Result<boolean>>(`${this.uri}novo-lider`, ficha, { headers: _headers });
   }
   
   lista(ficha: FichaParametros, token: string): Observable<Result<FichaPagamento>> {
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes`, ficha, { headers: _headers });
   }
 
   listaNaoConfirmados(ficha: FichaParametros, token: string): Observable<Result<FichaPagamento>> {
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<FichaPagamento>>(`${this.uri}lista-inscricoes-nao-confirmados`, ficha, { headers: _headers });
   }

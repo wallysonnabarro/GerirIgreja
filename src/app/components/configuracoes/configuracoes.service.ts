@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Result } from '../../interfaces/Result';
 import { DadosReaderRelatorio } from '../../interfaces/DadosReaderRelatorio';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,11 @@ export class ConfiguracoesService {
  
   private readonly uri: string = `${environment.apiUrl}Relatorios/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   registrarConfiguracoesConectados(token: string, dadosReaderRelatorio: DadosReaderRelatorio): Observable<Result<DadosReaderRelatorio>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<DadosReaderRelatorio>>(`${this.uri}reader-conectado-novo`, dadosReaderRelatorio, { headers: _headers });
   }

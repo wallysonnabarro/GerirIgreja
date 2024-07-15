@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { TokenInterface } from './TokenInterface';
 import { Result } from '../../interfaces/Result';
 import { Login } from './login';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,40 +17,29 @@ export class LoginServicesService {
   private readonly uri: string = `${environment.apiUrl}Usuario/`;
   private isAuthenticated: boolean = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) {
     this.isAuthenticated = !!localStorage.getItem('authToken');
    }
 
   UserIsAuthentication(){
-    // const isAuthenticated = localStorage.getItem(this.authKey);
-    // return isAuthenticated === "true";
     return this.isAuthenticated;
   }
   
-  setUserAuthenticado(status: boolean){
-    // this.usuarioAutenticado = status;
-    // localStorage.setItem(this.authKey, status ? 'true' : 'false');
-    // return this.usuarioAutenticado;
-    
+  setUserAuthenticado(status: boolean){    
     localStorage.setItem('authToken', "token");
     this.isAuthenticated = true;
   }
 
   Logar(login: object): Observable<TokenInterface>{
-    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho('');
 
     return this.http.post<TokenInterface>(`${this.uri}login`, login,  { headers: _headers });
   } 
 
   RedefinirSenha(login: Login): Observable<Result<boolean>>{    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho('');
 
     return this.http.post<Result<boolean>>(`${this.uri}redefinir-senha`, login,  { headers: _headers });
   }

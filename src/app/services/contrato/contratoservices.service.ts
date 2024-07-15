@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { ContratoSelected } from '../../interfaces/ContratoSelected';
 import { Observable } from 'rxjs';
 import { Result } from '../../interfaces/Result';
+import { CabecalhoService } from '../cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,11 @@ export class ContratoservicesService {
 
   private readonly uri: string = `${environment.apiUrl}Contrato/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
   
   getContratosAtivos(token: string): Observable<Result<ContratoSelected[]>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.get<Result<ContratoSelected[]>>(`${this.uri}contratos-ativos`,{ headers: _headers });
   }

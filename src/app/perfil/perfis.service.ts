@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PerfilListaPaginadaDto } from './perfil-lista-paginada-dto';
 import { Result } from '../interfaces/Result';
+import { CabecalhoService } from '../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +13,14 @@ export class PerfisService {
 
   private readonly uri: string = `${environment.apiUrl}perfil/`;
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   getPerfis(token: string, role: string): Observable<Result<PerfilListaPaginadaDto>>{
     const dados = {
       Perfils: role
     }
-    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<PerfilListaPaginadaDto>>(`${this.uri}perfil`, dados,  { headers: _headers });
   }

@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Result } from '../../interfaces/Result';
 import { Observable } from 'rxjs';
 import { DadosRelatorio } from './DadosRelatorio';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +13,18 @@ export class CheckInService {
  
   private readonly uri: string = `${environment.apiUrl}Relatorios/`;
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   getVoluntarios(token: string, tipo: number, siao: number): Observable<Result<DadosRelatorio>>{
     const dados = {
       siao: siao,
       tipo: tipo
     } 
-    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+ 
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<DadosRelatorio>>(`${this.uri}get-lista-voluntarios`, dados,  { headers: _headers });
   }
-
   
   getConectados(token: string, tipo: number, siao: number, sexo: number): Observable<Result<DadosRelatorio>>{
     const dados = {
@@ -36,12 +32,8 @@ export class CheckInService {
       tipo: tipo,
       sexo: sexo,
     } 
-    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+ 
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<DadosRelatorio>>(`${this.uri}get-lista-conectados`, dados,  { headers: _headers });
   }

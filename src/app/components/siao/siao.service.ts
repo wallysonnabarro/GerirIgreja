@@ -7,6 +7,7 @@ import { Result } from '../../interfaces/Result';
 import { Siaos } from '../../interfaces/Siaos';
 import { Pages } from '../../interfaces/pages';
 import { Eventos } from '../../interfaces/Eventos';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +16,11 @@ export class SiaoService {
 
   private readonly uri: string = `${environment.apiUrl}Evento/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   postSiao(postSiao: PostSiao, token: string): Observable<Result<boolean>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<boolean>>(`${this.uri}novo`, postSiao, { headers: _headers });
   }
@@ -34,44 +31,28 @@ export class SiaoService {
       PageSize: 10
     };
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<Pages<Siaos[]>>>(`${this.uri}listar`, wrapper, { headers: _headers });
   }
 
   Detalhar(id: number, token: string): Observable<Result<Siaos>> {
-    
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<Siaos>>(`${this.uri}detalhar/${id}`, null, { headers: _headers });
   }
 
   Editar(siaos: Siaos, token: string): Observable<Result<boolean>> {
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<boolean>>(`${this.uri}editar`, siaos, { headers: _headers });
   }
 
   getSiaoIniciado(token: string): Observable<Result<Eventos[]>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.get<Result<Eventos[]>>(`${this.uri}evento-andamento`, { headers: _headers });
   }

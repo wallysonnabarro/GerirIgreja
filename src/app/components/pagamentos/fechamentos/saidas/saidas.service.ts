@@ -4,6 +4,7 @@ import { environment } from '../../../../../environments/environment';
 import { ItemPagamento } from '../../../../interfaces/ItemPagamento';
 import { Observable } from 'rxjs';
 import { Result } from '../../../../interfaces/Result';
+import { CabecalhoService } from '../../../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,11 @@ export class SaidasService {
  
   private readonly uri: string = `${environment.apiUrl}Pagamentos/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
 
   PostSaida(lista: ItemPagamento[], token: string, id: number): Observable<Result<string>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<string>>(`${this.uri}registra-lista-saida/${id}`, lista, { headers: _headers });
   }

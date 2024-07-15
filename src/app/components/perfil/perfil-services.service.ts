@@ -8,6 +8,7 @@ import { Perfil } from './Perfil';
 import { Pages } from '../../interfaces/pages';
 import { PerfilTransacoes } from './PerfilTransacoes';
 import { Perfils } from '../../interfaces/Perfils';
+import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +17,18 @@ export class PerfilServicesService {
 
   private readonly uri: string = `${environment.apiUrl}Perfil/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cabecalhoServicos: CabecalhoService) { }
   
   postNovoPerfil(token: string, perfil: NovoPerfil): Observable<Result<number>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<number>>(`${this.uri}perfil-novo`, perfil, { headers: _headers });
   }
 
   postAtualizarPerfil(token: string, perfil: Perfil): Observable<Result<number>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<number>>(`${this.uri}perfil-atualizar`, perfil, { headers: _headers });
   }
@@ -46,22 +39,14 @@ export class PerfilServicesService {
       PageSize: 10
     };
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.post<Result<Pages<PerfilTransacoes[]>>>(`${this.uri}lista-paginada`, wrapper, { headers: _headers });
   }
 
   ListaPerfilSelected(token: string): Observable<Result<Perfils[]>>{
 
-    let _headers: HttpHeaders = new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Ocp-Apim-Subscription-Key': '1355424734c44ad2a6fca62712240920'
-    });
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.get<Result<Perfils[]>>(`${this.uri}perfil-listaSelected`, { headers: _headers });
   }
