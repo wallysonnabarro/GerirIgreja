@@ -19,5 +19,7 @@
         "parcelas",
         "Usuários",
         "Voluntários"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/c3a5297e-eaeb-42da-a2ad-06dbf6cb3cd1/resourceGroups/rg-bracoforte/providers/Microsoft.Web/sites/bracofortedosenhorsiao",
+    "appService.deploySubpath": "dist\\gerir-igreja\\browser"
 }
