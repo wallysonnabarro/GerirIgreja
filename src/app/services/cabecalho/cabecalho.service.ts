@@ -16,14 +16,14 @@ export class CabecalhoService {
 
     if (token === "") {
       headers = new HttpHeaders({
-        'accept': 'application/json',
-        'Ocp-Apim-Subscription-Key': this.key
+        'accept': 'application/json'
+        // 'Ocp-Apim-Subscription-Key': this.key
       });
     } else {
       headers = new HttpHeaders({
         'accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        'Ocp-Apim-Subscription-Key': this.key
+        'Authorization': `Bearer ${token}`
+        // 'Ocp-Apim-Subscription-Key': this.key
       });
     }
 

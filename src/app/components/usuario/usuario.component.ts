@@ -16,6 +16,7 @@ import { UsuarioLista } from './UsuarioLista';
 import { UsuarioService } from './usuario.service';
 import { UsuarioNovo } from './UsuarioNovo';
 import { DialogComponent } from '../dialog/dialog.component';
+import { UsuarioEditar } from './UsuarioEditar';
 
 @Component({
   selector: 'app-usuario',
@@ -71,7 +72,6 @@ export class UsuarioComponent {
       userName: ['', [Validators.required]],
       cpf: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required]],
       contratoSelecionadoId: ['', [Validators.required]],
       roleSelecionadoId: ['', [Validators.required]],
       triboSelecionadoId: ['', [Validators.required]],
@@ -79,7 +79,7 @@ export class UsuarioComponent {
 
     const toke = this.localStoreServices.GetLocalStorage();
 
-    if (toke !== null) { 
+    if (toke !== null) {
       this.token = toke;
       // this.errorServices.Recarregar('/novo-usuario', this.token);
     } else {
@@ -222,11 +222,35 @@ export class UsuarioComponent {
   Editar(id: number) {
     this.isDetalhar = false;
     this.isAtualizar = true;
-    
+
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
       this.token = toke;
+
+      this.usuarioServices.getDadosEditar(this.token, id)
+        .pipe(
+          first(),
+          tap(result => {
+            this.formEditar.patchValue({
+              nome: result.dados.nome,
+              email: result.dados.email,
+              cpf: result.dados.cpf,
+              userName: result.dados.userName,
+            });
+
+            this.formEditar.get('triboSelecionadoId')!.setValue(result.dados.tribo);
+            this.formEditar.get('contratoSelecionadoId')!.setValue(result.dados.contrato);
+            this.formEditar.get('roleSelecionadoId')!.setValue(result.dados.perfil);
+
+            this.id = result.dados.id;
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.errorServices.Errors(error);
+            return of(null);
+          }))
+        .subscribe();
+
     } else {
       this.errorServices.Redirecionar();
     }
@@ -236,7 +260,7 @@ export class UsuarioComponent {
   Detalhar(id: number) {
     this.isDetalhar = true;
     this.isAtualizar = false;
-    
+
     const toke = this.localStoreServices.GetLocalStorage();
 
     if (toke !== null) {
@@ -245,7 +269,6 @@ export class UsuarioComponent {
       this.errorServices.Redirecionar();
     }
 
-    
     this.usuarioServices.detalhar(this.token, id)
       .pipe(
         first(),
@@ -292,6 +315,53 @@ export class UsuarioComponent {
   }
 
   Atualizar() {
+    const { senha, email, cpf, userName, nome, contratoSelecionadoId, roleSelecionadoId, triboSelecionadoId } = this.formEditar.value;
 
+    if (this.triboId === 0) {
+      this.openDialog("Selecione uma tribo");
+    } else if (this.contratoId === 0) {
+      this.openDialog("Selecione um contrato");
+    } else if (this.roleId === 0) {
+      this.openDialog("Selecione um perfil");
+    } else if (senha === "") {
+      this.openDialog("Campo senha é obrigatório");
+    } else if (email === "") {
+      this.openDialog("Campo e-mail é obrigatório");
+    } else if (cpf === "") {
+      this.openDialog("Campo CPF é obrigatório");
+    } else if (userName === "") {
+      this.openDialog("Campo nome de usuário é obrigatório");
+    } else if (nome === "") {
+      this.openDialog("Campo nome completo é obrigatório");
+    } else {
+
+      const contA = this.contratos.find(contrato => contrato.id === contratoSelecionadoId)?.nome;
+      const trib = this.istriboSelect.find(tr => tr.id === triboSelecionadoId)?.nome;
+      const rol = this.perfils.find(r => r.id === roleSelecionadoId)?.nome;
+
+      const novoUser: UsuarioEditar = {
+        id: this.id,
+        contrato: contA ?? '',
+        cpf: cpf,
+        email: email,
+        nome: nome,
+        perfil: rol ?? '',
+        tribo: trib ?? '',
+        userName: userName
+      };
+
+      this.usuarioServices.GravarEditar(this.token, novoUser)
+        .pipe(
+          first(),
+          tap(result => {
+            this.openDialog("Registrado com sucesso.");
+            this.form.reset();
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.errorServices.Errors(error);
+            return of(null);
+          }))
+        .subscribe();
+    }
   }
 }

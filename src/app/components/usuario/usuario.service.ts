@@ -8,6 +8,7 @@ import { Pages } from '../../interfaces/pages';
 import { UsuarioNovo } from './UsuarioNovo';
 import { UsuarioDetalhar } from './UsuarioDetalhar';
 import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
+import { UsuarioEditar } from './UsuarioEditar';
 
 @Injectable({
   providedIn: 'root'
@@ -44,5 +45,20 @@ export class UsuarioService {
     let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 
     return this.http.get<Result<UsuarioDetalhar>>(`${this.uri}detalhar/${id}`, { headers: _headers });
+  }
+  
+  getDadosEditar(token: string, id: number): Observable<Result<UsuarioEditar>> {
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
+
+    return this.http.get<Result<UsuarioEditar>>(`${this.uri}getEditar/${id}`, { headers: _headers });
+  }
+
+  
+  GravarEditar(token: string, novo: UsuarioEditar): Observable<Result<boolean>> {
+
+    let _headers = this.cabecalhoServicos.gerarCabecalho(token);
+
+    return this.http.post<Result<boolean>>(`${this.uri}atualizar`, novo, { headers: _headers });
   }
 }
