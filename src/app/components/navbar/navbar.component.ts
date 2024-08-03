@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  ImagemPathLogo: string;
+  ImagemPathLogo: string; 
   
   constructor(private menus: ProvedormenuService, private dialog: MatDialog){
     this.ImagemPathLogo = 'assets/img/logo_verde.png';

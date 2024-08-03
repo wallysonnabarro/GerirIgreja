@@ -67,6 +67,16 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <mat-form-field>
+            <mat-label>Descrição<span style="color: red">*</span></mat-label>
+            <input
+              matInput
+              formControlName="descricao"
+              style="text-transform: uppercase"
+            />
+          </mat-form-field>
+        </div>
 
         <mat-card-actions>
           <button mat-stroked-button (click)="adicionar()">Adicionar</button>
@@ -82,12 +92,14 @@
           <tr>
             <th>Forma de Pagamento</th>
             <th>Valor</th>
+            <th>Descrição</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of lista">
             <td>{{ item.Forma }}</td>
             <td>{{ item.Valor | currency : "BRL" : "symbol" : "1.2-2" }}</td>
+            <td>{{ item.Descricao }}</td>
           </tr>
         </tbody>
       </table>

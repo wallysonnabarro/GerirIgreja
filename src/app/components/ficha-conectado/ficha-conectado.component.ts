@@ -142,7 +142,7 @@ export class FichaConectadoComponent {
 
       if (this.form.valid) {
 
-        let newDatenascimento: moment.Moment = moment.utc(this.form.value.nascimento).local();
+        let newDatenascimento: moment.Moment = moment(this.form.value.nascimento, 'DD/MM/YYYY').local();
         this.form.value.nascimento = newDatenascimento.format("YYYY-MM-DD");
 
         const { tribo, lider, cep, endereco, nome, sexo, estadoCivil, nascimento, telefone, email, contatoEmergencial, crianca, cuidados, idade, descricaoCuidados } = this.form.value;

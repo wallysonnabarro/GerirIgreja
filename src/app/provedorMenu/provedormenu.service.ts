@@ -16,7 +16,7 @@ import { LoginServicesService } from '../components/login/login-services.service
 })
 export class ProvedormenuService {
   menus: GlobalMenus[] = [];
-
+ 
   constructor(private errorServices: ErrorsService, private localStoreServices: LocalStorageServiceService,
     private jwtService: JwtServiceService, private perfis: PerfisService, private router: Router,
     private dialog: MatDialog, private loginServices: LoginServicesService
@@ -41,7 +41,7 @@ export class ProvedormenuService {
     this.menus.push({ status: false, nome: "Pendências - Pagamentos" });
     this.menus.push({ status: false, nome: "Ofertas - Sião" });
     this.menus.push({ status: false, nome: "Lançamentos Lanchonete" });
-    this.menus.push({ status: false, nome: "Financeiro" });
+    // this.menus.push({ status: false, nome: "Financeiro" });
     this.menus.push({ status: false, nome: "Registrar Financeiro" });
     this.menus.push({ status: false, nome: "Despesas e Obrigações" });
     this.menus.push({ status: false, nome: "Visualizar Financeiro" })

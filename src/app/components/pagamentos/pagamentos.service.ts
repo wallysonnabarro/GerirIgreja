@@ -11,6 +11,7 @@ import { Pagamentos } from '../../interfaces/Pagamentos';
 import { ListPagamento } from '../../interfaces/ListPagamento';
 import { Oferta } from './oferta/Oferta';
 import { CabecalhoService } from '../../services/cabecalho/cabecalho.service';
+import { Lanchonete } from './lanchonete/Lanchonete';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +87,7 @@ export class PagamentosService {
   }
 
   
-  PostEntradaLanchonete(lista: Oferta[], token: string, id: number): Observable<Result<string>> {
+  PostEntradaLanchonete(lista: Lanchonete[], token: string, id: number): Observable<Result<string>> {
 
     let _headers = this.cabecalhoServicos.gerarCabecalho(token);
 

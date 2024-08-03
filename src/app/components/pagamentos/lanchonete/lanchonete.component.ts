@@ -40,7 +40,8 @@ export class LanchoneteComponent {
     this.form = this.fb.group({
       valor: [0, [Validators.required]],
       evento: [0, [Validators.required]],
-      forma: [0, [Validators.required]]
+      forma: [0, [Validators.required]],
+      descricao: ['', [Validators.required]]
     });
 
     const toke = this.localStoreServices.GetLocalStorage();
@@ -86,20 +87,22 @@ export class LanchoneteComponent {
 
   adicionar() {
     if (this.form.valid) {
-      const { valor } = this.form.value;
+      const { valor, descricao } = this.form.value;
 
       const formaSelecionada = this.formas.find(forma => forma.id === this.forma);
 
       const item: Lanchonete = {
         Forma: formaSelecionada ? formaSelecionada.nome : '',
-        Valor: valor
+        Valor: valor,
+        Descricao: descricao
       };
 
       this.lista.push(item);
 
       this.form.reset({
         valor: 0,
-        forma: 0
+        forma: 0,
+        descricao: ''
       });
 
     }
