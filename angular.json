@@ -111,6 +111,10 @@
     }
   },
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "cache": {
+      "environment": "local",
+      "enabled": false
+    }
   }
 }
