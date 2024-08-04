@@ -59,17 +59,17 @@ export class ConfirmarDialogComponent {
     const { debito, dinheiro, credito, creditoParcelado, pix, parcelas, receber, decontar, observacao } = this.form.value;
 
     let novoPagamento: PagamentoConfirmar = {
-      credito: credito,
-      creditoParcelado: creditoParcelado,
+      credito: this.parseDecimal(credito),
+      creditoParcelado: this.parseDecimal(creditoParcelado),
       dataRegistro: new Date(),
-      debito: debito,
-      descontar: decontar,
+      debito: this.parseDecimal(debito),
+      descontar: this.parseDecimal(decontar),
       desistente: 0,
-      dinheiro: dinheiro,
+      dinheiro: this.parseDecimal(dinheiro),
       fichaConsumidor: this.tipo === 2 ? this.id : 0,
       observacao: observacao,
       parcelas: parcelas,
-      pix: pix,
+      pix: this.parseDecimal(pix),
       receber: receber,
       siao: this.siao,
       voluntario: this.tipo === 1 ? this.id : 0
@@ -91,6 +91,11 @@ export class ConfirmarDialogComponent {
 
   Fechar(): void {
     this.dialogRef.close({});
+  }
+
+  parseDecimal(value: any): number {
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? 0 : parsed;
   }
 
   openDialog(p: string): void {
