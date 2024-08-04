@@ -56,8 +56,8 @@ export class FichaConectadoComponent {
     this.form = this.fb.group({
       tribo: ['', [Validators.required]],
       lider: ['', [Validators.required]],
-      cep: ['', [Validators.required]],
-      endereco: ['', [Validators.required]],
+      cep: [''],
+      endereco: [''],
       nome: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
       estadoCivil: ['', [Validators.required]],
@@ -193,8 +193,8 @@ export class FichaConectadoComponent {
     this.form = this.fb.group({
       tribo: ['', [Validators.required]],
       lider: ['', [Validators.required]],
-      cep: ['', [Validators.required]],
-      endereco: ['', [Validators.required]],
+      cep: [''],
+      endereco: [''],
       nome: ['', [Validators.required]],
       sexo: ['', [Validators.required]],
       estadoCivil: ['', [Validators.required]],
